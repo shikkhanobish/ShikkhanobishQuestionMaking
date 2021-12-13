@@ -1,0 +1,563 @@
+﻿@using ShikkhanobishMainWeb.Models
+@using Flurl.Http
+@using System.Globalization
+@inject IJSRuntime JSRuntime
+@using Microsoft.AspNetCore.Components;
+@page "/{tID}"
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>MakeQuestion</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Responsive bootstrap 4 admin template" name="description" />
+    <meta content="Coderthemes" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link href="~/css/makeQues.css" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+
+<body style="background-color:white">
+
+    <!-- Begin page -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+
+
+
+    <div class="content">
+
+        <!-- Start container-fluid -->
+        <div class="container-fluid">
+            <!--row-->
+
+            <div class="form-group row justify-content-center">
+
+                <div class="col-3">
+                    <div class="card-box widget-inline " style="background-color: #EADFFF;">
+                        <div class="text-center p-2">
+                            <h2 class="" style="color: #46189F"> <b>@countTQH</b></h2>
+                            <p class="" style="color:rebeccapurple">
+                                Total Uploaded
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card-box widget-inline " style="background-color: #D2FFE9;">
+                        <div class="text-center p-2">
+                            <h2 class="" style="color: #10884E"> <b>@tap</b></h2>
+                            <p class="" style="color: #10884E">
+                                Total Approved
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card-box widget-inline " style="background-color: #FFCECE;">
+                        <div class="text-center p-2">
+                            <h2 class="" style="color: #931919"> <b>@tde</b></h2>
+                            <p class="" style="color: #931919">
+                                Total Declined
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card-box widget-inline " style="background-color: #EEEEEE;">
+                        <div class="text-center p-2">
+                            <h2 class="" style="color: #646464"> <b>@tpe</b></h2>
+                            <p class="" style="color: #646464">
+                                Total Pending
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end row -->
+
+        </div>
+        <br />
+        <div style="text-align:center">
+            <h3 style="color: #8F2EE3; ">@tName</h3>
+        </div>
+        <div class="col-12 " style="text-align:right">
+
+            <a href="@($"MakeQuestion/{tID}")" class="btn btn-outline-info">
+                <span> Make Question </span>
+            </a>
+        </div>
+
+        <br />
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="card-header " style="text-align:center">
+                    <h5>Question History</h5>
+                </div>
+                <br />
+                <br />
+                <br />
+                <div class="">
+                    <label style="color:forestgreen;font-size:30px;">Live Task</label>
+                    <br />
+                </div>
+                <div class="form-group row" style="background-color: #005502 ">
+                    <div class="col-md-12">
+
+                        <div class="table-responsive">
+                            <table id="" class="table table-bordered" style="text-align:center; ">
+                                <thead style="color: black; font-weight: bold;font-size:10px;">
+                                    <tr>
+                                        <th style="color: white">Assigned Number</th>
+                                        <th style="color: white">Chapter ID</th>
+                                        <th style="color: white">Chapter Name</th>
+                                        <th style="color: white">Task Date</th>
+                                        <th style="color: white">Start Time</th>
+                                        <th style="color: white">End Time</th>
+                                        <th style="color: white">Submitted</th>
+                                        <th style="color: white">Remaining</th>
+                                        <th style="color: white">IS Task Submitted</th>
+                                        <th style="color: white">File Link</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size: 10px; ">
+                                    @foreach (var item in LiveshowInfo)
+                                    {
+                                        <tr>
+                                            <td style="color: white">@item.MCQNumbers</td>
+                                            <td style="color: white">@item.chapterID</td>
+                                            <td style="color: white">@item.chapterName</td>
+                                            <td style="color: white">@item.date</td>
+                                            <td style="color: white">@item.startTime</td>
+                                            <td style="color: white">@item.endTime</td>
+                                            <td style="color: #CCFFBB; font-weight: bold ">@item.submitted</td>
+                                            <td style="color: red; font-weight: bold">@item.reMain</td>
+                                            <td style="color: @item.isTaskSubColor; font-weight: bold">@item.isTaskSub</td>
+                                            <td style="color: white; font-size: 13px" id="form-control">@item.FileLink</td>
+
+                                        </tr>
+
+                                    }
+
+                                </tbody>
+
+
+                            </table>
+                            
+                        </div>
+                    </div>
+
+                </div>
+                <br />
+
+                <br />
+
+                @foreach (var qs in showQSList)
+                {
+                    <div class="form-group row">
+
+                        <div class="col-12">
+
+                            <div class="form-group row">
+
+                                <div class="col-12">
+
+                                    <div>
+                                        <div class="col-2">
+                                            <label class="" style=" border-radius: 10px; border: 1px solid @qs.reviewColor; padding: 3px 12px; color:@qs.reviewColor;">@qs.reviewName</label>
+                                            &nbsp;&nbsp; <label style="font-size: 10px">@qs.publishingDate</label>
+                                        </div>
+                                        <span style="font-size:14px;color:grey; font-weight:bold">@qs.index</span><span>.</span>
+                                        <span style="font-size:14px;font-weight:bold; color:black;">@qs.mainQuestion</span>
+                                        <br />
+                                        <br />
+                                        <div>
+                                            &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op1BackColor;">@qs.option1</label>
+
+                                        </div>
+                                        <div>
+                                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op2BackColor;">@qs.option2</label>
+
+                                        </div>
+                                        <div>
+                                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op3BackColor;">@qs.option3</label>
+
+                                        </div>
+                                        <div>
+
+                                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op4BackColor;">@qs.option4</label>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+
+
+            </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <!-- end container-fluid -->
+        <!-- Footer Start -->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        2021 &copy; shikkhanobish
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- end Footer -->
+    </div>
+    <!-- end content -->
+    <!-- END wrapper -->
+    <!-- Vendor js -->
+
+</body>
+</html>
+
+@code{
+    [Parameter]
+    public string tID { get; set; }
+    public int tup, tap, tde, tpe;
+
+    public string tName { get; set; }
+
+
+
+    int countTQH;
+    List<TeacherQuesHistory> tqhList = new List<TeacherQuesHistory>();
+    List<Question> questionList = new List<Question>();
+    List<Question> showQSList = new List<Question>();
+    List<Teacher> teacherList = new List<Teacher>();
+
+    List<ClassInfo> allClassList = new List<ClassInfo>();
+    List<Subject> allSubject = new List<Subject>();
+    List<Chapter> allChapter = new List<Chapter>();
+
+    List<Chapter> allc = new List<Chapter>();
+    List<Subject> allsub = new List<Subject>();
+    List<ClassInfo> allClass = new List<ClassInfo>();
+    List<Teacher> teacherListN = new List<Teacher>();
+    List<TeacherQuesHistory> thList = new List<TeacherQuesHistory>();
+    List<dataentryOperatorTask> LiveshowInfo = new List<dataentryOperatorTask>();
+    List<Question> quesList = new List<Question>();
+    string selectedColorone = "";
+    string selectedColortwo = "";
+    string selectedColorthree = "";
+    string selectedColorfour = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetTask();
+        await GetTeacherQuestionHistory();
+        await GetHistoryCount();
+        await GetTeacherWithID();
+
+
+    }
+    
+    public async Task GetTask()
+    {
+        allc = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getChapter".GetJsonAsync<List<Chapter>>();
+        allsub = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getSubject".GetJsonAsync<List<Subject>>();
+        allClass = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getClassInfo".GetJsonAsync<List<ClassInfo>>();
+        var operatorList = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getdataentryOperatorTask".PostJsonAsync(new { }).ReceiveJson<List<dataentryOperatorTask>>();
+        teacherListN = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getAllTeacher".PostJsonAsync(new { }).ReceiveJson<List<Teacher>>();
+        thList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getTeacherQuestionHistory".GetJsonAsync<List<TeacherQuesHistory>>();
+        quesList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getQuestion".GetJsonAsync<List<Question>>();
+        List<dataentryOperatorTask> thisOpList = new List<dataentryOperatorTask>();
+        List<dataentryOperatorTask> LivethisOpList = new List<dataentryOperatorTask>();
+        foreach (var teacher in teacherListN)
+        {
+            if (teacher.teacherID == int.Parse(tID))
+            {
+                tName = teacher.name;
+                break;
+            }
+        }
+
+        for (int i = 0; i < operatorList.Count; i++)
+        {
+            if (operatorList[i].userID == int.Parse(tID))
+            {
+                int submitted = 0;
+                dataentryOperatorTask thisOp = new dataentryOperatorTask();
+
+                thisOp = operatorList[i];
+                string link = "";
+                string cleanMCQNumber = "";
+                bool now = false;
+                bool cleanNow = false;
+                foreach (var ch in thisOp.MCQNumbers)
+                {
+
+                    if (now)
+                    {
+                        link += ch;
+                    }
+                    if (ch == '#')
+                    {
+                        now = true;
+                    }
+                    if (ch == 'L')
+                    {
+                        cleanNow = true;
+                    }
+                    if (!cleanNow)
+                    {
+                        cleanMCQNumber += ch;
+                    }
+
+                }
+                thisOp.FileLink = link;
+                thisOp.MCQNumbers = cleanMCQNumber;
+                for (int z = 0; z < teacherList.Count; z++)
+                {
+                    if (thisOp.userID == teacherList[z].teacherID)
+                    {
+                        thisOp.userName = teacherList[z].name;
+                        break;
+                    }
+                }
+                for (int e = 0; e < allc.Count; e++)
+                {
+                    if (allc[e].chapterID == thisOp.chapterID)
+                    {
+                        thisOp.chapterName = allc[e].name;
+                        break;
+                    }
+                }
+                int pending = 0;
+                for (int j = 0; j < thList.Count; j++)
+                {
+                    CultureInfo culture = new CultureInfo("en-US");
+                    DateTime HistoryDateFormat = DateTime.ParseExact(thList[j].review, "dd'-'MM'-'yyyy' 'HH':'mm':'ss", culture);
+                    DateTime TaskDateFormatSt = DateTime.ParseExact(operatorList[i].startTime, "MM/dd/yyyy hh:mm tt", culture);
+                    DateTime TaskDateFormatEnd = DateTime.ParseExact(operatorList[i].endTime, "MM/dd/yyyy hh:mm tt", culture);
+                    if (operatorList[i].userID == thList[j].teacherID & TaskDateFormatSt < HistoryDateFormat && TaskDateFormatEnd > HistoryDateFormat)
+                    {
+                        submitted++;
+
+                        for (int k = 0; k < quesList.Count; k++)
+                        {
+                            if (thList[j].questionID == quesList[k].questionID)
+                            {
+                                if (quesList[k].review == 0)
+                                {
+                                    pending++;
+                                }
+                            }
+                        }
+
+                    }
+                }
+                thisOp.reMain = 100 - submitted;
+                thisOp.submitted = submitted;
+                if (submitted >= 150)
+                {
+                    thisOp.isTaskSub = "Submitted";
+                    thisOp.isTaskSubColor = "#CCFFBB";
+                }
+                else
+                {
+                    thisOp.isTaskSub = "Not Submitted";
+                    thisOp.isTaskSubColor = "#979797";
+                }
+                if (pending > 0)
+                {
+                    thisOp.isTaskApp = "Not Approved";
+                    thisOp.isTaskAppColor = "#979797";
+                }
+                else if (pending == 0 && submitted >= 150)
+                {
+                    thisOp.isTaskApp = "Approved";
+                    thisOp.isTaskAppColor = "#B590FD";
+                }
+                else if (pending == 0 && submitted < 150)
+                {
+                    thisOp.isTaskApp = "Not Approved";
+                    thisOp.isTaskAppColor = "#979797";
+                }
+                CultureInfo culturen = new CultureInfo("en-US");
+                var taskTime = DateTime.ParseExact(thisOp.endTime, "MM/dd/yyyy hh:mm tt", culturen);
+                if (taskTime > DateTime.Now)
+                {
+                    LivethisOpList.Add(thisOp);
+                }
+
+
+            }
+            LiveshowInfo = LivethisOpList;
+        }
+
+
+
+    }
+    public async Task GetTeacherQuestionHistory()
+    {
+        var thl = thList;
+
+        for (int i = 0; i < thl.Count; i++)
+        {
+            if (thl[i].teacherID.ToString() == tID)
+            {
+                tqhList.Add(thl[i]);
+            }
+        }
+        List<TeacherQuesHistory> SortedList = new List<TeacherQuesHistory>();
+        SortedList = tqhList.OrderBy(x => x.review).ToList();
+        SortedList.Reverse();
+        tqhList.Clear();
+        tqhList = SortedList;
+        List<Question> thisqsList = new List<Question>();
+        List<Question> ques = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getQuestion".GetJsonAsync<List<Question>>();
+        int indexCount = 1;
+        for (int i = 0; i < ques.Count; i++)
+        {
+            for (int j = 0; j < tqhList.Count; j++)
+            {
+                if (tqhList[j].questionID == ques[i].questionID)
+                {
+                    Question thisQs = new Question();
+                    thisQs = ques[i];
+                    thisQs.index = indexCount;
+                    thisQs.publishingDate = tqhList[j].review;
+                    thisQs.op1BackColor = "Gray";
+                    thisQs.op2BackColor = "Gray";
+                    thisQs.op3BackColor = "Gray";
+                    thisQs.op4BackColor = "Gray";
+
+                    if (thisQs.rightAnswer == 1)
+                    {
+                        thisQs.op1BackColor = "Green";
+                    }
+                    if (thisQs.rightAnswer == 2)
+                    {
+                        thisQs.op2BackColor = "Green";
+                    }
+                    if (thisQs.rightAnswer == 3)
+                    {
+                        thisQs.op3BackColor = "Green";
+                    }
+                    if (thisQs.rightAnswer == 4)
+                    {
+                        thisQs.op4BackColor = "Green";
+                    }
+                    if (thisQs.review == 0)
+                    {
+                        thisQs.reviewName = "Pending";
+                        thisQs.reviewColor = "Gray";
+                    }
+                    if (thisQs.review == 1)
+                    {
+                        thisQs.reviewName = "Approved";
+                        thisQs.reviewColor = "Green";
+                    }
+                    if (thisQs.review == 2)
+                    {
+                        thisQs.reviewName = "Not Approved";
+                        thisQs.reviewColor = "Red";
+                    }
+                    thisqsList.Add(thisQs);
+                    indexCount++;
+                }
+            }
+        }
+        List<Question> SortedListNew = new List<Question>();
+        SortedListNew = thisqsList.OrderBy(x => x.index).ToList();
+        SortedListNew.Reverse();
+        thisqsList.Clear();
+        thisqsList = SortedListNew;
+        showQSList = thisqsList;
+    }
+
+    public async Task GetHistoryCount()
+    {
+
+        int count = 0;
+        var list = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getTeacherQuestionHistory".GetJsonAsync<List<TeacherQuesHistory>>();
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (tID == list[i].teacherID.ToString())
+            {
+                count++;
+                foreach (var qs in quesList)
+                {
+                    if (qs.questionID == list[i].questionID)
+                    {
+                        if (qs.review == 0)
+                        {
+                            tpe++;
+                        }
+                        if (qs.review == 1)
+                        {
+                            tap++;
+                        }
+                        if (qs.review == 2)
+                        {
+                            tde++;
+                        }
+                    }
+                }
+
+            }
+            countTQH = count;
+        }
+    }
+
+
+
+    public async Task GetClassSubChap()
+    {
+
+
+        allClassList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getClassInfo".GetJsonAsync<List<ClassInfo>>();
+        allSubject = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getSubject".GetJsonAsync<List<Subject>>();
+        allChapter = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getChapter".GetJsonAsync<List<Chapter>>();
+
+
+    }
+
+
+
+    public async Task GetTeacherWithID()
+    {
+        var list = teacherListN;
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (tID == list[i].teacherID.ToString())
+            {
+                tName = list[i].name;
+            }
+        }
+    }
+
+
+
+
+
+    //90843385
+
+
+
+
+}
+

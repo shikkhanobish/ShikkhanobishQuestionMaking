@@ -1,0 +1,19 @@
+﻿
+.mainQuesArea {
+    width: 600px;
+}
+
+@media(min-width:1126px) {
+
+    .tName label{
+        padding-left:250px;
+        font-size:40px;
+    }
+}
+
+@media(max-width:550px) {
+
+    .mainQuesArea{
+        width:100%;
+    }
+}

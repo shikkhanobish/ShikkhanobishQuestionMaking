@@ -1,0 +1,405 @@
+﻿@using ShikkhanobishMainWeb.Models
+@using Flurl.Http
+
+@page "/MakeQuestion/{tID}"
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>MakeQuestion</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Responsive bootstrap 4 admin template" name="description" />
+    <meta content="Coderthemes" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link href="~/css/makeQues.css" />
+    <link href="~/css/responsivePage.css" />
+</head>
+
+<body style="background-color:white">
+
+    <!-- Begin page -->
+
+
+
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+    <br />
+
+
+
+            <div class="content">
+
+                <!-- Start container-fluid -->
+                <div class="container-fluid">
+                    <div>
+                        <div class="form-group row">
+                            <div class="col-md-4 ">
+                                <a href="@($"/{tID}")">
+                                    <i class="fas fa-backward btn btn-outline-purple" style="color: #7F08E6"></i>
+                                </a>
+                            </div>
+
+                            <div class="col-md-4 " style="text-align:center">
+                                <span style="font-size: 24px; color: black ">Shikkhanobish</span><h3 style="color:black">Question Making</h3>
+                            </div>
+                           
+                        </div>
+                        
+                        <br />
+                        <br />
+                        
+                        
+                            <div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-4 ">
+                                        <select class="form-control btn btn-purple" id="class" @onchange="ClassChanged" >
+                                            <option style="" value="">-- Select Class --</option>
+                                            @foreach (var item in objList)
+                                            {
+                                                <option  value="@item.classID">@item.name</option>
+                                            }
+                                        </select>
+
+                                    </div>
+                                    <div class="col-md-4 ">
+                                        <select class="form-control btn btn-purple" id="subject" @onchange="SubjectChanged">
+                                            <option value="">-- Select Subject --</option>
+                                            @foreach (var item in objList2)
+                                            {
+                                                <option value="@item.subjectID">@item.name</option>
+                                            }
+                                        </select>
+
+                                    </div>
+                                    <div class="col-md-4 ">
+                                        <select class="form-control btn btn-purple" id="chapter" @onchange="ChapterChanged">
+                                            <option value="">-- Select Chapter --</option>
+                                            @foreach (var item in objList3)
+                                            {
+                                                <option value="@item.chapterID">@item.name</option>
+                                            }
+                                        </select>
+
+                                    </div>
+
+                                </div>
+                                <br />
+                                <br />
+                                <br />
+                                
+
+                                <div class="form-group row">
+                                    <div class="col-12">
+                                        <h6 style="color:#7146FE">Write Question</h6>
+                                        <textarea  class="form-control col-12" style="height:150px" @bind="Question.mainQuestion"></textarea>
+                                    </div>
+
+                                </div>
+                                <br />
+                                <br />
+
+                                <div class="form-group row">
+                                    <div class="col-8">
+                                        <h6 style="color:#7146FE">Option1:</h6>
+                                        <textarea class="form-control" @bind="Question.option1" style="height: 100px; text-align: center; "></textarea>
+
+                                    </div>
+                                    <div class="col-8">
+                                        <h6 style="color:#7146FE">Option2:</h6>
+                                        <textarea class="form-control" @bind="Question.option2" style="height: 100px; text-align: center;"></textarea>
+
+                                    </div>
+                                    <div class="col-8">
+                                        <h6 style="color:#7146FE">Option3:</h6>
+                                        <textarea class="form-control" @bind="Question.option3" style=" height: 100px; text-align: center;"></textarea>
+
+                                    </div>
+                                    <div class="col-8">
+                                        <h6 style="color:#7146FE">Option4:</h6>
+                                        <textarea class="form-control " @bind="Question.option4" style=" height: 100px; text-align: center;"></textarea>
+
+                                    </div>
+                                </div>
+                                
+                                
+
+                                <br />
+                                <hr />
+                                <div class="">
+                                    <h6 style="color:#7146FE">Right Answer</h6>
+                                    <br />
+                                    <button name="rightans" value="A" style=" background-color: @selectedColorone" class="btn btn-outline-success" @onclick="sbOne">A</button>&nbsp;
+                                    <button name="rightans" value="B" style=" background-color: @selectedColortwo " class="btn btn-outline-success" @onclick="sbTwo">B</button>&nbsp;
+                                    <button name="rightans" value="C" style=" background-color: @selectedColorthree" class="btn btn-outline-success" @onclick="sbThree">C</button>&nbsp;
+                                    <button name="rightans" value="D" style=" background-color: @selectedColorfour" class="btn btn-outline-success" @onclick="sbFour">D</button>
+                                </div>
+                                <br />
+                                <br />
+                                <div class="offset-3">
+                                    <input type="submit" style=" font-size:16px" class="btn btn-outline-success" @onclick="SubmitQuestion"  />
+                                </div>
+                                <label style="color: @msgColor"> @msg</label>
+                                <br />
+                                <br />
+                                <br />
+                               
+
+                            </div>
+                            
+                        </div>
+                        
+
+
+                </div>
+                <br />
+                <!-- end container-fluid -->
+                <!-- Footer Start -->
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                2021 &copy; shikkhanobish
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+                <!-- end Footer -->
+            </div>
+            <!-- end content -->
+
+    <!-- END wrapper -->
+    <!-- Vendor js -->
+   
+</body>
+</html>
+
+
+@code{
+
+
+
+
+    [Parameter]
+    public string tID { get; set; }
+
+    public string tName { get; set; }
+
+    public TeacherQuesHistory TeacherQuesHistory = new TeacherQuesHistory();
+    public Question Question = new Question();
+
+    string cid{ get; set; }
+    string sid { get; set; }
+    string chid { get; set; }
+    string msg { get; set; }
+    string msgColor { get; set; }
+
+    List<ClassInfo> objList = new List<ClassInfo>();
+    List<Subject> objList2 = new List<Subject>();
+    List<Chapter> objList3 = new List<Chapter>();
+
+    List<Subject> allSubject = new List<Subject>();
+    List<Chapter> allChapter = new List<Chapter>();
+    string selectedColorone = "";
+    string selectedColortwo = "";
+    string selectedColorthree = "";
+    string selectedColorfour = "";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        objList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getClassInfo".GetJsonAsync<List<ClassInfo>>();
+        selectedColorone = "white";
+        selectedColortwo = "white";
+        selectedColorthree = "white";
+        selectedColorfour = "white";
+
+        //await GetClassInfo();
+        await GetSubInfo();
+        await GetChapterInfo();
+        await GetTeacherWithID();
+
+
+
+    }
+    public async Task GetClassInfo()
+    {
+        //objList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getClassInfo".GetJsonAsync<List<ClassInfo>>();
+
+    }
+
+    public async Task GetSubInfo()
+    {
+        allSubject = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getSubject".GetJsonAsync<List<Subject>>();
+
+    }
+    public async Task GetChapterInfo()
+    {
+        allChapter = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getChapter".GetJsonAsync<List<Chapter>>();
+
+    }
+    public void sbOne()
+    {
+        Question.rightAnswer = 1;
+        selectedColorone = "#22EE10";
+        selectedColortwo = "white";
+        selectedColorthree = "white";
+        selectedColorfour = "white";
+
+    }
+    public void sbTwo()
+    {
+        Question.rightAnswer = 2;
+        selectedColorone = "White";
+        selectedColortwo = "#22EE10";
+        selectedColorthree = "white";
+        selectedColorfour = "white";
+
+
+    }
+    public void sbThree()
+    {
+        Question.rightAnswer = 3;
+        selectedColorone = "white";
+        selectedColortwo = "white";
+        selectedColorthree = "#22EE10";
+        selectedColorfour = "white";
+
+    }
+    public void sbFour()
+    {
+        Question.rightAnswer = 4;
+        selectedColorone = "white";
+        selectedColortwo = "white";
+        selectedColorthree = "white";
+        selectedColorfour = "#22EE10";
+    }
+    private void  ClassChanged(ChangeEventArgs classEvent)
+    {
+
+        objList2.Clear();
+        cid = classEvent.Value.ToString();
+        Question.classID = int.Parse(cid);
+        for (int i=0;i< allSubject.Count;i++)
+        {
+            if (allSubject[i].classID.ToString()==cid)
+            {
+                objList2.Add(allSubject[i]);
+
+            }
+        }
+
+
+    }
+
+
+    private void SubjectChanged(ChangeEventArgs subjectEvent)
+    {
+        objList3.Clear();
+        sid = subjectEvent.Value.ToString();
+        Question.subjectID = int.Parse(sid);
+
+        for (int i = 0; i < allChapter.Count; i++)
+        {
+            if (allChapter[i].subjectID.ToString() == sid)
+            {
+                objList3.Add(allChapter[i]);
+
+            }
+        }
+    }
+
+    private void ChapterChanged(ChangeEventArgs chapterEvent)
+    {
+        chid = chapterEvent.Value.ToString();
+        Question.chapterID = int.Parse(chid);
+    }
+    public async Task SubmitQuestion()
+    {
+
+        int thisTeacherID = Int32.Parse(tID);
+        Random rnd = new Random();
+
+        int quesId = rnd.Next(100000, 9999999);
+        int hisotyId = rnd.Next(100000, 9999999);
+
+        if (Question.classID != 0 && Question.subjectID != 0 && Question.chapterID != 0 && Question.mainQuestion != null && Question.mainQuestion != "" && Question.option1 != null && Question.option1 != "" &&
+            Question.option2 != null && Question.option2 != "" && Question.option3 != null && Question.option3 != "" && Question.option4 != null && Question.option4 != "" && Question.rightAnswer != 0)
+        {
+            msgColor = "Black";
+            msg = "Submitting question...";
+            string uri = "https://shikkhanobishrealtimeapi.shikkhanobish.com/api/ShikkhanobishSignalR/sumbitQs?&teacherID=" + thisTeacherID + "&qsID=" + quesId + "&errorTxt=" + "";
+            HttpClient client = new HttpClient();
+            StringContent content = new StringContent("", System.Text.Encoding.UTF32, "application/json");
+            HttpResponseMessage response = await client.PostAsync(uri, content).ConfigureAwait(true);
+
+            var res = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/setQuestion".PostUrlEncodedAsync(new
+            {
+                questionID = quesId,
+                classID = Question.classID,
+                quesImages = "n/a",
+                subjectID = Question.subjectID,
+                chapterID = Question.chapterID,
+                topicID = 0,
+                mainQuestion = Question.mainQuestion,
+                option1 = Question.option1,
+                option2 = Question.option2,
+                option3 = Question.option3,
+                option4 = Question.option4,
+                rightAnswer = Question.rightAnswer
+            })
+               .ReceiveJson<Response>();
+
+            string dateTime = DateTime.Now.ToString("dd'-'MM'-'yyyy' 'HH':'mm':'ss");
+
+            var historyres = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/setTeacherQuestionHistory".PostUrlEncodedAsync(new
+            {
+
+                tqID = hisotyId,
+                teacherID = thisTeacherID,
+                questionID = quesId,
+                review = dateTime
+            })
+                  .ReceiveJson<Response>();
+            msg = "Question Uploaded Successfully";
+            Question = new Question();
+            selectedColorone = "white";
+            selectedColortwo = "white";
+            selectedColorthree = "white";
+            selectedColorfour = "white";
+
+
+        }
+        else
+        {
+            msgColor = "Red";
+            msg = "Please Fill Up Every Question";
+            string uri = "https://shikkhanobishrealtimeapi.shikkhanobish.com/api/ShikkhanobishSignalR/sumbitQs?&teacherID=" + thisTeacherID + "&qsID=" + quesId +"&errorTxt=Fill up every info and choose class, subject and chapter for this question";
+            HttpClient client = new HttpClient();
+            StringContent content = new StringContent("", System.Text.Encoding.UTF32, "application/json");
+            HttpResponseMessage response = await client.PostAsync(uri, content).ConfigureAwait(true);
+        }
+
+
+    }
+
+    public async Task GetTeacherWithID()
+    {
+        var list = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getAllTeacher".PostJsonAsync(new { }).ReceiveJson<List<Teacher>>();
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (tID == list[i].teacherID.ToString())
+            {
+                tName = list[i].name;
+            }
+        }
+    }
+
+
+
+}
+
+
+
