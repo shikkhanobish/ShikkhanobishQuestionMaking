@@ -364,7 +364,12 @@
             })
                   .ReceiveJson<Response>();
             msg = "Question Uploaded Successfully";
-            Question = new Question();
+            Question.mainQuestion = "";
+            Question.option1 = "";
+            Question.option2 = "";
+            Question.option3 = "";
+            Question.option4 = "";
+            Question.rightAnswer = 0;
             selectedColorone = "white";
             selectedColortwo = "white";
             selectedColorthree = "white";
