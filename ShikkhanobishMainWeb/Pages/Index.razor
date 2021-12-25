@@ -112,42 +112,42 @@
                             <table id="" class="table table-bordered" style="text-align:center; ">
                                 <thead style="color: black; font-weight: bold;font-size:10px;">
                                     <tr>
+                                        <th>Task Number</th>
                                         <th>Assigned Number</th>
                                         <th>Chapter ID</th>
                                         <th>Chapter Name</th>
                                         <th>Task Date</th>
-                                        <th>Start Time (DD/MM/YYYY)</th>
-                                        <th>End Time (DD/MM/YYYY)</th>
+                                        <th>Assign Time (DD/MM/YYYY)</th>
                                         <th>Submitted</th>
                                         <th>Remaining</th>
                                         <th>IS Task Submitted</th>
                                         <th>Status</th>
-                                        <th>Link</th>
 
                                     </tr>
                                 </thead>
                                 <tbody style="font-size: 10px; ">
                                     @foreach (var item in LiveshowInfo)
                                     {
-                                        <tr>
-                                            <td style="color: #2E2E2E">@item.MCQNumbers</td>
-                                            <td style="color: #2E2E2E">@item.chapterID</td>
-                                            <td style="color: #2E2E2E">@item.chapterName</td>
-                                            <td style="color: #2E2E2E">@item.date</td>
-                                            <td style="color: #2E2E2E">@item.startTime</td>
-                                            <td style="color: #2E2E2E">@item.endTime</td>
-                                            <td style="color: green">@item.submitted</td>
-                                            <td style="color: red">@item.reMain</td>
-                                            <td style="color: @item.isTaskSubColor; font-weight: bold">
-                                                <i class="fas fa-times" style="display:@item.isTaskSubNootDone"></i>
-                                                <i class="fas fa-check-double" style="display:@item.isTaskSubDone"></i>
-                                                <i style="display:@item.isTaskSubPending">---</i>
-                                            </td>
-                                            <td style="color: @item.statusColor; font-weight: bold">@item.status</td>
-                                            <td>@item.FileLink</td>
+                                    <tr>
+                                        <td style="color: #2E2E2E">@item.index</td>
+                                        <td style="color: #2E2E2E">@item.MCQNumbers</td>
+                                        <td style="color: #2E2E2E">@item.chapterID</td>
+                                        <td style="color: #2E2E2E">@item.chapterName</td>
+                                        <td style="color: #2E2E2E">@item.date</td>
+                                        <td style="color: #2E2E2E">@item.startTime</td>
+
+                                        <td style="color: green">@item.submitted</td>
+                                        <td style="color: red">@item.reMain</td>
+                                        <td style="color: @item.isTaskSubColor; font-weight: bold">
+                                            <i class="fas fa-times" style="display:@item.isTaskSubNootDone"></i>
+                                            <i class="fas fa-check-double" style="display:@item.isTaskSubDone"></i>
+                                            <i style="display:@item.isTaskSubPending">---</i>
+                                        </td>
+                                        <td style="color: @item.statusColor; font-weight: bold">@item.status</td>
 
 
-                                        </tr>
+
+                                    </tr>
 
                                     }
 
@@ -156,10 +156,27 @@
 
                             </table>
                         </div>
-                    </div>
 
+                        <div class="form-group row">
+                            <div class="col-3">
+                                <select class="form-control btn btn-purple" style="" id="class" @onchange="selectFileLink">
+                                    <option class="">Select Task Number</option>
+                                    @foreach (var item in LiveshowInfo)
+                                    {
+                                        <option value="@item.FileLink">@item.index -> <a style="color: @item.statusColor; font-weight: bold"> @item.status</a></option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <a href="@url" target="_blank" style="color: @linkTxtColor"> Open PDF Link</a>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
-                <button class="btn btn-primary" @onclick="goLink">Open PDF Link</button>
+                
+                
+                
 
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: @prgsValue; display:@showprgs" aria-valuenow="@prgsValue" aria-valuemin="0" aria-valuemax="100">Loading... @prgsValue</div>
@@ -245,13 +262,13 @@
     public int tup, tap, tde, tpe;
 
     public string tName { get; set; }
-
+    string url { get; set; }
     int countTQH;
+    string linkTxtColor { get; set; }
     List<TeacherQuesHistory> tqhList = new List<TeacherQuesHistory>();
     List<Question> questionList = new List<Question>();
     List<Question> showQSList = new List<Question>();
     List<Teacher> teacherList = new List<Teacher>();
-
     List<ClassInfo> allClassList = new List<ClassInfo>();
     List<Subject> allSubject = new List<Subject>();
     List<Chapter> allChapter = new List<Chapter>();
@@ -273,6 +290,7 @@
     int reload = 0;
     protected override async Task OnInitializedAsync()
     {
+        linkTxtColor = "Gray;";
         showprgs = "Block";
         StateHasChanged();
         prgsValue = "10%";
@@ -298,8 +316,22 @@
 
     {
         //string url = thisLink;
-        string url = "www.google.com";
-        await jsRuntime.InvokeVoidAsync("eval", $"let _discard_ = open(`{url}`, `_blank`)");
+
+    }
+    private void selectFileLink(ChangeEventArgs task)
+    {
+        if(task.Value.ToString()[0] == 'S')
+        {
+            linkTxtColor = "Gray";
+            url = "";
+        }
+        else
+        {
+            linkTxtColor = "Blue";
+            url = task.Value.ToString();
+        }
+
+
     }
     public async Task getAllInfo()
     {
@@ -326,19 +358,122 @@
             }
         }
 
-        for (int i = 0; i < operatorList.Count; i++)
+        CultureInfo culturen = new CultureInfo("en-US");
+        thisOpList = operatorList;
+        List<string> activeTaskList = new List<string>();
+        List<int> doneOP = new List<int>();
+        List<dataentryOperatorTask> thisopTask = new List<dataentryOperatorTask>();
+        for (int i = 0; i < thisOpList.Count; i++)
         {
-            if(operatorList[i].userID == int.Parse(tID))
+            thisOpList[i] = operatorList[i];
+            for (int z = 0; z < teacherList.Count; z++)
             {
-                int submitted = 0;
-                dataentryOperatorTask thisOp = new dataentryOperatorTask();
+                if (thisOpList[i].userID == teacherList[z].teacherID)
+                {
+                    thisOpList[i].userName = teacherList[z].name;
+                    break;
+                }
+            }
+            for (int e = 0; e < allc.Count; e++)
+            {
+                if (allc[e].chapterID == thisOpList[i].chapterID)
+                {
+                    thisOpList[i].chapterName = allc[e].name;
+                    break;
+                }
+            }
+            //indivisual TAsk
+            thisopTask = new List<dataentryOperatorTask>();
+            bool shouldCheck = true;
+            for (int j = 0; j < doneOP.Count; j++)
+            {
+                if (doneOP[j] == thisOpList[i].userID)
+                {
+                    shouldCheck = false;
+                }
+            }
 
-                thisOp = operatorList[i];
+            if (shouldCheck)
+            {
+                if(thisOpList[i].userID == int.Parse(tID))
+                {
+                    doneOP.Add(thisOpList[i].userID);
+                    for (int k = 0; k < thisOpList.Count; k++)
+                    {
+                        if (thisOpList[i].userID == thisOpList[k].userID)
+                        {
+                            thisopTask.Add(thisOpList[k]);
+                        }
+                    }
+                    ////// submit count
+                    List<dataentryOperatorTask> SortedListN = new List<dataentryOperatorTask>();
+                    SortedListN = thisopTask.OrderBy(x => x.startTime).ToList();
+                    thisopTask = SortedListN;
+                    int submitted = 0;
+                    for (int k = 0; k < thisopTask.Count; k++)
+                    {
+                        for (int j = 0; j < thList.Count; j++)
+                        {
+                            if (thisopTask[k].userID == thList[j].teacherID)
+                            {
+                                CultureInfo culture = new CultureInfo("en-US");
+                                DateTime HistoryDateFormat = DateTime.ParseExact(thList[j].review, "dd'-'MM'-'yyyy' 'HH':'mm':'ss", culture);
+                                DateTime TaskDateFormatSt = DateTime.ParseExact(thisopTask[k].startTime, "MM/dd/yyyy hh:mm tt", culture);
+                                DateTime TaskDateFormatEnd = new DateTime();
+                                if (k == thisopTask.Count - 1)
+                                {
+                                    TaskDateFormatEnd = DateTime.Now;
+                                }
+                                else
+                                {
+                                    TaskDateFormatEnd = DateTime.ParseExact(thisopTask[k + 1].startTime, "MM/dd/yyyy hh:mm tt", culture);
+                                }
+
+                                if (TaskDateFormatSt < HistoryDateFormat && TaskDateFormatEnd > HistoryDateFormat)
+                                {
+                                    thisopTask[k].submitted++;
+                                }
+                            }
+
+                        }
+                        for (int l = 0; l < thisOpList.Count; l++)
+                        {
+                            if (thisOpList[l].taskID == thisopTask[k].taskID)
+                            {
+                                thisOpList[l].submitted = thisopTask[k].submitted;
+                            }
+                        }
+
+                    }
+
+
+                    ////// Active Define
+                    var lastActive = DateTime.ParseExact(thisopTask[0].startTime, "MM/dd/yyyy hh:mm tt", culturen);
+                    int indexID = 0;
+                    for (int l = 0; l < thisopTask.Count; l++)
+                    {
+                        var thisDatetime = DateTime.ParseExact(thisopTask[l].startTime, "MM/dd/yyyy hh:mm tt", culturen);
+                        if (lastActive < thisDatetime)
+                        {
+                            indexID = l;
+                            lastActive = thisDatetime;
+                        }
+                    }
+                    activeTaskList.Add(thisopTask[indexID].taskID);
+                }
+
+            }
+
+        }
+        for (int i = 0; i < thisOpList.Count; i++)
+        {
+            if(thisOpList[i].userID == int.Parse(tID))
+            {
                 string link = "";
                 string cleanMCQNumber = "";
                 bool now = false;
                 bool cleanNow = false;
-                foreach (var ch in thisOp.MCQNumbers)
+                foreach (var ch in thisOpList[i].MCQNumbers)
                 {
 
                     if (now)
@@ -359,123 +494,72 @@
                     }
 
                 }
-                thisOp.FileLink = link;
-                thisOp.MCQNumbers = cleanMCQNumber;
-                for (int z = 0; z < teacherList.Count; z++)
+                thisOpList[i].FileLink = link;
+                thisOpList[i].MCQNumbers = cleanMCQNumber;
+                if (thisOpList[i].reMain < 0)
                 {
-                    if (thisOp.userID == teacherList[z].teacherID)
-                    {
-                        thisOp.userName = teacherList[z].name;
-                        break;
-                    }
+                    thisOpList[i].reMain = 0;
                 }
-                for (int e = 0; e < allc.Count; e++)
+                thisOpList[i].statusColor = "#979797";
+                if (thisOpList[i].submitted >= 100)
                 {
-                    if (allc[e].chapterID == thisOp.chapterID)
-                    {
-                        thisOp.chapterName = allc[e].name;
-                        break;
-                    }
-                }
-                int pending = 0;
-                for (int j = 0; j < thList.Count; j++)
-                {
-                    CultureInfo culture = new CultureInfo("en-US");
-                    DateTime HistoryDateFormat = DateTime.ParseExact(thList[j].review, "dd'-'MM'-'yyyy' 'HH':'mm':'ss", culture);
-                    DateTime TaskDateFormatSt = DateTime.ParseExact(operatorList[i].startTime, "MM/dd/yyyy hh:mm tt", culture);
-                    DateTime TaskDateFormatEnd = DateTime.ParseExact(operatorList[i].endTime, "MM/dd/yyyy hh:mm tt", culture);
-                    if (operatorList[i].userID == thList[j].teacherID & TaskDateFormatSt < HistoryDateFormat && TaskDateFormatEnd > HistoryDateFormat)
-                    {
-                        submitted++;
-
-                        for (int k = 0; k < quesList.Count; k++)
-                        {
-                            if (thList[j].questionID == quesList[k].questionID)
-                            {
-                                if (quesList[k].review == 0)
-                                {
-                                    pending++;
-                                }
-                            }
-                        }
-
-                    }
-                }
-                thisOp.reMain = 100 - submitted;
-                thisOp.submitted = submitted;
-
-                if (pending > 0)
-                {
-                    thisOp.isTaskApp = "Not Approved";
-                    thisOp.isTaskAppColor = "#979797";
-                }
-                else if (pending == 0 && submitted >= 150)
-                {
-                    thisOp.isTaskApp = "Approved";
-                    thisOp.isTaskAppColor = "#B590FD";
-                }
-                else if (pending == 0 && submitted < 150)
-                {
-                    thisOp.isTaskApp = "Not Approved";
-                    thisOp.isTaskAppColor = "#979797";
-                }
-                CultureInfo culturen = new CultureInfo("en-US");
-                var taskTime = DateTime.ParseExact(thisOp.endTime, "MM/dd/yyyy hh:mm tt", culturen);
-                if (taskTime > DateTime.Now)
-                {
-                    thisOp.statusColor = "#541BD7";
-                    thisOp.isTaskSubPending = "Block";
-                    thisOp.isTaskSubDone = "None";
-                    thisOp.isTaskSubNootDone = "None";
-                    thisOp.isTaskSubColor = "#BFB10C";
-                    thisOp.status = "Active";
+                    thisOpList[i].isTaskSubDone = "Block";
+                    thisOpList[i].isTaskSubPending = "None";
+                    thisOpList[i].isTaskSubNootDone = "None";
+                    thisOpList[i].isTaskSubColor = "#08B483";
                 }
                 else
                 {
-                    thisOp.statusColor = "#979797";
-                    if (submitted >= 100)
-                    {
-                        thisOp.isTaskSubDone = "Block";
-                        thisOp.isTaskSubPending = "None";
-                        thisOp.isTaskSubNootDone = "None";
-                        thisOp.isTaskSubColor = "#08B483";
-                    }
-                    else
-                    {
-                        thisOp.isTaskSubNootDone = "Block";
-                        thisOp.isTaskSubDone = "None";
-                        thisOp.isTaskSubPending = "None";
-                        thisOp.isTaskSubColor = "#979797";
-                    }
-                    thisOp.status = "Inactive";
+                    thisOpList[i].isTaskSubNootDone = "Block";
+                    thisOpList[i].isTaskSubDone = "None";
+                    thisOpList[i].isTaskSubPending = "None";
+                    thisOpList[i].isTaskSubColor = "#CE0C0C";
                 }
-                if (thisOp.reMain < 0)
+                thisOpList[i].status = "Inactive";
+                ////
+                for (int j = 0; j < activeTaskList.Count; j++)
                 {
-                    thisOp.reMain = 0;
+                    if (activeTaskList[j] == thisOpList[i].taskID)
+                    {
+                        thisOpList[i].statusColor = "#541BD7";
+                        thisOpList[i].isTaskSubPending = "Block";
+                        thisOpList[i].isTaskSubDone = "None";
+                        thisOpList[i].isTaskSubNootDone = "None";
+                        thisOpList[i].isTaskSubColor = "#BFB10C";
+                        thisOpList[i].status = "Active";
+                    }
                 }
-                var nt = DateTime.ParseExact(thisOp.startTime, "MM/dd/yyyy hh:mm tt", culturen);
-                thisOp.startTime = nt.ToString("dd/MM/yyyy hh:mm tt");
-                nt = DateTime.ParseExact(thisOp.endTime, "MM/dd/yyyy hh:mm tt", culturen);
-                thisOp.endTime = nt.ToString("dd/MM/yyyy hh:mm tt");
+                ///
+                var nt = DateTime.ParseExact(thisOpList[i].startTime, "MM/dd/yyyy hh:mm tt", culturen);
+                thisOpList[i].startTime = nt.ToString("dd/MM/yyyy hh:mm tt");
+                nt = DateTime.ParseExact(thisOpList[i].endTime, "MM/dd/yyyy hh:mm tt", culturen);
+                thisOpList[i].endTime = nt.ToString("dd/MM/yyyy hh:mm tt");
 
-                thisOpList.Add(thisOp);
             }
 
-
+        }
+        List<dataentryOperatorTask> shownow = new List<dataentryOperatorTask>();
+        int taskindex = 0;
+        for(int u = 0; u < thisOpList.Count; u++)
+        {
+            if(thisOpList[u].userID == int.Parse(tID))
+            {
+                taskindex++;
+                thisOpList[u].index = taskindex;
+                shownow.Add(thisOpList[u]);
+            }
         }
         List<dataentryOperatorTask> SortedList = new List<dataentryOperatorTask>();
-        SortedList = thisOpList.OrderBy(x => x.endTime).ToList();
+        SortedList = shownow.OrderBy(x => x.startTime).ToList();
         SortedList.Reverse();
-        thisOpList = SortedList;
-        List<dataentryOperatorTask> thistasks = new List<dataentryOperatorTask>();
-        for(int q = 0; q < thisOpList.Count; q++)
-        {
-            if(q < 4)
-            {
-                thistasks.Add(thisOpList[q]);
-            }
-        }
-        LiveshowInfo = thistasks;
+        shownow = SortedList;
+
+        LiveshowInfo = shownow;
+
+
+
+
+
 
 
 

@@ -8,6 +8,7 @@ namespace ShikkhanobishMainWeb.Models
     public class dataentryOperatorTask
     {
         public int userID { get; set; }
+        public int index { get; set; }
         public string userName { get; set; }
         public string taskID { get; set; }
         public int chapterID { get; set; }
