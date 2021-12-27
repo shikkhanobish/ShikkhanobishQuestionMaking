@@ -94,8 +94,8 @@
                                 <div class="form-group row">
                                     <div class="col-12">
                                         <h6 style="color:#7146FE">Write Question</h6>
-                                        <textarea  class="form-control col-12" style="height:150px" @bind="Question.mainQuestion"></textarea>
-                                        <label>@mathRate</label>
+                                        <textarea  class="form-control col-12" style="height:150px"   @bind="Question.mainQuestion" ></textarea>
+                                        <button class="btn btn-info" @onclick="checksimilarity">Check Match Rate</button><label style="color: @mtColor">@mathRate</label>
                                     </div>
 
                                 </div>
@@ -189,15 +189,15 @@
     public string tName { get; set; }
     public string mathRate { get; set; }
     public TeacherQuesHistory TeacherQuesHistory = new TeacherQuesHistory();
-
+    int thisMathRate { get; set; }
     string cid{ get; set; }
     string sid { get; set; }
     string chid { get; set; }
     string msg { get; set; }
     string msgColor { get; set; }
     private Question Question1;
-    public Question Question
-    { get { return Question1; } set { Question1 = value;  } }
+    public Question Question = new Question();
+
     List<ClassInfo> objList = new List<ClassInfo>();
     List<Subject> objList2 = new List<Subject>();
     List<Chapter> objList3 = new List<Chapter>();
@@ -208,7 +208,7 @@
     string selectedColortwo = "";
     string selectedColorthree = "";
     string selectedColorfour = "";
-
+    string mtColor;
 
     protected override async Task OnInitializedAsync()
     {
@@ -324,64 +324,74 @@
     }
     public async Task SubmitQuestion()
     {
+        mathRate = "";
         btnstring = "Submitting Question...";
         int thisTeacherID = Int32.Parse(tID);
         Random rnd = new Random();
 
         int quesId = rnd.Next(100000, 9999999);
         int hisotyId = rnd.Next(100000, 9999999);
-
+        checksimilarity();
         if (Question.classID != 0 && Question.subjectID != 0 && Question.chapterID != 0 && Question.mainQuestion != null && Question.mainQuestion != "" && Question.option1 != null && Question.option1 != "" &&
             Question.option2 != null && Question.option2 != "" && Question.option3 != null && Question.option3 != "" && Question.option4 != null && Question.option4 != "" && Question.rightAnswer != 0)
         {
-            msgColor = "Black";
-            msg = "Submitting question...";
-            string uri = "https://shikkhanobishrealtimeapi.shikkhanobish.com/api/ShikkhanobishSignalR/sumbitQs?&teacherID=" + thisTeacherID + "&qsID=" + quesId + "&errorTxt=" + "";
-            HttpClient client = new HttpClient();
-            StringContent content = new StringContent("", System.Text.Encoding.UTF32, "application/json");
-            HttpResponseMessage response = await client.PostAsync(uri, content).ConfigureAwait(true);
-
-            var res = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/setQuestion".PostUrlEncodedAsync(new
+            if(thisMathRate < 95)
             {
-                questionID = quesId,
-                classID = Question.classID,
-                quesImages = "n/a",
-                subjectID = Question.subjectID,
-                chapterID = Question.chapterID,
-                topicID = 0,
-                mainQuestion = Question.mainQuestion,
-                option1 = Question.option1,
-                option2 = Question.option2,
-                option3 = Question.option3,
-                option4 = Question.option4,
-                rightAnswer = Question.rightAnswer
-            })
-               .ReceiveJson<Response>();
+                msgColor = "Black";
+                msg = "Submitting question...";
+                string uri = "https://shikkhanobishrealtimeapi.shikkhanobish.com/api/ShikkhanobishSignalR/sumbitQs?&teacherID=" + thisTeacherID + "&qsID=" + quesId + "&errorTxt=" + "";
+                HttpClient client = new HttpClient();
+                StringContent content = new StringContent("", System.Text.Encoding.UTF32, "application/json");
+                HttpResponseMessage response = await client.PostAsync(uri, content).ConfigureAwait(true);
 
-            string dateTime = DateTime.Now.ToString("dd'-'MM'-'yyyy' 'HH':'mm':'ss");
+                var res = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/setQuestion".PostUrlEncodedAsync(new
+                {
+                    questionID = quesId,
+                    classID = Question.classID,
+                    quesImages = "n/a",
+                    subjectID = Question.subjectID,
+                    chapterID = Question.chapterID,
+                    topicID = 0,
+                    mainQuestion = Question.mainQuestion,
+                    option1 = Question.option1,
+                    option2 = Question.option2,
+                    option3 = Question.option3,
+                    option4 = Question.option4,
+                    rightAnswer = Question.rightAnswer
+                })
+                   .ReceiveJson<Response>();
 
-            var historyres = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/setTeacherQuestionHistory".PostUrlEncodedAsync(new
+                string dateTime = DateTime.Now.ToString("dd'-'MM'-'yyyy' 'HH':'mm':'ss");
+
+                var historyres = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/setTeacherQuestionHistory".PostUrlEncodedAsync(new
+                {
+
+                    tqID = hisotyId,
+                    teacherID = thisTeacherID,
+                    questionID = quesId,
+                    review = dateTime
+                })
+                      .ReceiveJson<Response>();
+                msg = "Question Uploaded Successfully";
+                Question.mainQuestion = "";
+                Question.option1 = "";
+                Question.option2 = "";
+                Question.option3 = "";
+                Question.option4 = "";
+                mathRate = "";
+                Question.rightAnswer = 0;
+                selectedColorone = "white";
+                selectedColortwo = "white";
+                selectedColorthree = "white";
+                selectedColorfour = "white";
+                mathRate = "";
+            }
+
+            else
             {
-
-                tqID = hisotyId,
-                teacherID = thisTeacherID,
-                questionID = quesId,
-                review = dateTime
-            })
-                  .ReceiveJson<Response>();
-            msg = "Question Uploaded Successfully";
-            Question.mainQuestion = "";
-            Question.option1 = "";
-            Question.option2 = "";
-            Question.option3 = "";
-            Question.option4 = "";
-            Question.rightAnswer = 0;
-            selectedColorone = "white";
-            selectedColortwo = "white";
-            selectedColorthree = "white";
-            selectedColorfour = "white";
-            mathRate = "";
-
+                msgColor = "Red";
+                msg = "This question is already in the server or this type of question";
+            }
 
         }
         else
@@ -407,24 +417,32 @@
     }
     public void checksimilarity()
     {
+        mtColor = "Black";
         List<double> thiscim = new List<double>();
         for(int i = 0; i < quesList.Count; i++)
         {
             thiscim.Add(CalculateSimilarity(Question.mainQuestion, quesList[i].mainQuestion));
         }
-        double max = thiscim[0];
-
+        double max = 0;
+        int index = 0;
         for(int i = 0; i < thiscim.Count; i++)
         {
-            if(max > thiscim[i])
+            if(max < thiscim[i])
             {
                 max = thiscim[i];
+                index = i;
             }
         }
         max = Math.Round(max, 2);
         max = max * 100;
         int matchingRate = (int)max;
-        mathRate = "Max Match: " + mathRate + "%";
+        if(matchingRate > 95)
+        {
+            mtColor = "Red";
+        }
+        mathRate = "";
+        mathRate = "Max Match: " + matchingRate + "%" + " -> Question: " + quesList[index].mainQuestion;
+        thisMathRate = matchingRate;
 
     }
     double CalculateSimilarity(string source, string target)
