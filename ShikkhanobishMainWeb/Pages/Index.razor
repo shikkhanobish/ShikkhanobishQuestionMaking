@@ -114,7 +114,8 @@
                                     <tr>
                                         <th>Task Number</th>
                                         <th>Assigned Number</th>
-                                        <th>Chapter ID</th>
+                                        <th>Class Name</th>
+                                        <th>Subject Name</th>
                                         <th>Chapter Name</th>
                                         <th>Task Date</th>
                                         <th>Assign Time (DD/MM/YYYY)</th>
@@ -131,11 +132,11 @@
                                     <tr>
                                         <td style="color: #2E2E2E">@item.index</td>
                                         <td style="color: #2E2E2E">@item.MCQNumbers</td>
-                                        <td style="color: #2E2E2E">@item.chapterID</td>
+                                        <td style="color: #2E2E2E">@item.ClassName</td>
+                                        <td style="color: #2E2E2E">@item.SubejctName</td>
                                         <td style="color: #2E2E2E">@item.chapterName</td>
                                         <td style="color: #2E2E2E">@item.date</td>
                                         <td style="color: #2E2E2E">@item.startTime</td>
-
                                         <td style="color: green">@item.submitted</td>
                                         <td style="color: red">@item.reMain</td>
                                         <td style="color: @item.isTaskSubColor; font-weight: bold">
@@ -172,61 +173,157 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
+
+
+
+
+              <div class="card">
+                  <div class="card-body">
+                      <div class="card-title">
+                          <b>Question History</b>
+                      </div>
+                      <div class="form-group row">
+
+                          <div class="col-3">
+
+                              @foreach (var qs in showQSList1)
+                              {
+                                  <div>
+                                      <div class="col-2">
+                                          <label class="" style=" border-radius: 10px; border: 1px solid @qs.reviewColor; padding: 3px 12px; color:@qs.reviewColor;">@qs.reviewName</label>
+                                          &nbsp;&nbsp; <label style="font-size: 10px">@qs.publishingDate</label>
+                                      </div>
+                                      <span style="font-size:14px;color:grey; font-weight:bold">@qs.index</span><span>.</span>
+                                      <span style="font-size:14px;font-weight:bold; color:black;">@qs.mainQuestion</span>
+                                      <br />
+                                      <br />
+                                      <div>
+                                          &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op1BackColor;">@qs.option1</label>
+
+                                      </div>
+                                      <div>
+                                          &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op2BackColor;">@qs.option2</label>
+
+                                      </div>
+                                      <div>
+                                          &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op3BackColor;">@qs.option3</label>
+
+                                      </div>
+                                      <div>
+
+                                          &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op4BackColor;">@qs.option4</label>
+
+                                      </div>
+                                  </div>
+                              }
+                          </div>
+                          <div class="col-3">
+                              @foreach (var qs in showQSList3)
+                              {
+                                  <div>
+                                      <div class="col-2">
+                                          <label class="" style=" border-radius: 10px; border: 1px solid @qs.reviewColor; padding: 3px 12px; color:@qs.reviewColor;">@qs.reviewName</label>
+                                          &nbsp;&nbsp; <label style="font-size: 10px">@qs.publishingDate</label>
+                                      </div>
+                                      <span style="font-size:14px;color:grey; font-weight:bold">@qs.index</span><span>.</span>
+                                      <span style="font-size:14px;font-weight:bold; color:black;">@qs.mainQuestion</span>
+                                      <br />
+                                      <br />
+                                      <div>
+                                          &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op1BackColor;">@qs.option1</label>
+
+                                      </div>
+                                      <div>
+                                          &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op2BackColor;">@qs.option2</label>
+
+                                      </div>
+                                      <div>
+                                          &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op3BackColor;">@qs.option3</label>
+
+                                      </div>
+                                      <div>
+
+                                          &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op4BackColor;">@qs.option4</label>
+
+                                      </div>
+                                  </div>
+                              }
+
+                          </div>
+                          <div class="col-3">
+
+                              @foreach (var qs in showQSList3)
+                              {
+                                  <div>
+                                      <div class="col-2">
+                                          <label class="" style=" border-radius: 10px; border: 1px solid @qs.reviewColor; padding: 3px 12px; color:@qs.reviewColor;">@qs.reviewName</label>
+                                          &nbsp;&nbsp; <label style="font-size: 10px">@qs.publishingDate</label>
+                                      </div>
+                                      <span style="font-size:14px;color:grey; font-weight:bold">@qs.index</span><span>.</span>
+                                      <span style="font-size:14px;font-weight:bold; color:black;">@qs.mainQuestion</span>
+                                      <br />
+                                      <br />
+                                      <div>
+                                          &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op1BackColor;">@qs.option1</label>
+
+                                      </div>
+                                      <div>
+                                          &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op2BackColor;">@qs.option2</label>
+
+                                      </div>
+                                      <div>
+                                          &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op3BackColor;">@qs.option3</label>
+
+                                      </div>
+                                      <div>
+
+                                          &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op4BackColor;">@qs.option4</label>
+
+                                      </div>
+                                  </div>
+                              }
+                          </div>
+                          <div class="col-3">
+
+                              @foreach (var qs in showQSList4)
+                              {
+                                  <div>
+                                      <div class="col-2">
+                                          <label class="" style=" border-radius: 10px; border: 1px solid @qs.reviewColor; padding: 3px 12px; color:@qs.reviewColor;">@qs.reviewName</label>
+                                          &nbsp;&nbsp; <label style="font-size: 10px">@qs.publishingDate</label>
+                                      </div>
+                                      <span style="font-size:14px;color:grey; font-weight:bold">@qs.index</span><span>.</span>
+                                      <span style="font-size:14px;font-weight:bold; color:black;">@qs.mainQuestion</span>
+                                      <br />
+                                      <br />
+                                      <div>
+                                          &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op1BackColor;">@qs.option1</label>
+
+                                      </div>
+                                      <div>
+                                          &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op2BackColor;">@qs.option2</label>
+
+                                      </div>
+                                      <div>
+                                          &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op3BackColor;">@qs.option3</label>
+
+                                      </div>
+                                      <div>
+
+                                          &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op4BackColor;">@qs.option4</label>
+
+                                      </div>
+                                  </div>
+                              }
+                          </div>
+                      </div>
+                  </div>
+              </div>
+               
+               
                 
-                
-                
-
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: @prgsValue; display:@showprgs" aria-valuenow="@prgsValue" aria-valuemin="0" aria-valuemax="100">Loading... @prgsValue</div>
-                </div>
-                <div class="card-header " style="text-align:center">
-                    <h5>Question History</h5>
-                </div>
-                @foreach (var qs in showQSList)
-                {
-                    <div class="form-group row">
-
-                        <div class="col-12">
-
-                            <div class="form-group row">
-
-                                <div class="col-12">
-
-                                    <div>
-                                        <div class="col-2">
-                                            <label class="" style=" border-radius: 10px; border: 1px solid @qs.reviewColor; padding: 3px 12px; color:@qs.reviewColor;">@qs.reviewName</label>
-                                            &nbsp;&nbsp; <label style="font-size: 10px">@qs.publishingDate</label>
-                                        </div>
-                                        <span style="font-size:14px;color:grey; font-weight:bold">@qs.index</span><span>.</span>
-                                        <span style="font-size:14px;font-weight:bold; color:black;">@qs.mainQuestion</span>
-                                        <br />
-                                        <br />
-                                        <div>
-                                            &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op1BackColor;">@qs.option1</label>
-
-                                        </div>
-                                        <div>
-                                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op2BackColor;">@qs.option2</label>
-
-                                        </div>
-                                        <div>
-                                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op3BackColor;">@qs.option3</label>
-
-                                        </div>
-                                        <div>
-
-                                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op4BackColor;">@qs.option4</label>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
 
 
 
@@ -268,6 +365,10 @@
     List<TeacherQuesHistory> tqhList = new List<TeacherQuesHistory>();
     List<Question> questionList = new List<Question>();
     List<Question> showQSList = new List<Question>();
+    List<Question> showQSList1 = new List<Question>();
+    List<Question> showQSList2 = new List<Question>();
+    List<Question> showQSList3 = new List<Question>();
+    List<Question> showQSList4 = new List<Question>();
     List<Teacher> teacherList = new List<Teacher>();
     List<ClassInfo> allClassList = new List<ClassInfo>();
     List<Subject> allSubject = new List<Subject>();
@@ -360,6 +461,7 @@
 
         CultureInfo culturen = new CultureInfo("en-US");
         thisOpList = operatorList;
+
         List<string> activeTaskList = new List<string>();
         List<int> doneOP = new List<int>();
         List<dataentryOperatorTask> thisopTask = new List<dataentryOperatorTask>();
@@ -553,6 +655,29 @@
         SortedList = shownow.OrderBy(x => x.startTime).ToList();
         SortedList.Reverse();
         shownow = SortedList;
+        for(int m = 0; m < shownow.Count; m++)
+        {
+            for (int i = 0; i < allc.Count; i++)
+            {
+                if (allc[i].chapterID == shownow[m].chapterID)
+                {
+                    for (int j = 0; j < allsub.Count; j++)
+                    {
+                        if (allsub[j].subjectID == allc[i].subjectID)
+                        {
+                            shownow[m].SubejctName = allsub[j].name;
+                            for (int k = 0; k < allClass.Count; k++)
+                            {
+                                if (allsub[j].classID == allClass[k].classID)
+                                {
+                                    shownow[m].ClassName = allClass[k].name;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         LiveshowInfo = shownow;
 
@@ -635,11 +760,90 @@
             }
         }
         List<Question> SortedListNew = new List<Question>();
-        SortedListNew = thisqsList.OrderBy(x => x.index).ToList();
-        SortedListNew.Reverse();
+        SortedListNew = thisqsList.OrderBy(x => x.review).ToList();
         thisqsList.Clear();
         thisqsList = SortedListNew;
         showQSList = thisqsList;
+        int count = 1;
+        for(int i = 0; i < showQSList.Count; i++)
+        {
+            if(count % 1 == 0 && showQSList[i].review == 0)
+            {
+                count++;
+                showQSList1.Add(showQSList[i]);
+                showQSList.RemoveAt(i);
+            }
+            if (count % 2 == 0 && showQSList[i].review == 0)
+            {
+                count++;
+                showQSList2.Add(showQSList[i]);
+                showQSList.RemoveAt(i);
+            }
+            if (count % 3 == 0 && showQSList[i].review == 0)
+            {
+                count++;
+                showQSList3.Add(showQSList[i]);
+                showQSList.RemoveAt(i);
+            }
+            if (count % 4 == 0 && showQSList[i].review == 0)
+            {
+                count++;
+                showQSList4.Add(showQSList[i]);
+                showQSList.RemoveAt(i);
+            }
+        }
+
+        int div = showQSList.Count / 4;
+        int part = 1;
+        for(int i = 0; i<showQSList.Count; i++)
+        {
+            if (i != 0)
+            {
+                if ( i % div == 0)
+                {
+                    part++;
+                }
+            }
+            if (part == 1)
+            {
+                showQSList1.Add(showQSList[i]);
+            }
+            if (part == 2)
+            {
+                showQSList2.Add(showQSList[i]);
+            }
+            if (part == 3)
+            {
+                showQSList3.Add(showQSList[i]);
+            }
+            if (part == 4)
+            {
+                showQSList4.Add(showQSList[i]);
+            }
+            if (part == 5)
+            {
+                showQSList1.Add(showQSList[i]);
+            }
+
+
+        }
+
+        List<Question> SortedList1 = new List<Question>();
+        SortedList1 = showQSList1.OrderBy(x => x.review).ToList();
+        showQSList1 = SortedList1;
+
+        List<Question> SortedList2 = new List<Question>();
+        SortedList2 = showQSList2.OrderBy(x => x.review).ToList();
+        showQSList2 = SortedList2;
+
+        List<Question> SortedList3 = new List<Question>();
+        SortedList3 = showQSList3.OrderBy(x => x.review).ToList();
+        showQSList3 = SortedList3;
+
+        List<Question> SortedList4 = new List<Question>();
+        SortedList4 = showQSList4.OrderBy(x => x.review).ToList();
+        showQSList4 = SortedList4;
+
     }
 
     public async Task GetHistoryCount()

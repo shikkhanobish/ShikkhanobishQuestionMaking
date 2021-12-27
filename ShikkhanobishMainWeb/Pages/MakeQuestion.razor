@@ -95,6 +95,7 @@
                                     <div class="col-12">
                                         <h6 style="color:#7146FE">Write Question</h6>
                                         <textarea  class="form-control col-12" style="height:150px" @bind="Question.mainQuestion"></textarea>
+                                        <label>@mathRate</label>
                                     </div>
 
                                 </div>
@@ -131,7 +132,7 @@
                                 <div class="">
                                     <h6 style="color:#7146FE">Right Answer</h6>
                                     <br />
-                                    <button name="rightans" value="A" style=" background-color: @selectedColorone" class="btn btn-outline-success" @onclick="sbOne">A</button>&nbsp;
+                                    <button name="rightans" value="A" style=" background-color: @selectedColorone" class="btn btn-outline-info" @onclick="sbOne">A</button>&nbsp;
                                     <button name="rightans" value="B" style=" background-color: @selectedColortwo " class="btn btn-outline-success" @onclick="sbTwo">B</button>&nbsp;
                                     <button name="rightans" value="C" style=" background-color: @selectedColorthree" class="btn btn-outline-success" @onclick="sbThree">C</button>&nbsp;
                                     <button name="rightans" value="D" style=" background-color: @selectedColorfour" class="btn btn-outline-success" @onclick="sbFour">D</button>
@@ -139,7 +140,7 @@
                                 <br />
                                 <br />
                                 <div class="offset-3">
-                                    <input type="submit" style=" font-size:16px" class="btn btn-outline-success" @onclick="SubmitQuestion"  />
+                                    <button type="submit" style=" font-size:16px" class="btn btn-outline-success" @onclick="SubmitQuestion" >@btnstring</button>
                                 </div>
                                 <label style="color: @msgColor"> @msg</label>
                                 <br />
@@ -184,22 +185,23 @@
 
     [Parameter]
     public string tID { get; set; }
-
+    public string btnstring { get; set; }
     public string tName { get; set; }
-
+    public string mathRate { get; set; }
     public TeacherQuesHistory TeacherQuesHistory = new TeacherQuesHistory();
-    public Question Question = new Question();
 
     string cid{ get; set; }
     string sid { get; set; }
     string chid { get; set; }
     string msg { get; set; }
     string msgColor { get; set; }
-
+    private Question Question1;
+    public Question Question
+    { get { return Question1; } set { Question1 = value;  } }
     List<ClassInfo> objList = new List<ClassInfo>();
     List<Subject> objList2 = new List<Subject>();
     List<Chapter> objList3 = new List<Chapter>();
-
+    List<Question> quesList = new List<Question>();
     List<Subject> allSubject = new List<Subject>();
     List<Chapter> allChapter = new List<Chapter>();
     string selectedColorone = "";
@@ -210,7 +212,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        objList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getClassInfo".GetJsonAsync<List<ClassInfo>>();
+        objList3 = new List<Chapter>();
+        btnstring = "Submit";
+
+
         selectedColorone = "white";
         selectedColortwo = "white";
         selectedColorthree = "white";
@@ -220,7 +225,8 @@
         await GetSubInfo();
         await GetChapterInfo();
         await GetTeacherWithID();
-
+        objList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getClassInfo".GetJsonAsync<List<ClassInfo>>();
+        quesList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getQuestion".GetJsonAsync<List<Question>>();
 
 
     }
@@ -318,7 +324,7 @@
     }
     public async Task SubmitQuestion()
     {
-
+        btnstring = "Submitting Question...";
         int thisTeacherID = Int32.Parse(tID);
         Random rnd = new Random();
 
@@ -374,6 +380,7 @@
             selectedColortwo = "white";
             selectedColorthree = "white";
             selectedColorfour = "white";
+            mathRate = "";
 
 
         }
@@ -381,13 +388,10 @@
         {
             msgColor = "Red";
             msg = "Please Fill Up Every Question";
-            string uri = "https://shikkhanobishrealtimeapi.shikkhanobish.com/api/ShikkhanobishSignalR/sumbitQs?&teacherID=" + thisTeacherID + "&qsID=" + quesId +"&errorTxt=Fill up every info and choose class, subject and chapter for this question";
-            HttpClient client = new HttpClient();
-            StringContent content = new StringContent("", System.Text.Encoding.UTF32, "application/json");
-            HttpResponseMessage response = await client.PostAsync(uri, content).ConfigureAwait(true);
+
         }
 
-
+        btnstring = "Submit";
     }
 
     public async Task GetTeacherWithID()
@@ -401,8 +405,73 @@
             }
         }
     }
+    public void checksimilarity()
+    {
+        List<double> thiscim = new List<double>();
+        for(int i = 0; i < quesList.Count; i++)
+        {
+            thiscim.Add(CalculateSimilarity(Question.mainQuestion, quesList[i].mainQuestion));
+        }
+        double max = thiscim[0];
 
+        for(int i = 0; i < thiscim.Count; i++)
+        {
+            if(max > thiscim[i])
+            {
+                max = thiscim[i];
+            }
+        }
+        max = Math.Round(max, 2);
+        max = max * 100;
+        int matchingRate = (int)max;
+        mathRate = "Max Match: " + mathRate + "%";
 
+    }
+    double CalculateSimilarity(string source, string target)
+    {
+        if ((source == null) || (target == null)) return 0.0;
+        if ((source.Length == 0) || (target.Length == 0)) return 0.0;
+        if (source == target) return 1.0;
+
+        int stepsToSame = ComputeLevenshteinDistance(source, target);
+        return (1.0 - ((double)stepsToSame / (double)Math.Max(source.Length, target.Length)));
+    }
+    int ComputeLevenshteinDistance(string source, string target)
+    {
+        if ((source == null) || (target == null)) return 0;
+        if ((source.Length == 0) || (target.Length == 0)) return 0;
+        if (source == target) return source.Length;
+
+        int sourceWordCount = source.Length;
+        int targetWordCount = target.Length;
+
+        // Step 1
+        if (sourceWordCount == 0)
+            return targetWordCount;
+
+        if (targetWordCount == 0)
+            return sourceWordCount;
+
+        int[,] distance = new int[sourceWordCount + 1, targetWordCount + 1];
+
+        // Step 2
+        for (int i = 0; i <= sourceWordCount; distance[i, 0] = i++) ;
+        for (int j = 0; j <= targetWordCount; distance[0, j] = j++) ;
+
+        for (int i = 1; i <= sourceWordCount; i++)
+        {
+            for (int j = 1; j <= targetWordCount; j++)
+            {
+                // Step 3
+                int cost = (target[j - 1] == source[i - 1]) ? 0 : 1;
+
+                // Step 4
+                distance[i, j] = Math.Min(Math.Min(distance[i - 1, j] + 1, distance[i, j - 1] + 1), distance[i - 1, j - 1] + cost);
+            }
+        }
+
+        return distance[sourceWordCount, targetWordCount];
+    }
 
 }
 

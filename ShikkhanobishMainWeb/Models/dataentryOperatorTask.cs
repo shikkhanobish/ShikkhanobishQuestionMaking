@@ -17,6 +17,8 @@ namespace ShikkhanobishMainWeb.Models
         public string endTime { get; set; }
         public string date { get; set; }
         public string chapterName { get; set; }
+        public string ClassName { get; set; }
+        public string SubejctName { get; set; }
         public string isTaskSubDone { get; set; }
         public string isTaskSubPending { get; set; }
         public string isTaskSubNootDone { get; set; }
