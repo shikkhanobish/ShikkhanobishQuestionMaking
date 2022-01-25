@@ -12,6 +12,7 @@ namespace ShikkhanobishMainWeb.Models
         public int classID { get; set; }
         public string title { get; set; }
         public string name { get; set; }
+        public int approvedQS { get; set; }
         public int tuitionRequest { get; set; }
         public double avgRatting { get; set; }
         public int indexNo { get; set; }

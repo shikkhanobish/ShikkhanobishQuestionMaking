@@ -44,116 +44,120 @@
                             <div class="col-md-4 " style="text-align:center">
                                 <span style="font-size: 24px; color: black ">Shikkhanobish</span><h3 style="color:black">Question Making</h3>
                             </div>
-                           
+
                         </div>
-                        
+
                         <br />
                         <br />
-                        
-                        
-                            <div>
 
-                                <div class="form-group row">
-                                    <div class="col-md-4 ">
-                                        <select class="form-control btn btn-purple" id="class" @onchange="ClassChanged" >
-                                            <option style="" value="">-- Select Class --</option>
-                                            @foreach (var item in objList)
-                                            {
-                                                <option  value="@item.classID">@item.name</option>
-                                            }
-                                        </select>
 
-                                    </div>
-                                    <div class="col-md-4 ">
-                                        <select class="form-control btn btn-purple" id="subject" @onchange="SubjectChanged">
-                                            <option value="">-- Select Subject --</option>
-                                            @foreach (var item in objList2)
-                                            {
-                                                <option value="@item.subjectID">@item.name</option>
-                                            }
-                                        </select>
+                        <div>
 
-                                    </div>
-                                    <div class="col-md-4 ">
-                                        <select class="form-control btn btn-purple" id="chapter" @onchange="ChapterChanged">
-                                            <option value="">-- Select Chapter --</option>
-                                            @foreach (var item in objList3)
-                                            {
-                                                <option value="@item.chapterID">@item.name</option>
-                                            }
-                                        </select>
-
-                                    </div>
+                            <div class="form-group row">
+                                <div class="col-md-4 ">
+                                    <select class="form-control btn btn-purple" id="class" @onchange="ClassChanged">
+                                        <option style="" value="">-- Select Class --</option>
+                                        @foreach (var item in objList)
+                                        {
+                                            <option value="@item.classID">@item.name</option>
+                                        }
+                                    </select>
 
                                 </div>
-                                <br />
-                                <br />
-                                <br />
-                                
-
-                                <div class="form-group row">
-                                    <div class="col-12">
-                                        <h6 style="color:#7146FE">Write Question</h6>
-                                        <textarea  class="form-control col-12" style="height:150px"   @bind="Question.mainQuestion" ></textarea>
-                                        <button class="btn btn-info" @onclick="checksimilarity">Check Match Rate</button><label style="color: @mtColor">@mathRate</label>
-                                    </div>
+                                <div class="col-md-4 ">
+                                    <select class="form-control btn btn-purple" id="subject" @onchange="SubjectChanged">
+                                        <option value="">-- Select Subject --</option>
+                                        @foreach (var item in objList2)
+                                        {
+                                            <option value="@item.subjectID">@item.name</option>
+                                        }
+                                    </select>
 
                                 </div>
-                                <br />
-                                <br />
+                                <div class="col-md-4 ">
+                                    <select class="form-control btn btn-purple" id="chapter" @onchange="ChapterChanged">
+                                        <option value="">-- Select Chapter --</option>
+                                        @foreach (var item in objList3)
+                                        {
+                                            <option value="@item.chapterID">@item.name</option>
+                                        }
+                                    </select>
 
-                                <div class="form-group row">
-                                    <div class="col-8">
-                                        <h6 style="color:#7146FE">Option1:</h6>
-                                        <textarea class="form-control" @bind="Question.option1" style="height: 100px; text-align: center; "></textarea>
-
-                                    </div>
-                                    <div class="col-8">
-                                        <h6 style="color:#7146FE">Option2:</h6>
-                                        <textarea class="form-control" @bind="Question.option2" style="height: 100px; text-align: center;"></textarea>
-
-                                    </div>
-                                    <div class="col-8">
-                                        <h6 style="color:#7146FE">Option3:</h6>
-                                        <textarea class="form-control" @bind="Question.option3" style=" height: 100px; text-align: center;"></textarea>
-
-                                    </div>
-                                    <div class="col-8">
-                                        <h6 style="color:#7146FE">Option4:</h6>
-                                        <textarea class="form-control " @bind="Question.option4" style=" height: 100px; text-align: center;"></textarea>
-
-                                    </div>
                                 </div>
-                                
-                                
-
-                                <br />
-                                <hr />
-                                <div class="">
-                                    <h6 style="color:#7146FE">Right Answer</h6>
-                                    <br />
-                                    <button name="rightans" value="A" style=" background-color: @selectedColorone" class="btn btn-outline-info" @onclick="sbOne">A</button>&nbsp;
-                                    <button name="rightans" value="B" style=" background-color: @selectedColortwo " class="btn btn-outline-success" @onclick="sbTwo">B</button>&nbsp;
-                                    <button name="rightans" value="C" style=" background-color: @selectedColorthree" class="btn btn-outline-success" @onclick="sbThree">C</button>&nbsp;
-                                    <button name="rightans" value="D" style=" background-color: @selectedColorfour" class="btn btn-outline-success" @onclick="sbFour">D</button>
-                                </div>
-                                <br />
-                                <br />
-                                <div class="offset-3">
-                                    <button type="submit" style=" font-size:16px" class="btn btn-outline-success" @onclick="SubmitQuestion" >@btnstring</button>
-                                </div>
-                                <label style="color: @msgColor"> @msg</label>
-                                <br />
-                                <br />
-                                <br />
-                               
 
                             </div>
+                            <br />
+                            <br />
+                            <br />
+
+
+                            <div class="form-group row">
+                                <div class="col-12">
+                                    <h6 style="color:#7146FE">Write Question</h6>
+                                    <textarea class="form-control col-12" style="height:150px" @bind="Question.mainQuestion"></textarea>
+                                    <button class="btn btn-info" @onclick="checksimilarity">Check Match Rate</button><label style="color: @mtColor">@mathRate</label>
+                                </div>
+
+                            </div>
+                            <br />
+                            <br />
+
+                            <div class="form-group row">
+                                <div class="col-8">
+                                    <h6 style="color:#7146FE">Option1:</h6>
+                                    <textarea class="form-control" @bind="Question.option1" style="height: 100px; text-align: center; "></textarea>
+
+                                </div>
+                                <div class="col-8">
+                                    <h6 style="color:#7146FE">Option2:</h6>
+                                    <textarea class="form-control" @bind="Question.option2" style="height: 100px; text-align: center;"></textarea>
+
+                                </div>
+                                <div class="col-8">
+                                    <h6 style="color:#7146FE">Option3:</h6>
+                                    <textarea class="form-control" @bind="Question.option3" style=" height: 100px; text-align: center;"></textarea>
+
+                                </div>
+                                <div class="col-8">
+                                    <h6 style="color:#7146FE">Option4:</h6>
+                                    <textarea class="form-control " @bind="Question.option4" style=" height: 100px; text-align: center;"></textarea>
+
+                                </div>
+                            </div>
+
+
+
+                            <br />
+                            <hr />
+                            <div class="">
+                                <h6 style="color:#7146FE">Right Answer</h6>
+                                <br />
+                                <button name="rightans" value="A" style=" background-color: @selectedColorone; color: #158A4E" class="btn btn-outline-success" @onclick="sbOne">A</button>&nbsp;
+                                <button name="rightans" value="B" style=" background-color: @selectedColortwo; color: #158A4E " class="btn btn-outline-success" @onclick="sbTwo">B</button>&nbsp;
+                                <button name="rightans" value="C" style=" background-color: @selectedColorthree; color: #158A4E" class="btn btn-outline-success" @onclick="sbThree">C</button>&nbsp;
+                                <button name="rightans" value="D" style=" background-color: @selectedColorfour; color: #158A4E" class="btn btn-outline-success" @onclick="sbFour">D</button>
+                            </div>
+                            <br />
+                            <br />
+                            <div class="offset-3">
+                                <button type="submit" style=" font-size:16px" class="btn btn-success" @onclick="SubmitQuestion">@btnstring</button>
+                            </div>
+                            <label style="color: @msgColor"> @msg</label>
+                            <br />
+                            <br />
+                            <!-- Button trigger modal -->
                             
+                            <!-- Modal -->
+                          
+                            <br />
+
+
                         </div>
-                        
+
+                    </div>
 
 
+                    
                 </div>
                 <br />
                 <!-- end container-fluid -->
@@ -197,7 +201,7 @@
     string msgColor { get; set; }
     private Question Question1;
     public Question Question = new Question();
-
+    string hidemodel { get; set; }
     List<ClassInfo> objList = new List<ClassInfo>();
     List<Subject> objList2 = new List<Subject>();
     List<Chapter> objList3 = new List<Chapter>();
@@ -215,7 +219,7 @@
         objList3 = new List<Chapter>();
         btnstring = "Submit";
 
-
+        hidemodel = "hidden";
         selectedColorone = "white";
         selectedColortwo = "white";
         selectedColorthree = "white";
@@ -249,7 +253,7 @@
     public void sbOne()
     {
         Question.rightAnswer = 1;
-        selectedColorone = "#22EE10";
+        selectedColorone = "#BDFFDD";
         selectedColortwo = "white";
         selectedColorthree = "white";
         selectedColorfour = "white";
@@ -259,7 +263,7 @@
     {
         Question.rightAnswer = 2;
         selectedColorone = "White";
-        selectedColortwo = "#22EE10";
+        selectedColortwo = "#BDFFDD";
         selectedColorthree = "white";
         selectedColorfour = "white";
 
@@ -270,7 +274,7 @@
         Question.rightAnswer = 3;
         selectedColorone = "white";
         selectedColortwo = "white";
-        selectedColorthree = "#22EE10";
+        selectedColorthree = "#BDFFDD";
         selectedColorfour = "white";
 
     }
@@ -280,7 +284,7 @@
         selectedColorone = "white";
         selectedColortwo = "white";
         selectedColorthree = "white";
-        selectedColorfour = "#22EE10";
+        selectedColorfour = "#BDFFDD";
     }
     private void  ClassChanged(ChangeEventArgs classEvent)
     {
@@ -397,7 +401,7 @@
         else
         {
             msgColor = "Red";
-            msg = "Please Fill Up Every Question";
+            msg = "Please Fill Up Every Information";
 
         }
 
