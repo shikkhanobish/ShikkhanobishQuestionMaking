@@ -107,8 +107,7 @@
                             <div class="form-group row">
                                 <label class=" col-4" style="color:blueviolet;font-size:30px;">Task  History</label>
                                 <div class=" col-4"></div>
-                                <button class="btn btn-info col-4" @onclick="@( async () => await makenewtak())"> @MakeQSTxt</button>
-                                <label> @makeTaskError</label>
+                               
                                 <br />
 
                             </div>
@@ -118,60 +117,82 @@
                         </div>
 
 
-                        <div class="table-responsive">
-                            <table id="" class="table table-bordered" style="text-align:center; ">
-                                <thead style="color: black; font-weight: bold;font-size:10px;">
-                                    <tr>
-                                        <th>Task Number</th>
-                                        <th>Assigned Number</th>
-                                        <th>Class Name</th>
-                                        <th>Subject Name</th>
-                                        <th>Chapter Name</th>
-                                        <th>Task Date</th>
-                                        <th>Assign Time (DD/MM/YYYY)</th>
-                                        <th>End Time (DD/MM/YYYY)</th>
-                                        <th>Submitted</th>
-                                        <th>Remaining</th>
-                                        <th>IS Task Submitted</th>
-                                        <th>Status</th>
-
-
-                                    </tr>
-                                </thead>
-                                <tbody style="font-size: 10px; ">
-                                    @foreach (var item in LiveshowInfo)
-                                    {
+                        <div>
+                            <div class="table-responsive" style="overflow: scroll; height: 400px;">
+                                <table id="" class="table table-bordered" style="text-align:center; ">
+                                    <thead style="color: black; font-weight: bold;font-size:10px;">
                                         <tr>
-                                            <td style="color: #2E2E2E">@item.index</td>
-                                            <td style="color: #2E2E2E">@item.MCQNumbers</td>
-                                            <td style="color: #2E2E2E">@item.ClassName</td>
-                                            <td style="color: #2E2E2E">@item.SubejctName</td>
-                                            <td style="color: #2E2E2E">@item.chapterName</td>
-                                            <td style="color: #2E2E2E">@item.date</td>
-                                            <td style="color: #2E2E2E">@item.startTime</td>
-                                            <td style="color: #2E2E2E">@item.endTime</td>
-                                            <td style="color: green">@item.submitted</td>
-                                            <td style="color: red">@item.reMain</td>
-                                            <td style="color: @item.isTaskSubColor; font-weight: bold">
-                                                <i class="fas fa-times" style="display:@item.isTaskSubNootDone"></i>
-                                                <i class="fas fa-check-double" style="display:@item.isTaskSubDone"></i>
-                                                <i style="display:@item.isTaskSubPending">---</i>
-                                            </td>
-                                            <td style="color: @item.statusColor; font-weight: bold">@item.status</td>
-
-
+                                            <th>Task Number</th>
+                                            <th>Assigned Number</th>
+                                            <th>Class Name</th>
+                                            <th>Subject Name</th>
+                                            <th>Chapter Name</th>
+                                            <th>Task Date</th>
+                                            <th>Assign Time (DD/MM/YYYY)</th>
+                                            <th>End Time (DD/MM/YYYY)</th>
+                                            <th>Submitted</th>
+                                            <th>Remaining</th>
+                                            <th>IS Task Submitted</th>
+                                            <th>Status</th>
 
 
                                         </tr>
+                                    </thead>
+                                    <tbody style="font-size: 10px; ">
+                                        @foreach (var item in LiveshowInfo)
+                                        {
+                                            <tr>
+                                                <td style="color: #2E2E2E">@item.index</td>
+                                                <td style="color: #2E2E2E;"><button class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModalCenter" @onclick="@( async () => await ShowMCQModal(item.MCQNumbers, item.chapterName))">See MCQ Numbers</button></td>
+                                                <td style="color: #2E2E2E">@item.ClassName</td>
+                                                <td style="color: #2E2E2E">@item.SubejctName</td>
+                                                <td style="color: #2E2E2E">@item.chapterName</td>
+                                                <td style="color: #2E2E2E">@item.date</td>
+                                                <td style="color: #2E2E2E">@item.startTime</td>
+                                                <td style="color: #2E2E2E">@item.endTime</td>
+                                                <td style="color: green">@item.submitted</td>
+                                                <td style="color: red">@item.reMain</td>
+                                                <td style="color: @item.isTaskSubColor; font-weight: bold">
+                                                    <i class="fas fa-times" style="display:@item.isTaskSubNootDone"></i>
+                                                    <i class="fas fa-check-double" style="display:@item.isTaskSubDone"></i>
+                                                    <i style="display:@item.isTaskSubPending">---</i>
+                                                </td>
+                                                <td style="color: @item.statusColor; font-weight: bold">@item.status</td>
 
 
-                                    }
-
-                                </tbody>
 
 
-                            </table>
+                                            </tr>
+
+
+                                        }
+
+                                    </tbody>
+
+
+                                </table>
+                            </div>
+                            <!-- Button trigger modal -->
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">MSQ Number <b>ChapterID: @thisShowchapterName</b></h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            @thismcqNumber
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+
 
                         <div class="form-group row">
                             <div class="col-3">
@@ -208,64 +229,68 @@
 
                                 @foreach (var qs in showQSList1)
                                 {
-                                    <div>
-                                        <div class="col-2">
-                                            <label class="" style=" border-radius: 10px; border: 1px solid @qs.reviewColor; padding: 3px 12px; color:@qs.reviewColor;">@qs.reviewName</label>
-                                            &nbsp;&nbsp; <label style="font-size: 10px">@qs.publishingDate</label>
+                                    <div class="card">
+                                        <div class="col-12 card-title">
+                                            <br />
+                                            <label class="col-12" style=" text-align: center; border-radius: 10px; border: 1px solid @qs.reviewColor; padding: 3px 12px; color:@qs.reviewColor;">@qs.reviewName <a style="font-size: 10px">@qs.publishingDate</a> </label><p />
                                         </div>
-                                        <span style="font-size:14px;color:grey; font-weight:bold">@qs.index</span><span>.</span>
-                                        <span style="font-size:14px;font-weight:bold; color:black;">@qs.mainQuestion</span>
-                                        <br />
-                                        <br />
-                                        <div>
-                                            &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op1BackColor;">@qs.option1</label>
+                                        <div class="card-body">
+                                            <span style="font-size:14px;color:grey; font-weight:bold">@qs.index</span><span>.</span>
+                                            <span style="font-size:14px;font-weight:bold; color:black;">@qs.mainQuestion</span>
+                                            <br />
+                                            <div>
+                                                &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op1BackColor;">@qs.option1</label>
 
+                                            </div>
+                                            <div>
+                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op2BackColor;">@qs.option2</label>
+
+                                            </div>
+                                            <div>
+                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op3BackColor;">@qs.option3</label>
+
+                                            </div>
+                                            <div>
+
+                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op4BackColor;">@qs.option4</label>
+
+                                            </div>
                                         </div>
-                                        <div>
-                                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op2BackColor;">@qs.option2</label>
 
-                                        </div>
-                                        <div>
-                                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op3BackColor;">@qs.option3</label>
-
-                                        </div>
-                                        <div>
-
-                                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op4BackColor;">@qs.option4</label>
-
-                                        </div>
                                     </div>
                                 }
                             </div>
                             <div class="col-3">
-                                @foreach (var qs in showQSList3)
+                                @foreach (var qs in showQSList2)
                                 {
-                                    <div>
-                                        <div class="col-2">
-                                            <label class="" style=" border-radius: 10px; border: 1px solid @qs.reviewColor; padding: 3px 12px; color:@qs.reviewColor;">@qs.reviewName</label>
-                                            &nbsp;&nbsp; <label style="font-size: 10px">@qs.publishingDate</label>
+                                    <div class="card">
+                                        <div class="col-12 card-title">
+                                            <br />
+                                            <label class="col-12" style=" text-align: center; border-radius: 10px; border: 1px solid @qs.reviewColor; padding: 3px 12px; color:@qs.reviewColor;">@qs.reviewName <a style="font-size: 10px">@qs.publishingDate</a> </label><p />
                                         </div>
-                                        <span style="font-size:14px;color:grey; font-weight:bold">@qs.index</span><span>.</span>
-                                        <span style="font-size:14px;font-weight:bold; color:black;">@qs.mainQuestion</span>
-                                        <br />
-                                        <br />
-                                        <div>
-                                            &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op1BackColor;">@qs.option1</label>
+                                        <div class="card-body">
+                                            <span style="font-size:14px;color:grey; font-weight:bold">@qs.index</span><span>.</span>
+                                            <span style="font-size:14px;font-weight:bold; color:black;">@qs.mainQuestion</span>
+                                            <br />
+                                            <div>
+                                                &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op1BackColor;">@qs.option1</label>
 
+                                            </div>
+                                            <div>
+                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op2BackColor;">@qs.option2</label>
+
+                                            </div>
+                                            <div>
+                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op3BackColor;">@qs.option3</label>
+
+                                            </div>
+                                            <div>
+
+                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op4BackColor;">@qs.option4</label>
+
+                                            </div>
                                         </div>
-                                        <div>
-                                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op2BackColor;">@qs.option2</label>
 
-                                        </div>
-                                        <div>
-                                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op3BackColor;">@qs.option3</label>
-
-                                        </div>
-                                        <div>
-
-                                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op4BackColor;">@qs.option4</label>
-
-                                        </div>
                                     </div>
                                 }
 
@@ -274,32 +299,34 @@
 
                                 @foreach (var qs in showQSList3)
                                 {
-                                    <div>
-                                        <div class="col-2">
-                                            <label class="" style=" border-radius: 10px; border: 1px solid @qs.reviewColor; padding: 3px 12px; color:@qs.reviewColor;">@qs.reviewName</label>
-                                            &nbsp;&nbsp; <label style="font-size: 10px">@qs.publishingDate</label>
+                                    <div class="card">
+                                        <div class="col-12 card-title">
+                                            <br />
+                                            <label class="col-12" style=" text-align: center; border-radius: 10px; border: 1px solid @qs.reviewColor; padding: 3px 12px; color:@qs.reviewColor;">@qs.reviewName <a style="font-size: 10px">@qs.publishingDate</a> </label><p />
                                         </div>
-                                        <span style="font-size:14px;color:grey; font-weight:bold">@qs.index</span><span>.</span>
-                                        <span style="font-size:14px;font-weight:bold; color:black;">@qs.mainQuestion</span>
-                                        <br />
-                                        <br />
-                                        <div>
-                                            &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op1BackColor;">@qs.option1</label>
+                                        <div class="card-body">
+                                            <span style="font-size:14px;color:grey; font-weight:bold">@qs.index</span><span>.</span>
+                                            <span style="font-size:14px;font-weight:bold; color:black;">@qs.mainQuestion</span>
+                                            <br />
+                                            <div>
+                                                &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op1BackColor;">@qs.option1</label>
 
+                                            </div>
+                                            <div>
+                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op2BackColor;">@qs.option2</label>
+
+                                            </div>
+                                            <div>
+                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op3BackColor;">@qs.option3</label>
+
+                                            </div>
+                                            <div>
+
+                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op4BackColor;">@qs.option4</label>
+
+                                            </div>
                                         </div>
-                                        <div>
-                                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op2BackColor;">@qs.option2</label>
 
-                                        </div>
-                                        <div>
-                                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op3BackColor;">@qs.option3</label>
-
-                                        </div>
-                                        <div>
-
-                                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op4BackColor;">@qs.option4</label>
-
-                                        </div>
                                     </div>
                                 }
                             </div>
@@ -307,32 +334,34 @@
 
                                 @foreach (var qs in showQSList4)
                                 {
-                                    <div>
-                                        <div class="col-2">
-                                            <label class="" style=" border-radius: 10px; border: 1px solid @qs.reviewColor; padding: 3px 12px; color:@qs.reviewColor;">@qs.reviewName</label>
-                                            &nbsp;&nbsp; <label style="font-size: 10px">@qs.publishingDate</label>
+                                    <div class="card">
+                                        <div class="col-12 card-title">
+                                            <br />
+                                            <label class="col-12" style=" text-align: center; border-radius: 10px; border: 1px solid @qs.reviewColor; padding: 3px 12px; color:@qs.reviewColor;">@qs.reviewName <a style="font-size: 10px">@qs.publishingDate</a> </label><p />
                                         </div>
-                                        <span style="font-size:14px;color:grey; font-weight:bold">@qs.index</span><span>.</span>
-                                        <span style="font-size:14px;font-weight:bold; color:black;">@qs.mainQuestion</span>
-                                        <br />
-                                        <br />
-                                        <div>
-                                            &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op1BackColor;">@qs.option1</label>
+                                        <div class="card-body">
+                                            <span style="font-size:14px;color:grey; font-weight:bold">@qs.index</span><span>.</span>
+                                            <span style="font-size:14px;font-weight:bold; color:black;">@qs.mainQuestion</span>
+                                            <br />
+                                            <div>
+                                                &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op1BackColor;">@qs.option1</label>
 
+                                            </div>
+                                            <div>
+                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op2BackColor;">@qs.option2</label>
+
+                                            </div>
+                                            <div>
+                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op3BackColor;">@qs.option3</label>
+
+                                            </div>
+                                            <div>
+
+                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op4BackColor;">@qs.option4</label>
+
+                                            </div>
                                         </div>
-                                        <div>
-                                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op2BackColor;">@qs.option2</label>
 
-                                        </div>
-                                        <div>
-                                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op3BackColor;">@qs.option3</label>
-
-                                        </div>
-                                        <div>
-
-                                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op4BackColor;">@qs.option4</label>
-
-                                        </div>
                                     </div>
                                 }
                             </div>
@@ -374,6 +403,8 @@
 @code{
     [Parameter]
     public string tID { get; set; }
+    public string thismcqNumber { get; set; }
+    public string thisShowchapterName { get; set; }
     string makeTaskError { get; set; }
     bool canMakenewTask;
     public int tup, tap, tde, tpe;
@@ -382,6 +413,7 @@
     string url { get; set; }
     int countTQH;
     int prgs;
+    dataentryOperatorTask Liveitem { get; set; }
     string MakeQSTxt { get; set; }
     string linkTxtColor { get; set; }
     List<TeacherQuesHistory> tqhList = new List<TeacherQuesHistory>();
@@ -446,9 +478,10 @@
         // await AutomatedTaskAssigner(int.Parse(tID));
         StateHasChanged();
     }
-    public async Task goLink()
+    public async Task ShowMCQModal(string mcqNumber, string name)
     {
-        //string url = thisLink;
+        thismcqNumber = mcqNumber;
+        thisShowchapterName = name;
 
     }
     public async Task makenewtak()
@@ -707,6 +740,10 @@
         shownow = SortedList;
         for (int m = 0; m < shownow.Count; m++)
         {
+            if (shownow[m].status == "Active")
+            {
+                Liveitem = shownow[m];
+            }
             for (int i = 0; i < allc.Count; i++)
             {
                 if (allc[i].chapterID == shownow[m].chapterID)
@@ -949,8 +986,7 @@
             }
         }
         List<dataentryOperatorTask> SortedList = new List<dataentryOperatorTask>();
-        SortedList = taskList.OrderBy(x => x.startTime).ToList();
-        SortedList.Reverse();
+        SortedList = taskList.OrderBy(x => x.status).ToList();
         taskList = SortedList;
         for (int m = 0; m < taskList.Count; m++)
         {
@@ -975,6 +1011,7 @@
                 }
             }
         }
+
         LiveshowInfo = taskList;
     }
 
@@ -1236,20 +1273,25 @@
 
         for (int i = 0; i < selectedChapter.Count; i++)
         {
-            for (int j = 0; j < allPdfLink.Count; j++)
+            if (selectedChapter[i].approvedQS < 50)
             {
-                if (selectedChapter[i].chapterID == allPdfLink[j].chapterID && selectedChapter[i].approvedQS < 50)
+                for (int j = 0; j < allPdfLink.Count; j++)
                 {
-                    bool alreadyAssigned = false;
-                    for (int l = 0; l < operatorList.Count; l++)
+
+                    if (selectedChapter[i].chapterID == allPdfLink[j].chapterID)
                     {
-                        if (operatorList[l].chapterID == selectedChapter[i].chapterID)
+                        bool isAssigned = false;
+                        for (int k = 0; k < operatorList.Count; k++)
                         {
-                            alreadyAssigned = true;
+                            if (selectedChapter[i].chapterID == operatorList[k].chapterID)
+                            {
+                                isAssigned = true;
+                            }
                         }
-                    }
-                    if (!alreadyAssigned)
-                    {
+                        if (isAssigned)
+                        {
+                            break;
+                        }
                         for (int k = 0; k < allsub.Count; k++)
                         {
                             if (selectedChapter[i].subjectID == allsub[k].subjectID)
@@ -1261,12 +1303,14 @@
                                 }
                             }
                         }
+
+
                     }
 
+
                 }
-
-
             }
+
 
         }
 
@@ -1274,7 +1318,6 @@
         return chapter;
 
     }
-
     public async Task AutomatedTaskAssigner(int opID)
     {
 
