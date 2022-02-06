@@ -1,6 +1,7 @@
-﻿@page "/test"
+﻿@page "/"
 @using System
 @using System.IO
+@using System.Buffers
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Logging
 @inject ILogger<Test> Logger
@@ -49,13 +50,17 @@ else
         }
     </ul>
 }
-
+<div class="card" style="width: 250px; height: 250px">
+    <img src="@imageString" />
+    <video controls="controls" src="@imageString"/>
+    
+</div>
 @code {
     private List<IBrowserFile> loadedFiles = new();
     private long maxFileSize = 1024 * 15;
     private int maxAllowedFiles = 3;
     private bool isLoading;
-
+    string imageString;
     private async Task LoadFiles(InputFileChangeEventArgs e)
     {
         isLoading = true;
@@ -83,5 +88,17 @@ else
         }
 
         isLoading = false;
+        imageString = await ImageOrVideoToServerReady(loadedFiles[0]);
     }
+
+    public async Task<string> ImageOrVideoToServerReady(IBrowserFile file)
+    {
+        var Thisfile = file;
+
+        var buffer = new byte[Thisfile.Size];
+        await Thisfile.OpenReadStream(maxFileSize = 40000000).ReadAsync(buffer);
+
+        return "data:" + Thisfile.ContentType + $";base64,{Convert.ToBase64String(buffer)}";
+    }
+
 }
