@@ -1,8 +1,9 @@
-﻿@page "/"
+﻿@page "/ss"
 @using System
 @using System.IO
 @using System.Buffers
 @using Microsoft.AspNetCore.Hosting
+@using nClam;
 @using Microsoft.Extensions.Logging
 @inject ILogger<Test> Logger
 @inject IWebHostEnvironment Environment
@@ -52,8 +53,8 @@ else
 }
 <div class="card" style="width: 250px; height: 250px">
     <img src="@imageString" />
-    <video controls="controls" src="@imageString"/>
-    
+    <video controls="controls" src="@imageString" />
+
 </div>
 @code {
     private List<IBrowserFile> loadedFiles = new();
@@ -97,8 +98,38 @@ else
 
         var buffer = new byte[Thisfile.Size];
         await Thisfile.OpenReadStream(maxFileSize = 40000000).ReadAsync(buffer);
-
+        //await ScanFile(buffer);
         return "data:" + Thisfile.ContentType + $";base64,{Convert.ToBase64String(buffer)}";
+    }
+    public async Task<string> ScanFile(byte[] fileByte)
+    {
+        string result = "";
+        try
+        {
+            var clam = new ClamClient("localhost", 44345);
+            var scanResult = await clam.SendAndScanFileAsync(fileByte);  //any file you would like!
+
+            switch (scanResult.Result)
+            {
+                case ClamScanResults.Clean:
+                    result = "clean";
+                    break;
+                case ClamScanResults.VirusDetected:
+                    result = "Vireus Found";
+                    break;
+
+                case ClamScanResults.Error:
+                    result = "Erro";
+                    break;
+
+            }
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        return result;
     }
 
 }

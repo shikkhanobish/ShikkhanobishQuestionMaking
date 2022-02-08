@@ -1,7 +1,13 @@
 ﻿@using ShikkhanobishMainWeb.Models
 @using Flurl.Http
+@using System.IO
+@using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Logging
+@inject IWebHostEnvironment Environment
+@inject ILogger<MakeQuestion> Logger
 
-@page "/MakeQuestion/{tID}"
+
+@page "/"
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,164 +26,164 @@
 <body style="background-color:white">
 
     <!-- Begin page -->
-
-
-
-        <!-- Start Page Content here -->
-        <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
     <br />
 
 
 
-            <div class="content">
+    <div class="content">
 
-                <!-- Start container-fluid -->
-                <div class="container-fluid">
-                    <div>
-                        <div class="form-group row">
-                            <div class="col-md-4 ">
-                                <a href="@($"/{tID}")">
-                                    <i class="fas fa-backward btn btn-outline-purple" style="color: #7F08E6"></i>
-                                </a>
-                            </div>
-
-                            <div class="col-md-4 " style="text-align:center">
-                                <span style="font-size: 24px; color: black ">Shikkhanobish</span><h3 style="color:black">Question Making</h3>
-                            </div>
-
-                        </div>
-
-                        <br />
-                        <br />
-
-
-                        <div>
-
-                            <div class="form-group row">
-                                <div class="col-md-4 ">
-                                    <select class="form-control btn btn-purple" id="class" @onchange="ClassChanged">
-                                        <option style="" value="">-- Select Class --</option>
-                                        @foreach (var item in objList)
-                                        {
-                                            <option value="@item.classID">@item.name</option>
-                                        }
-                                    </select>
-
-                                </div>
-                                <div class="col-md-4 ">
-                                    <select class="form-control btn btn-purple" id="subject" @onchange="SubjectChanged">
-                                        <option value="">-- Select Subject --</option>
-                                        @foreach (var item in objList2)
-                                        {
-                                            <option value="@item.subjectID">@item.name</option>
-                                        }
-                                    </select>
-
-                                </div>
-                                <div class="col-md-4 ">
-                                    <select class="form-control btn btn-purple" id="chapter" @onchange="ChapterChanged">
-                                        <option value="">-- Select Chapter --</option>
-                                        @foreach (var item in objList3)
-                                        {
-                                            <option value="@item.chapterID">@item.name</option>
-                                        }
-                                    </select>
-
-                                </div>
-
-                            </div>
-                            <br />
-                            <br />
-                            <br />
-
-
-                            <div class="form-group row">
-                                <div class="col-12">
-                                    <h6 style="color:#7146FE">Write Question</h6>
-                                    <textarea class="form-control col-12" style="height:150px" @bind="Question.mainQuestion"></textarea>
-                                    <button class="btn btn-info" @onclick="checksimilarity">Check Match Rate</button><label style="color: @mtColor">@mathRate</label>
-                                </div>
-
-                            </div>
-                            <br />
-                            <br />
-
-                            <div class="form-group row">
-                                <div class="col-8">
-                                    <h6 style="color:#7146FE">Option1:</h6>
-                                    <textarea class="form-control" @bind="Question.option1" style="height: 100px; text-align: center; "></textarea>
-
-                                </div>
-                                <div class="col-8">
-                                    <h6 style="color:#7146FE">Option2:</h6>
-                                    <textarea class="form-control" @bind="Question.option2" style="height: 100px; text-align: center;"></textarea>
-
-                                </div>
-                                <div class="col-8">
-                                    <h6 style="color:#7146FE">Option3:</h6>
-                                    <textarea class="form-control" @bind="Question.option3" style=" height: 100px; text-align: center;"></textarea>
-
-                                </div>
-                                <div class="col-8">
-                                    <h6 style="color:#7146FE">Option4:</h6>
-                                    <textarea class="form-control " @bind="Question.option4" style=" height: 100px; text-align: center;"></textarea>
-
-                                </div>
-                            </div>
-
-
-
-                            <br />
-                            <hr />
-                            <div class="">
-                                <h6 style="color:#7146FE">Right Answer</h6>
-                                <br />
-                                <button name="rightans" value="A" style=" background-color: @selectedColorone; color: #158A4E" class="btn btn-outline-success" @onclick="sbOne">A</button>&nbsp;
-                                <button name="rightans" value="B" style=" background-color: @selectedColortwo; color: #158A4E " class="btn btn-outline-success" @onclick="sbTwo">B</button>&nbsp;
-                                <button name="rightans" value="C" style=" background-color: @selectedColorthree; color: #158A4E" class="btn btn-outline-success" @onclick="sbThree">C</button>&nbsp;
-                                <button name="rightans" value="D" style=" background-color: @selectedColorfour; color: #158A4E" class="btn btn-outline-success" @onclick="sbFour">D</button>
-                            </div>
-                            <br />
-                            <br />
-                            <div class="offset-3">
-                                <button type="submit" style=" font-size:16px" class="btn btn-success" @onclick="SubmitQuestion">@btnstring</button>
-                            </div>
-                            <label style="color: @msgColor"> @msg</label>
-                            <br />
-                            <br />
-                            <!-- Button trigger modal -->
-                            
-                            <!-- Modal -->
-                          
-                            <br />
-
-
-                        </div>
-
+        <!-- Start container-fluid -->
+        <div class="container-fluid">
+            <div>
+                <div class="form-group row">
+                    <div class="col-md-4 ">
+                        <a href="@($"/{tID}")">
+                            <i class="fas fa-backward btn btn-outline-purple" style="color: #7F08E6"></i>
+                        </a>
                     </div>
 
+                    <div class="col-md-4 " style="text-align:center">
+                        <span style="font-size: 24px; color: black ">Shikkhanobish</span><h3 style="color:black">Question Making</h3>
+                    </div>
 
-                    
                 </div>
+
                 <br />
-                <!-- end container-fluid -->
-                <!-- Footer Start -->
-                <footer class="footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-12">
-                                2021 &copy; shikkhanobish
+                <br />
+
+
+                <div>
+
+                    <div class="form-group row">
+                        <div class="col-md-4 ">
+                            <select class="form-control btn btn-purple" id="class" @onchange="ClassChanged">
+                                <option style="" value="">-- Select Class --</option>
+                                @foreach (var item in objList)
+                                {
+                                    <option value="@item.classID">@item.name</option>
+                                }
+                            </select>
+
+                        </div>
+                        <div class="col-md-4 ">
+                            <select class="form-control btn btn-purple" id="subject" @onchange="SubjectChanged">
+                                <option value="">-- Select Subject --</option>
+                                @foreach (var item in objList2)
+                                {
+                                    <option value="@item.subjectID">@item.name</option>
+                                }
+                            </select>
+
+                        </div>
+                        <div class="col-md-4 ">
+                            <select class="form-control btn btn-purple" id="chapter" @onchange="ChapterChanged">
+                                <option value="">-- Select Chapter --</option>
+                                @foreach (var item in objList3)
+                                {
+                                    <option value="@item.chapterID">@item.name</option>
+                                }
+                            </select>
+
+                        </div>
+
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+
+
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <h6 style="color:#7146FE">Write Question</h6>
+                            <textarea class="form-control col-12" style="height:150px" @bind="Question.mainQuestion"></textarea>
+                            <button class="btn btn-info" @onclick="checksimilarity">Check Match Rate</button><label style="color: @mtColor"> @mathRate</label><br />
+                            <br />
+                            <div style="width: auto; height: auto; border-color: black; border: 1px ">
+                                <InputFile OnChange="@LoadFiles" /><br/><br />
+                                <button style="display: @displayImage" class="btn btn-danger" @onclick="calceImage">Cancle</button>
+                                <br/>
+                                <img style="display: @displayImage" class="makeQuesImage" src="@imageString" @onclick="GetSubInfo" />
                             </div>
                         </div>
-                    </div>
-                </footer>
-                <!-- end Footer -->
-            </div>
-            <!-- end content -->
 
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <h6 style="color:#7146FE">Option1:</h6>
+                            <textarea class="form-control" @bind="Question.option1" style="height: 100px; text-align: center; "></textarea>
+
+                        </div>
+                        <div class="col-8">
+                            <h6 style="color:#7146FE">Option2:</h6>
+                            <textarea class="form-control" @bind="Question.option2" style="height: 100px; text-align: center;"></textarea>
+
+                        </div>
+                        <div class="col-8">
+                            <h6 style="color:#7146FE">Option3:</h6>
+                            <textarea class="form-control" @bind="Question.option3" style=" height: 100px; text-align: center;"></textarea>
+
+                        </div>
+                        <div class="col-8">
+                            <h6 style="color:#7146FE">Option4:</h6>
+                            <textarea class="form-control " @bind="Question.option4" style=" height: 100px; text-align: center;"></textarea>
+
+                        </div>
+                    </div>
+
+
+
+                    <br />
+                    <hr />
+                    <div class="">
+                        <h6 style="color:#7146FE">Right Answer</h6>
+                        <br />
+                        <button name="rightans" value="A" style=" background-color: @selectedColorone; color: #158A4E" class="btn btn-outline-success" @onclick="sbOne">A</button>&nbsp;
+                        <button name="rightans" value="B" style=" background-color: @selectedColortwo; color: #158A4E " class="btn btn-outline-success" @onclick="sbTwo">B</button>&nbsp;
+                        <button name="rightans" value="C" style=" background-color: @selectedColorthree; color: #158A4E" class="btn btn-outline-success" @onclick="sbThree">C</button>&nbsp;
+                        <button name="rightans" value="D" style=" background-color: @selectedColorfour; color: #158A4E" class="btn btn-outline-success" @onclick="sbFour">D</button>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="offset-3">
+                        <button type="submit" style=" font-size:16px" class="btn btn-success" @onclick="SubmitQuestion">@btnstring</button>
+                    </div>
+                    <label style="color: @msgColor"> @msg</label>
+                    <br />
+                    <br />
+                    <!-- Button trigger modal -->
+                    <!-- Modal -->
+
+                    <br />
+
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+        <br />
+        <!-- end container-fluid -->
+        <!-- Footer Start -->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        2021 &copy; shikkhanobish
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- end Footer -->
+    </div>
+    <!-- end content -->
     <!-- END wrapper -->
     <!-- Vendor js -->
-   
+
 </body>
 </html>
 
@@ -194,11 +200,12 @@
     public string mathRate { get; set; }
     public TeacherQuesHistory TeacherQuesHistory = new TeacherQuesHistory();
     int thisMathRate { get; set; }
-    string cid{ get; set; }
+    string cid { get; set; }
     string sid { get; set; }
     string chid { get; set; }
     string msg { get; set; }
     string msgColor { get; set; }
+    string displayImage;
     private Question Question1;
     public Question Question = new Question();
     string hidemodel { get; set; }
@@ -216,6 +223,8 @@
 
     protected override async Task OnInitializedAsync()
     {
+        //page "/MakeQuestion/{tID}"
+        displayImage = "None";
         objList3 = new List<Chapter>();
         btnstring = "Submit";
 
@@ -239,7 +248,11 @@
         //objList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getClassInfo".GetJsonAsync<List<ClassInfo>>();
 
     }
-
+    public void calceImage ()
+    {
+        displayImage = "None";
+        imageString = "";
+        }
     public async Task GetSubInfo()
     {
         allSubject = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getSubject".GetJsonAsync<List<Subject>>();
@@ -286,22 +299,20 @@
         selectedColorthree = "white";
         selectedColorfour = "#BDFFDD";
     }
-    private void  ClassChanged(ChangeEventArgs classEvent)
+    private void ClassChanged(ChangeEventArgs classEvent)
     {
 
         objList2.Clear();
         cid = classEvent.Value.ToString();
         Question.classID = int.Parse(cid);
-        for (int i=0;i< allSubject.Count;i++)
+        for (int i = 0; i < allSubject.Count; i++)
         {
-            if (allSubject[i].classID.ToString()==cid)
+            if (allSubject[i].classID.ToString() == cid)
             {
                 objList2.Add(allSubject[i]);
 
             }
         }
-
-
     }
 
 
@@ -339,7 +350,7 @@
         if (Question.classID != 0 && Question.subjectID != 0 && Question.chapterID != 0 && Question.mainQuestion != null && Question.mainQuestion != "" && Question.option1 != null && Question.option1 != "" &&
             Question.option2 != null && Question.option2 != "" && Question.option3 != null && Question.option3 != "" && Question.option4 != null && Question.option4 != "" && Question.rightAnswer != 0)
         {
-            if(thisMathRate < 95)
+            if (thisMathRate < 95)
             {
                 msgColor = "Black";
                 msg = "Submitting question...";
@@ -352,7 +363,7 @@
                 {
                     questionID = quesId,
                     classID = Question.classID,
-                    quesImages = "n/a",
+                    quesImages = imageString,
                     subjectID = Question.subjectID,
                     chapterID = Question.chapterID,
                     topicID = 0,
@@ -423,15 +434,15 @@
     {
         mtColor = "Black";
         List<double> thiscim = new List<double>();
-        for(int i = 0; i < quesList.Count; i++)
+        for (int i = 0; i < quesList.Count; i++)
         {
             thiscim.Add(CalculateSimilarity(Question.mainQuestion, quesList[i].mainQuestion));
         }
         double max = 0;
         int index = 0;
-        for(int i = 0; i < thiscim.Count; i++)
+        for (int i = 0; i < thiscim.Count; i++)
         {
-            if(max < thiscim[i])
+            if (max < thiscim[i])
             {
                 max = thiscim[i];
                 index = i;
@@ -440,7 +451,7 @@
         max = Math.Round(max, 2);
         max = max * 100;
         int matchingRate = (int)max;
-        if(matchingRate > 95)
+        if (matchingRate > 95)
         {
             mtColor = "Red";
         }
@@ -493,6 +504,51 @@
         }
 
         return distance[sourceWordCount, targetWordCount];
+    }
+    private List<IBrowserFile> loadedFiles = new();
+    private long maxFileSize = 1024 * 15;
+    private int maxAllowedFiles = 3;
+    private bool isLoading;
+    string imageString;
+    private async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        displayImage = "Block";
+        isLoading = true;
+        loadedFiles.Clear();
+
+        foreach (var file in e.GetMultipleFiles(1))
+        {
+            try
+            {
+                loadedFiles.Add(file);
+
+                var trustedFileNameForFileStorage = Path.GetRandomFileName();
+                var path = Path.Combine(Environment.ContentRootPath,
+                        Environment.EnvironmentName, "unsafe_uploads",
+                        trustedFileNameForFileStorage);
+
+                await using FileStream fs = new(path, FileMode.Create);
+                await file.OpenReadStream(100000000).CopyToAsync(fs);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("File: {Filename} Error: {Error}",
+                    file.Name, ex.Message);
+            }
+        }
+
+        isLoading = false;
+        imageString = await ImageOrVideoToServerReady(loadedFiles[0]);
+    }
+
+    public async Task<string> ImageOrVideoToServerReady(IBrowserFile file)
+    {
+        var Thisfile = file;
+
+        var buffer = new byte[Thisfile.Size];
+        await Thisfile.OpenReadStream(maxFileSize = 40000000).ReadAsync(buffer);
+        //await ScanFile(buffer);
+        return "data:" + Thisfile.ContentType + $";base64,{Convert.ToBase64String(buffer)}";
     }
 
 }
