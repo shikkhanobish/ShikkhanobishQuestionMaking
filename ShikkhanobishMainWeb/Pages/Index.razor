@@ -111,11 +111,28 @@
                                 <br />
 
                             </div>
-                            <div class="progress col-4 align-self-end">
+                            <div class="progress col-12 align-self-end">
                                 <div class="progress-bar" role="progressbar" style="width: @prgsValue%;" aria-valuenow="@prgsValue" aria-valuemin="0" aria-valuemax="100">@prgsValue%</div>
                             </div>
                         </div>
-
+                        <div class="form-group row">
+                            <div class="col-3" style="border-radius: 10px; text-align: center; background-color: transparent; border-color: rebeccapurple; border-width: 2px">
+                                <a style="font-size: 12px">@StaringWeek.ToString("dd/MM/yyyy") - @StaringWeek.AddDays(7).ToString("dd/MM/yyyy")</a> <br/>
+                                <b style="color: black">@firstWeekTotal</b>
+                            </div>
+                            <div class="col-3" style="border-radius: 10px; text-align: center; background-color: transparent; border-color: rebeccapurple; border-width: 2px">
+                                <a style="font-size: 12px">@StaringWeek.AddDays(7).ToString("dd/MM/yyyy") - @StaringWeek.AddDays(14).ToString("dd/MM/yyyy")</a> <br />
+                                <b style="color: black">@secWeekTotal</b>
+                            </div>
+                            <div class="col-3" style="border-radius: 10px; text-align: center; background-color: transparent; border-color: rebeccapurple; border-width: 2px">
+                                <a style="font-size: 12px">@StaringWeek.AddDays(14).ToString("dd/MM/yyyy") - @StaringWeek.AddDays(21).ToString("dd/MM/yyyy")</a> <br />
+                                <b style="color: black">@thirftWeekTotal</b>
+                            </div>
+                            <div class="col-3" style="border-radius: 10px; text-align: center; background-color: transparent; border-color: rebeccapurple; border-width: 2px">
+                                <a style="font-size: 12px">@StaringWeek.AddDays(21).ToString("dd/MM/yyyy") - @StaringWeek.AddDays(30).ToString("dd/MM/yyyy")</a> <br />
+                                <b style="color: black">@forthWeekTotal</b>
+                            </div>
+                        </div>
 
                         <div>
                             <div class="table-responsive" style="overflow: scroll; height: 400px;">
@@ -413,6 +430,7 @@
     string url { get; set; }
     int countTQH;
     int prgs;
+    DateTime StaringWeek;
     dataentryOperatorTask Liveitem { get; set; }
     string MakeQSTxt { get; set; }
     string linkTxtColor { get; set; }
@@ -428,6 +446,12 @@
     List<Subject> allSubject = new List<Subject>();
     List<Chapter> allChapter = new List<Chapter>();
     int prgsValue { get; set; }
+    int firstWeekTotal;
+    int secWeekTotal;
+    int thirftWeekTotal;
+    int forthWeekTotal;
+
+
     string showprgs { get; set; }
     List<Chapter> allc = new List<Chapter>();
     List<Subject> allsub = new List<Subject>();
@@ -472,6 +496,7 @@
         await Task.Run(() => prgsValue = 60);
         StateHasChanged();
         await GetOperatorInfo();
+        await GetWeeklyDone();
         await Task.Run(() => prgsValue = 100);
         showprgs = "None";
         await Task.Run(() => prgsValue = 0);
@@ -838,34 +863,7 @@
                 }
 
 
-                ////// Active Define
-                var lastActive = DateTime.ParseExact(thisopTask[0].startTime, "MM/dd/yyyy hh:mm tt", culturen);
-                int indexID = 0;
-                for (int l = 0; l < thisopTask.Count; l++)
-                {
-                    var thisDatetime = DateTime.ParseExact(thisopTask[l].startTime, "MM/dd/yyyy hh:mm tt", culturen);
-                    if (thisopTask[l].userID == int.Parse(tID))
-                    {
 
-                        var thisTime = DateTime.Now;
-
-                        if (thisDatetime.AddDays(1) < thisTime)
-                        {
-                            canMakenewTask = true;
-                        }
-                        else
-                        {
-                            canMakenewTask = false;
-                        }
-                        lastTaskEndTime = thisopTask[l].endTime;
-                    }
-                    if (lastActive < thisDatetime)
-                    {
-                        indexID = l;
-                        lastActive = thisDatetime;
-                    }
-                }
-                activeTaskList.Add(thisopTask[indexID].taskID);
 
             }
 
@@ -985,9 +983,7 @@
                 taskList.Add(thisOpList[i]);
             }
         }
-        List<dataentryOperatorTask> SortedList = new List<dataentryOperatorTask>();
-        SortedList = taskList.OrderBy(x => x.status).ToList();
-        taskList = SortedList;
+
         for (int m = 0; m < taskList.Count; m++)
         {
             for (int i = 0; i < allc.Count; i++)
@@ -1011,7 +1007,34 @@
                 }
             }
         }
+        ////// Active Define
+        DateTime startingDate = new DateTime(2022, 2, 7);
+        for (int l = 0; l < taskList.Count; l++)
+        {
+            CultureInfo culture = new CultureInfo("en-US");
+            DateTime thisDate = DateTime.ParseExact(taskList[l].startTime, "dd/MM/yyyy hh:mm tt", culture);
 
+            if (thisDate >= startingDate)
+            {
+                if(taskList[l].submitted < 150)
+                {
+                    taskList[l].status = "Active";
+                    taskList[l].statusColor = "#541BD7";
+                    taskList[l].isTaskSubPending = "Block";
+                    taskList[l].isTaskSubDone = "None";
+                    taskList[l].isTaskSubNootDone = "None";
+                    taskList[l].isTaskSubColor = "#BFB10C";
+                    taskList[l].status = "Active";
+                }
+                else
+                {
+                    taskList[l].status = "Inactive";
+                }
+            }
+        }
+        List<dataentryOperatorTask> SortedList = new List<dataentryOperatorTask>();
+        SortedList = taskList.OrderBy(x => x.status).ToList();
+        taskList = SortedList;
         LiveshowInfo = taskList;
     }
 
@@ -1122,60 +1145,63 @@
 
         int div = showQSList.Count / 4;
         int part = 1;
-        for (int i = 0; i < showQSList.Count; i++)
+        if(div != 0)
         {
-            if (i != 0)
+            for (int i = 0; i < showQSList.Count; i++)
             {
-                if (i % div == 0)
+                if (i != 0)
                 {
-                    part++;
+                    if (i % div == 0)
+                    {
+                        part++;
+                    }
                 }
-            }
-            if (part == 1)
-            {
-                showQSList1.Add(showQSList[i]);
-            }
-            if (part == 2)
-            {
-                showQSList2.Add(showQSList[i]);
-            }
-            if (part == 3)
-            {
-                showQSList3.Add(showQSList[i]);
-            }
-            if (part == 4)
-            {
-                showQSList4.Add(showQSList[i]);
-            }
-            if (part == 5)
-            {
-                showQSList1.Add(showQSList[i]);
-            }
+                if (part == 1)
+                {
+                    showQSList1.Add(showQSList[i]);
+                }
+                if (part == 2)
+                {
+                    showQSList2.Add(showQSList[i]);
+                }
+                if (part == 3)
+                {
+                    showQSList3.Add(showQSList[i]);
+                }
+                if (part == 4)
+                {
+                    showQSList4.Add(showQSList[i]);
+                }
+                if (part == 5)
+                {
+                    showQSList1.Add(showQSList[i]);
+                }
 
 
+            }
+
+            List<Question> SortedList1 = new List<Question>();
+            SortedList1 = showQSList1.OrderBy(x => x.review).ToList();
+            showQSList1 = SortedList1;
+
+            List<Question> SortedList2 = new List<Question>();
+            SortedList2 = showQSList2.OrderBy(x => x.review).ToList();
+            showQSList2 = SortedList2;
+
+            List<Question> SortedList3 = new List<Question>();
+            SortedList3 = showQSList3.OrderBy(x => x.review).ToList();
+            showQSList3 = SortedList3;
+
+            List<Question> SortedList4 = new List<Question>();
+            SortedList4 = showQSList4.OrderBy(x => x.review).ToList();
+            showQSList4 = SortedList4;
         }
 
-        List<Question> SortedList1 = new List<Question>();
-        SortedList1 = showQSList1.OrderBy(x => x.review).ToList();
-        showQSList1 = SortedList1;
-
-        List<Question> SortedList2 = new List<Question>();
-        SortedList2 = showQSList2.OrderBy(x => x.review).ToList();
-        showQSList2 = SortedList2;
-
-        List<Question> SortedList3 = new List<Question>();
-        SortedList3 = showQSList3.OrderBy(x => x.review).ToList();
-        showQSList3 = SortedList3;
-
-        List<Question> SortedList4 = new List<Question>();
-        SortedList4 = showQSList4.OrderBy(x => x.review).ToList();
-        showQSList4 = SortedList4;
 
     }
 
     public async Task GetHistoryCount()
     {
-
         int count = 0;
         var list = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getTeacherQuestionHistory".GetJsonAsync<List<TeacherQuesHistory>>();
         for (int i = 0; i < list.Count; i++)
@@ -1421,7 +1447,38 @@
 
     //90843385
 
+    public async Task GetWeeklyDone()
+    {
 
+        StaringWeek = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/GetDatOperatorStaringTime".GetJsonAsync<DateTime>();
+        List<dataentryOperatorTask> firstWeek = new List<dataentryOperatorTask>();
+        List<dataentryOperatorTask> seccondWeek = new List<dataentryOperatorTask>();
+        List<dataentryOperatorTask> thirdWeek = new List<dataentryOperatorTask>();
+        List<dataentryOperatorTask> forthWeek = new List<dataentryOperatorTask>();
+        for (int i = 0; i < LiveshowInfo.Count; i++)
+        {
+            CultureInfo culture = new CultureInfo("en-US");
+            var thisTimne  = DateTime.ParseExact(LiveshowInfo[i].startTime, "dd/MM/yyyy hh:mm tt", culture);
+
+            if(thisTimne <= StaringWeek.AddDays(7) && thisTimne >= StaringWeek)
+            {
+                firstWeekTotal += LiveshowInfo[i].submitted;
+            }
+            if (thisTimne >= StaringWeek.AddDays(7) && thisTimne <= StaringWeek.AddDays(14))
+            {
+                secWeekTotal += LiveshowInfo[i].submitted;
+            }
+            if (thisTimne >= StaringWeek.AddDays(14) && thisTimne <= StaringWeek.AddDays(21))
+            {
+                thirftWeekTotal += LiveshowInfo[i].submitted;
+            }
+            if (thisTimne >= StaringWeek.AddDays(21) && thisTimne <= StaringWeek.AddDays(30))
+            {
+                forthWeekTotal += LiveshowInfo[i].submitted;
+            }
+
+        }
+    }
 
 
 }
