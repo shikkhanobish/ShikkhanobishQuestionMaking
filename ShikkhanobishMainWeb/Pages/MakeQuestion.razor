@@ -3,10 +3,11 @@
 @using System.IO
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Logging
+@inherits MathJaxBlazor.MathJaxContentComponent
+@inject IJSRuntime JSRuntime
 @inject IWebHostEnvironment Environment
 @inject ILogger<MakeQuestion> Logger
-
-
+@*@page "/MakeQuestion/{tID}"*@
 @page "/MakeQuestion/{tID}"
 
 <!DOCTYPE html>
@@ -54,6 +55,7 @@
                 <br />
 
 
+
                 <div>
 
                     <div class="form-group row">
@@ -92,18 +94,25 @@
                     <br />
                     <br />
                     <br />
-
-
+                    <div class="row">
+                        <button class="btn btn-pink col-3" @onclick="changeToCode1">Code Generator 1</button>
+                        <button class="btn btn-info col-3" @onclick="changeToCode2">Code Generator 2</button>
+                        <button class="btn btn-primary col-3" @onclick="ShowCodeGen">Show</button>
+                        <button class="btn btn-secondary col-3" @onclick="HideCodeGen">Hide</button>
+                    </div>
+                    <iframe src="@srcCodeGen "  title="description" style="width: 100%; height: 500px; display:@displayCodegen"></iframe>
                     <div class="form-group row">
                         <div class="col-12">
+                            <br/>
+                            <button class="btn btn-info" @onclick="AddEquation">Add Equation</button>
                             <h6 style="color:#7146FE">Write Question</h6>
                             <textarea class="form-control col-12" style="height:150px" @bind="Question.mainQuestion"></textarea>
                             <button class="btn btn-info" @onclick="checksimilarity">Check Match Rate</button><label style="color: @mtColor"> @mathRate</label><br />
                             <br />
                             <div style="width: auto; height: auto; border-color: black; border: 1px ">
-                                <InputFile OnChange="@LoadFiles" /><br/><br />
+                                <InputFile OnChange="@LoadFiles" /><br /><br />
                                 <button style="display: @displayImage" class="btn btn-danger" @onclick="calceImage">Cancle</button>
-                                <br/>
+                                <br />
                                 <img style="display: @displayImage" class="makeQuesImage" src="@imageString" @onclick="GetSubInfo" />
                             </div>
                         </div>
@@ -147,8 +156,52 @@
                     </div>
                     <br />
                     <br />
-                    <div class="offset-3">
-                        <button type="submit" style=" font-size:16px" class="btn btn-success" @onclick="SubmitQuestion">@btnstring</button>
+                    <div class="card">
+                        <div class="card-body">
+                            <label class="card-title">Question Preview</label>
+                            <div class="card">
+                                <div class="col-12 card-title">
+                                    <br />
+
+                                </div>
+                                <div class="card-body">
+                                    <div style="font-size:14px; font-weight:bold; color: black; ">
+                                        <div>
+                                            @((MarkupString)previewQS)
+                                        </div>
+                                        
+                                    </div>
+
+                                    <br />
+                                    <div>
+                                        &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; ">@((MarkupString)previewOP1)</label>
+
+                                    </div>
+                                    <div>
+                                        &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; ">@((MarkupString)previewOP2)</label>
+
+                                    </div>
+                                    <div>
+                                        &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; ">@((MarkupString)previewOP3)</label>
+
+                                    </div>
+                                    <div>
+
+                                        &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; ">@((MarkupString)previewOP4)</label>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button type="submit" style=" font-size:16px" class="btn btn-info col-3" @onclick="seepreviewNew">See Preview</button>
+                        <button type="submit" style=" font-size:16px" class="btn btn-danger col-3" @onclick="clearPreview">Clear</button>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <button type="submit" style=" font-size:16px" class="btn btn-success col-3" @onclick="SubmitQuestion">@btnstring</button>
                     </div>
                     <label style="color: @msgColor"> @msg</label>
                     <br />
@@ -204,8 +257,10 @@
     string sid { get; set; }
     string chid { get; set; }
     string msg { get; set; }
+    string srcCodeGen { get; set; }
     string msgColor { get; set; }
     string displayImage;
+    string displayCodegen;
     private Question Question1;
     public Question Question = new Question();
     string hidemodel { get; set; }
@@ -220,20 +275,32 @@
     string selectedColorthree = "";
     string selectedColorfour = "";
     string mtColor;
+    Question QuestionPR = new Question();
+    public string previewQS { get; set; }
+    public string previewOP1 { get; set; }
+    public string previewOP2 { get; set; }
+    public string previewOP3 { get; set; }
+    public string previewOP4 { get; set; }
+
 
     protected override async Task OnInitializedAsync()
     {
         //page "/MakeQuestion/{tID}"
+        srcCodeGen = "https://latexeditor.lagrida.com/";
         displayImage = "None";
         objList3 = new List<Chapter>();
         btnstring = "Submit";
-
+        displayCodegen = "None";
         hidemodel = "hidden";
         selectedColorone = "white";
         selectedColortwo = "white";
         selectedColorthree = "white";
         selectedColorfour = "white";
-
+        QuestionPR.mainQuestion = "N/A";
+        QuestionPR.option1 = "N/A";
+        QuestionPR.option2 = "N/A";
+        QuestionPR.option3 = "N/A";
+        QuestionPR.option4 = "N/A";
         //await GetClassInfo();
         await GetSubInfo();
         await GetChapterInfo();
@@ -243,16 +310,91 @@
 
 
     }
+    public void changeToCode1()
+    {
+        srcCodeGen = "https://latexeditor.lagrida.com/";
+    }
+    public void changeToCode2()
+    {
+        srcCodeGen = "https://arachnoid.com/latex/index.html";
+    }
+    public void HideCodeGen()
+    {
+        displayCodegen = "None";
+    }
+    public void ShowCodeGen()
+    {
+        displayCodegen = "Block";
+    }
     public async Task GetClassInfo()
     {
         //objList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getClassInfo".GetJsonAsync<List<ClassInfo>>();
 
     }
-    public void calceImage ()
+    public void AddEquation()
+    {
+        Question.mainQuestion += "<equation></equation>";
+    }
+    public bool firstTime = true;
+    public void SeePreview()
+    {
+
+        QuestionPR = new Question();
+        QuestionPR = Question;
+        if(firstTime)
+        {
+            firstTime = false;
+            QuestionPR.mainQuestion = "<div>" + QuestionPR.mainQuestion + "</div>";
+        }
+
+    }
+    public void seepreviewNew()
+    {
+        if (Question.mainQuestion != null)
+        {
+            previewQS = ReadyForReview(Question.mainQuestion);
+        }
+
+        if(Question.option1 != null)
+        {
+            previewOP1 = ReadyForReview(Question.option1);
+        }
+
+        if (Question.option2 != null)
+        {
+            previewOP2 = ReadyForReview(Question.option2);
+        }
+        if (Question.option3 != null)
+        {
+            previewOP3 = ReadyForReview(Question.option3);
+        }
+        if (Question.option4 != null)
+        {
+            previewOP4 = ReadyForReview(Question.option4);
+        }
+
+    }
+    public string ReadyForReview(string mainStr)
+    {
+        string newStartThisQs = mainStr.Replace("<equation>", "<a  font-weight:normal; font-size: 12px; padding: 10px \" > \\({");
+        return newStartThisQs.Replace("</equation>", "}\\)</a>");
+
+    }
+    public async Task clearPreview()
+    {
+        //await JSRuntime.InvokeVoidAsync("removeDiv");
+        previewQS = "";
+        previewOP1 = "";
+        previewOP2 = "";
+        previewOP3 = "";
+        previewOP4 = "";
+
+    }
+    public void calceImage()
     {
         displayImage = "None";
         imageString = "";
-        }
+    }
     public async Task GetSubInfo()
     {
         allSubject = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getSubject".GetJsonAsync<List<Subject>>();

@@ -1,15 +1,28 @@
-﻿@page "/ss"
+﻿@page "/"
 @using System
 @using System.IO
 @using System.Buffers
 @using Microsoft.AspNetCore.Hosting
 @using nClam;
 @using Microsoft.Extensions.Logging
+@using Google.Cloud.Storage.V1;
+@using Google.Cloud.Language.V1;
+@using Google.Apis.Auth.OAuth2;
+@inherits MathJaxBlazor.MathJaxContentComponent
 @inject ILogger<Test> Logger
 @inject IWebHostEnvironment Environment
-<h3>Test</h3>
-<h3>Upload Files</h3>
 
+<h3>Test</h3>
+
+
+
+
+
+
+
+
+<h3>Upload Files</h3>
+<button @onclick="UploadFileSample">Upload in google</button>
 <p>
     <label>
         Max file size:
@@ -52,8 +65,8 @@ else
     </ul>
 }
 <div class="card" style="width: 250px; height: 250px">
-    <img src="@imageString" />
-    <video controls="controls" src="@imageString" />
+    <img src="@imageString"  />
+    
 
 </div>
 @code {
@@ -62,6 +75,8 @@ else
     private int maxAllowedFiles = 3;
     private bool isLoading;
     string imageString;
+    string text;
+    string myMarkup = "<p class='markup'>This is a <b>markup string</b>.</p>";
     private async Task LoadFiles(InputFileChangeEventArgs e)
     {
         isLoading = true;
@@ -92,6 +107,34 @@ else
         imageString = await ImageOrVideoToServerReady(loadedFiles[0]);
     }
 
+
+
+    // Some APIs, like Storage, accept a credential in their Create()
+    // method.
+    public object AuthExplicit(string projectId, string jsonPath)
+    {
+        // Explicitly use service account credentials by specifying
+        // the private key file.
+        var credential = GoogleCredential.FromFile(jsonPath);
+        var storage = StorageClient.Create(credential);
+        // Make an authenticated API request.
+        var buckets = storage.ListBuckets(projectId);
+
+        return null;
+    }
+
+
+
+
+
+
+
+    public void UploadFileSample()
+    {
+        UploadImage up = new UploadImage();
+
+        imageString = up.UploadFileSample("shlivesupportimage", "~/enhanced-emblem-234505-8ede9bde9f07.json");
+    }
     public async Task<string> ImageOrVideoToServerReady(IBrowserFile file)
     {
         var Thisfile = file;

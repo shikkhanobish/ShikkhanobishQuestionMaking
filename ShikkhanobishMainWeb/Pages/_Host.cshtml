@@ -52,11 +52,19 @@
 
 
 
-
-    <script>
-
+    <script type="text/javascript"
+            src="_content/MathJaxBlazor/mathJaxBlazor.js">
     </script>
-
+    <script type="text/javascript" id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <script>
+        function removeDiv() {
+            var elem = document.getElementById("QuestionDiv");
+            elem.parentNode.removeChild(elem);
+        }
+        
+    </script>
 
 </head>
 <body>
@@ -79,5 +87,5 @@
 
 
 
-</body>
+    </body>
 </html>
