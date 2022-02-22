@@ -19,4 +19,8 @@
     <ProjectReference Include="..\..\MathJaxBlazor\MathJaxBlazor\MathJaxBlazor.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Development\unsafe_uploads\" />
+  </ItemGroup>
+
 </Project>

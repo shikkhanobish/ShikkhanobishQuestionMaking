@@ -24,20 +24,18 @@ namespace ShikkhanobishMainWeb
             return null;
         }
 
-        public string UploadFileSample(string bucketName, string localPath)
+        public string UploadFileSample(string bucketName, FileStream fs)
         {
             AuthExplicit("enhanced-emblem-234505", "wwwroot/GoogleKeyFile/enhanced-emblem-234505-8ede9bde9f07.json");
-            bucketName = "shlivesupportimage";
-            localPath = "E:/Shikkhanobish/blacklogo.png";
-            string objectName = generateID(localPath)  ;
+            string objectName = generateID()  ;
             var storage = StorageClient.Create();
-            using var fileStream = File.OpenRead(localPath);
+            using FileStream fileStream = fs;
             storage.UploadObject(bucketName, objectName, null, fileStream);           
             return "https://storage.cloud.google.com/"+ bucketName+"/"+ objectName;
         }
-        public string generateID(string sourceUrl)
+        public string generateID()
         {
-            return string.Format("{0}_{1:N}", sourceUrl, Guid.NewGuid());
+            return Guid.NewGuid().ToString();
         }
     }
 }

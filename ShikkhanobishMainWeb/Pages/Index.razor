@@ -115,24 +115,7 @@
                                 <div class="progress-bar" role="progressbar" style="width: @prgsValue%;" aria-valuenow="@prgsValue" aria-valuemin="0" aria-valuemax="100">@prgsValue%</div>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <div class="col-3" style="border-radius: 10px; text-align: center; background-color: transparent; border-color: rebeccapurple; border-width: 2px">
-                                <a style="font-size: 12px">@StaringWeek.ToString("dd/MM/yyyy") - @StaringWeek.AddDays(7).ToString("dd/MM/yyyy")</a> <br/>
-                                <b style="color: black">@firstWeekTotal</b>
-                            </div>
-                            <div class="col-3" style="border-radius: 10px; text-align: center; background-color: transparent; border-color: rebeccapurple; border-width: 2px">
-                                <a style="font-size: 12px">@StaringWeek.AddDays(7).ToString("dd/MM/yyyy") - @StaringWeek.AddDays(14).ToString("dd/MM/yyyy")</a> <br />
-                                <b style="color: black">@secWeekTotal</b>
-                            </div>
-                            <div class="col-3" style="border-radius: 10px; text-align: center; background-color: transparent; border-color: rebeccapurple; border-width: 2px">
-                                <a style="font-size: 12px">@StaringWeek.AddDays(14).ToString("dd/MM/yyyy") - @StaringWeek.AddDays(21).ToString("dd/MM/yyyy")</a> <br />
-                                <b style="color: black">@thirftWeekTotal</b>
-                            </div>
-                            <div class="col-3" style="border-radius: 10px; text-align: center; background-color: transparent; border-color: rebeccapurple; border-width: 2px">
-                                <a style="font-size: 12px">@StaringWeek.AddDays(21).ToString("dd/MM/yyyy") - @StaringWeek.AddDays(30).ToString("dd/MM/yyyy")</a> <br />
-                                <b style="color: black">@forthWeekTotal</b>
-                            </div>
-                        </div>
+                      
 
                         <div>
                             <div class="table-responsive" style="overflow: scroll; height: 400px;">
@@ -145,11 +128,7 @@
                                             <th>Subject Name</th>
                                             <th>Chapter Name</th>
                                             <th>Task Date</th>
-                                            <th>Assign Time (DD/MM/YYYY)</th>
-                                            <th>End Time (DD/MM/YYYY)</th>
                                             <th>Submitted</th>
-                                            <th>Remaining</th>
-                                            <th>IS Task Submitted</th>
                                             <th>Status</th>
 
 
@@ -165,16 +144,9 @@
                                                 <td style="color: #2E2E2E">@item.SubejctName</td>
                                                 <td style="color: #2E2E2E">@item.chapterName</td>
                                                 <td style="color: #2E2E2E">@item.date</td>
-                                                <td style="color: #2E2E2E">@item.startTime</td>
-                                                <td style="color: #2E2E2E">@item.endTime</td>
-                                                <td style="color: green">@item.submitted</td>
-                                                <td style="color: red">@item.reMain</td>
-                                                <td style="color: @item.isTaskSubColor; font-weight: bold">
-                                                    <i class="fas fa-times" style="display:@item.isTaskSubNootDone"></i>
-                                                    <i class="fas fa-check-double" style="display:@item.isTaskSubDone"></i>
-                                                    <i style="display:@item.isTaskSubPending">---</i>
-                                                </td>
-                                                <td style="color: @item.statusColor; font-weight: bold">@item.status</td>
+                                                <td style="color: green">@item.TotalSubmitted</td>
+
+                                                <td style="color: @item.statusColor; font-weight: bold">@item.ActiveStatus</td>
 
 
 
@@ -495,8 +467,6 @@
         await GetTeacherWithID();
         await Task.Run(() => prgsValue = 60);
         StateHasChanged();
-        await GetOperatorInfo();
-        await GetWeeklyDone();
         await Task.Run(() => prgsValue = 100);
         showprgs = "None";
         await Task.Run(() => prgsValue = 0);
@@ -538,7 +508,132 @@
         teacherListN = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getAllTeacher".PostJsonAsync(new { }).ReceiveJson<List<Teacher>>();
         thList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getTeacherQuestionHistory".GetJsonAsync<List<TeacherQuesHistory>>();
         quesList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getQuestion".GetJsonAsync<List<Question>>();
+        SortTaskList();
+    }
 
+    public void SortTaskList()
+    {
+        int taskindex = 0;
+        List<dataentryOperatorTask> thisOpList = new List<dataentryOperatorTask>();
+
+        for(int i = 0; i < operatorList.Count; i++)
+        {
+            if(int.Parse(tID) == operatorList[i].userID)
+            {
+                thisOpList.Add(operatorList[i]);
+            }
+        }
+        for (int i = 0; i < thisOpList.Count; i++)
+        {
+            if (thisOpList[i].userID == int.Parse(tID))
+            {
+                string link = "";
+                string cleanMCQNumber = "";
+                bool now = false;
+                bool cleanNow = false;
+                taskindex++;
+                thisOpList[i].index = taskindex;
+                foreach (var ch in thisOpList[i].MCQNumbers)
+                {
+
+                    if (now)
+                    {
+                        link += ch;
+                    }
+                    if (ch == '#')
+                    {
+                        now = true;
+                    }
+                    if (ch == 'L')
+                    {
+                        cleanNow = true;
+                    }
+                    if (!cleanNow)
+                    {
+                        cleanMCQNumber += ch;
+                    }
+
+                }
+                thisOpList[i].FileLink = link;
+                thisOpList[i].MCQNumbers = cleanMCQNumber;
+                if (thisOpList[i].reMain < 0)
+                {
+                    thisOpList[i].reMain = 0;
+                }
+                thisOpList[i].statusColor = "#979797";
+                if (thisOpList[i].submitted >= 100)
+                {
+                    thisOpList[i].isTaskSubDone = "Block";
+                    thisOpList[i].isTaskSubPending = "None";
+                    thisOpList[i].isTaskSubNootDone = "None";
+                    thisOpList[i].isTaskSubColor = "#08B483";
+                }
+                else
+                {
+                    thisOpList[i].isTaskSubNootDone = "Block";
+                    thisOpList[i].isTaskSubDone = "None";
+                    thisOpList[i].isTaskSubPending = "None";
+                    thisOpList[i].isTaskSubColor = "#CE0C0C";
+                }
+
+                if (thisOpList[i].ActiveStatus == "Active")
+                {
+                    thisOpList[i].statusColor = "#541BD7";
+                    thisOpList[i].isTaskSubPending = "Block";
+                    thisOpList[i].isTaskSubDone = "None";
+                    thisOpList[i].isTaskSubNootDone = "None";
+                    thisOpList[i].isTaskSubColor = "#BFB10C";
+                    thisOpList[i].status = "Active";
+                }
+
+
+            }
+
+        }
+        List<dataentryOperatorTask> shownow = new List<dataentryOperatorTask>();
+
+        for (int u = 0; u < thisOpList.Count; u++)
+        {
+            if (thisOpList[u].userID == int.Parse(tID))
+            {
+
+                shownow.Add(thisOpList[u]);
+            }
+        }
+
+        for (int m = 0; m < shownow.Count; m++)
+        {
+            if (shownow[m].status == "Active")
+            {
+                Liveitem = shownow[m];
+            }
+            for (int i = 0; i < allc.Count; i++)
+            {
+                if (allc[i].chapterID == shownow[m].chapterID)
+                {
+                    shownow[m].chapterName = allc[i].name;
+                    for (int j = 0; j < allsub.Count; j++)
+                    {
+                        if (allsub[j].subjectID == allc[i].subjectID)
+                        {
+                            shownow[m].SubejctName = allsub[j].name;
+                            for (int k = 0; k < allClass.Count; k++)
+                            {
+                                if (allsub[j].classID == allClass[k].classID)
+                                {
+                                    shownow[m].ClassName = allClass[k].name;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        List<dataentryOperatorTask> SortedList = new List<dataentryOperatorTask>();
+        SortedList = shownow.OrderBy(x => x.ActiveStatus).ToList();
+        shownow = SortedList;
+
+        LiveshowInfo = shownow;
     }
     public async Task GetTask()
     {
@@ -887,6 +982,7 @@
                     if (listofTHisOPQuestionID[o] == thList[p].questionID)
                     {
                         DateTime HistoryDateFormat = DateTime.ParseExact(thList[p].review, "dd'-'MM'-'yyyy' 'HH':'mm':'ss", culture);
+
                         if (HistoryDateFormat >= TaskDateFormatSt)
                         {
                             thisOpList[l].submitted++;
@@ -1445,40 +1541,7 @@
         }
     }
 
-    //90843385
 
-    public async Task GetWeeklyDone()
-    {
-
-        StaringWeek = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/GetDatOperatorStaringTime".GetJsonAsync<DateTime>();
-        List<dataentryOperatorTask> firstWeek = new List<dataentryOperatorTask>();
-        List<dataentryOperatorTask> seccondWeek = new List<dataentryOperatorTask>();
-        List<dataentryOperatorTask> thirdWeek = new List<dataentryOperatorTask>();
-        List<dataentryOperatorTask> forthWeek = new List<dataentryOperatorTask>();
-        for (int i = 0; i < LiveshowInfo.Count; i++)
-        {
-            CultureInfo culture = new CultureInfo("en-US");
-            var thisTimne  = DateTime.ParseExact(LiveshowInfo[i].startTime, "dd/MM/yyyy hh:mm tt", culture);
-
-            if(thisTimne <= StaringWeek.AddDays(7) && thisTimne >= StaringWeek)
-            {
-                firstWeekTotal += LiveshowInfo[i].submitted;
-            }
-            if (thisTimne >= StaringWeek.AddDays(7) && thisTimne <= StaringWeek.AddDays(14))
-            {
-                secWeekTotal += LiveshowInfo[i].submitted;
-            }
-            if (thisTimne >= StaringWeek.AddDays(14) && thisTimne <= StaringWeek.AddDays(21))
-            {
-                thirftWeekTotal += LiveshowInfo[i].submitted;
-            }
-            if (thisTimne >= StaringWeek.AddDays(21) && thisTimne <= StaringWeek.AddDays(30))
-            {
-                forthWeekTotal += LiveshowInfo[i].submitted;
-            }
-
-        }
-    }
 
 
 }

@@ -44,38 +44,41 @@
     </label>
 </p>
 
-@if (isLoading)
-{
-    <p>Uploading...</p>
-}
-else
-{
-    <ul>
-        @foreach (var file in loadedFiles)
-        {
-            <li>
-                <ul>
-                    <li>Name: @file.Name</li>
-                    <li>Last modified: @file.LastModified.ToString()</li>
-                    <li>Size (bytes): @file.Size</li>
-                    <li>Content type: @file.ContentType</li>
-                </ul>
-            </li>
-        }
-    </ul>
-}
-<div class="card" style="width: 250px; height: 250px">
-    <img src="@imageString"  />
-    
 
+<div>
+    <div class="row">
+        @foreach (var item in imagescr)
+        {
+        <div class="col-3" style="float: left; width: 100px; height:100px">
+            <img src="@item" style="width: 100px; height: 100px; object-fit: contain; "/>
+        </div>
+           
+        }
+    </div>
 </div>
+<div>
+    <div class="row">
+        @foreach (var item in Uploadedimagescr)
+        {
+            <div class="col-3" style="float: left; width: 100px; height:100px">
+                <img src="@item" style="width: 100px; height: 100px; object-fit: contain; " />
+            </div>
+
+        }
+    </div>
+</div>
+@errorLBL
 @code {
     private List<IBrowserFile> loadedFiles = new();
-    private long maxFileSize = 1024 * 15;
-    private int maxAllowedFiles = 3;
+    private long maxFileSize = 10000000;
+    private int maxAllowedFiles = 4;
     private bool isLoading;
     string imageString;
     string text;
+    string errorLBL;
+    List<string> imagescr = new List<string>();
+    List<string> Uploadedimagescr = new List<string>();
+    List<FileStream> pendingFile = new List<FileStream>();
     string myMarkup = "<p class='markup'>This is a <b>markup string</b>.</p>";
     private async Task LoadFiles(InputFileChangeEventArgs e)
     {
@@ -87,14 +90,6 @@ else
             try
             {
                 loadedFiles.Add(file);
-
-                var trustedFileNameForFileStorage = Path.GetRandomFileName();
-                var path = Path.Combine(Environment.ContentRootPath,
-                        Environment.EnvironmentName, "unsafe_uploads",
-                        trustedFileNameForFileStorage);
-
-                await using FileStream fs = new(path, FileMode.Create);
-                await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
             }
             catch (Exception ex)
             {
@@ -104,7 +99,12 @@ else
         }
 
         isLoading = false;
-        imageString = await ImageOrVideoToServerReady(loadedFiles[0]);
+        for(int i = 0; i < loadedFiles.Count; i++)
+        {
+            imageString = await ImageOrVideoToServerReady(loadedFiles[i]);
+            imagescr.Add(imageString);
+        }
+
     }
 
 
@@ -123,17 +123,28 @@ else
         return null;
     }
 
-
-
-
-
-
-
-    public void UploadFileSample()
+    public async Task UploadFileSample()
     {
         UploadImage up = new UploadImage();
+        try
+        {
+            for (int i = 0; i < loadedFiles.Count; i++)
+            {
+                var trustedFileNameForFileStorage = Path.GetRandomFileName();
+                var path = Path.Combine(Environment.ContentRootPath,
+                    Environment.EnvironmentName, "unsafe_uploads", trustedFileNameForFileStorage);
+                string rootpath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot");
+                await using FileStream fs = new(path, FileMode.Create);
+                await loadedFiles[i].OpenReadStream(maxFileSize).CopyToAsync(fs);
+                Uploadedimagescr.Add(up.UploadFileSample("shlivesupportimage", fs));
+            }
+        }
+        catch (Exception ex)
+        {
+            errorLBL = ex.Message;
+        }
 
-        imageString = up.UploadFileSample("shlivesupportimage", "~/enhanced-emblem-234505-8ede9bde9f07.json");
+
     }
     public async Task<string> ImageOrVideoToServerReady(IBrowserFile file)
     {

@@ -54,12 +54,22 @@
                 <br />
                 <br />
 
-
+                
 
                 <div>
 
                     <div class="form-group row">
-                        <div class="col-md-4 ">
+                        <div class="col-3">
+                            <select class="form-control btn btn-purple" id="class" @onchange="TaskSelect">
+                                <option style="" value="">-- Select Task --</option>
+                                @foreach (var item in thisOpTass)
+                                {
+                                    <option value="@item.taskID">@item.ActiveStatus :: @item.date</option>
+                                }
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-3 ">
                             <select class="form-control btn btn-purple" id="class" @onchange="ClassChanged">
                                 <option style="" value="">-- Select Class --</option>
                                 @foreach (var item in objList)
@@ -69,7 +79,7 @@
                             </select>
 
                         </div>
-                        <div class="col-md-4 ">
+                        <div class="col-md-3 ">
                             <select class="form-control btn btn-purple" id="subject" @onchange="SubjectChanged">
                                 <option value="">-- Select Subject --</option>
                                 @foreach (var item in objList2)
@@ -79,7 +89,7 @@
                             </select>
 
                         </div>
-                        <div class="col-md-4 ">
+                        <div class="col-md-3 ">
                             <select class="form-control btn btn-purple" id="chapter" @onchange="ChapterChanged">
                                 <option value="">-- Select Chapter --</option>
                                 @foreach (var item in objList3)
@@ -281,7 +291,8 @@
     public string previewOP2 { get; set; }
     public string previewOP3 { get; set; }
     public string previewOP4 { get; set; }
-
+    string selectedTask;
+    List<dataentryOperatorTask> thisOpTass = new List<dataentryOperatorTask>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -307,8 +318,28 @@
         await GetTeacherWithID();
         objList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getClassInfo".GetJsonAsync<List<ClassInfo>>();
         quesList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getQuestion".GetJsonAsync<List<Question>>();
+        var operatorList = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getdataentryOperatorTask".PostJsonAsync(new { }).ReceiveJson<List<dataentryOperatorTask>>();
+        var teacherListN = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getAllTeacher".PostJsonAsync(new { }).ReceiveJson<List<Teacher>>();
 
-
+        int id = 0;
+        foreach (var teacher in teacherListN)
+        {
+            if (teacher.teacherID == int.Parse(tID))
+            {
+                id = teacher.teacherID;
+                break;
+            }
+        }
+        foreach (var item in operatorList)
+        {
+            if(item.userID == id)
+            {
+                thisOpTass.Add(item);
+            }
+        }
+        List<dataentryOperatorTask> SortedList = new List<dataentryOperatorTask>();
+        SortedList = thisOpTass.OrderBy(x => x.ActiveStatus).ToList();
+        thisOpTass = SortedList;
     }
     public void changeToCode1()
     {
@@ -456,7 +487,18 @@
             }
         }
     }
-
+    dataentryOperatorTask selectedtask = new dataentryOperatorTask();
+    private void TaskSelect(ChangeEventArgs classEvent)
+    {
+        selectedTask = classEvent.Value.ToString();
+        for(int i = 0; i < thisOpTass.Count; i++)
+        {
+            if(selectedTask == thisOpTass[i].taskID)
+            {
+                selectedtask = thisOpTass[i];
+            }
+        }
+    }
 
     private void SubjectChanged(ChangeEventArgs subjectEvent)
     {
@@ -529,6 +571,21 @@
                     review = dateTime
                 })
                       .ReceiveJson<Response>();
+                var re = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/increaseSubmitCount".PostUrlEncodedAsync(new
+                {
+
+                    taskID = selectedtask.taskID,
+
+                }).ReceiveJson<Response>();
+                if (selectedtask.TotalSubmitted+1 >= 150)
+                {
+                    var re1 = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/MakeTaskInActive".PostUrlEncodedAsync(new
+                    {
+
+                        taskID = selectedtask.taskID,
+
+                    }).ReceiveJson<Response>();
+                }
                 msg = "Question Uploaded Successfully";
                 Question.mainQuestion = "";
                 Question.option1 = "";
