@@ -23,6 +23,10 @@ namespace ShikkhanobishMainWeb.Models
         public string op2BackColor { get; set; }
         public string op3BackColor { get; set; }
         public string op4BackColor { get; set; }
+        public string opOneImg { get; set; }
+        public string opTwoImg { get; set; }
+        public string opThreeImg { get; set; }
+        public string opFourImg { get; set; }
         public string option2 { get; set; }
         public string option3 { get; set; }
         public string option4 { get; set; }

@@ -1,9 +1,10 @@
-﻿@page "/"
+﻿@page "/upload/{index}"
 @using System
 @using System.IO
 @using System.Buffers
 @using Microsoft.AspNetCore.Hosting
 @using nClam;
+@using ShikkhanobishMainWeb.Models;
 @using Microsoft.Extensions.Logging
 @using Google.Cloud.Storage.V1;
 @using Google.Cloud.Language.V1;
@@ -11,38 +12,33 @@
 @inherits MathJaxBlazor.MathJaxContentComponent
 @inject ILogger<Test> Logger
 @inject IWebHostEnvironment Environment
+<InputFile OnChange="@LoadFiles" multiple />
 
-<h3>Upload Image</h3>
+<br />
+<br />
 
 <div>
     <div class="row">
         @foreach (var item in imagescr)
         {
-        <div class="col-3" style="float: left; width: 100px; height:100px">
-            <img src="@item" style="width: 100px; height: 100px; object-fit: contain; "/>
-        </div>
-           
-        }
-    </div>
-</div>
-<button @onclick="UploadFileSample">Upload in google</button>
-<div>
-    <div class="row">
-        @foreach (var item in Uploadedimagescr)
-        {
-            <div class="col-3" style="float: left; width: 100px; height:100px">
-                <img src="@item" style="width: 100px; height: 100px; object-fit: contain; " />
-            </div>
+        <div style="width: auto; height: auto; border-color: black; border: 1px ">
 
+            <button class="btn btn-danger" @onclick="removeImage">Cancle</button>
+            <br />
+            <img class="makeQuesImage" src="@item" />
+        </div>          
         }
     </div>
+    
 </div>
 
 @errorLBL
 @code {
+    [Parameter]
+    public int index { get; set; }
     private List<IBrowserFile> loadedFiles = new();
     private long maxFileSize = 10000000;
-    private int maxAllowedFiles = 4;
+    private int maxAllowedFiles = 20;
     private bool isLoading;
     string imageString;
     string text;
@@ -55,31 +51,77 @@
     {
         isLoading = true;
         loadedFiles.Clear();
-
-        foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
+        if(e.FileCount > maxAllowedFiles)
         {
-            try
+            errorLBL = "Can't choose more than " + maxAllowedFiles + " image";
+        }
+        else
+        {
+            foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
             {
-                loadedFiles.Add(file);
+                try
+                {
+                    loadedFiles.Add(file);
+                    if(index == 0)
+                    {
+                        StaticPageToPassData.selectedFilesqs = file;
+                    }
+                    if (index == 1)
+                    {
+                        StaticPageToPassData.selectedFilesop1 = file;
+                    }
+                    if (index == 2)
+                    {
+                        StaticPageToPassData.selectedFilesop2 = file;
+                    }
+                    if (index == 3)
+                    {
+                        StaticPageToPassData.selectedFilesop3 = file;
+                    }
+                    if (index == 4)
+                    {
+                        StaticPageToPassData.selectedFilesop4 = file;
+                    }
+                    var src = await ImageOrVideoToServerReady(file);
+                    imagescr.Add(src);
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError("File: {Filename} Error: {Error}",
+                        file.Name, ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                Logger.LogError("File: {Filename} Error: {Error}",
-                    file.Name, ex.Message);
-            }
+
+
         }
 
-        isLoading = false;
-        for(int i = 0; i < loadedFiles.Count; i++)
-        {
-            imageString = await ImageOrVideoToServerReady(loadedFiles[i]);
-            imagescr.Add(imageString);
-        }
 
     }
 
-
-
+    public void removeImage()
+    {
+        if (index == 0)
+        {
+            StaticPageToPassData.selectedFilesqs = null;
+        }
+        if (index == 1)
+        {
+            StaticPageToPassData.selectedFilesop1 = null;
+        }
+        if (index == 2)
+        {
+            StaticPageToPassData.selectedFilesop2 = null;
+        }
+        if (index == 3)
+        {
+            StaticPageToPassData.selectedFilesop3 = null;
+        }
+        if (index == 4)
+        {
+            StaticPageToPassData.selectedFilesop4 = null;
+        }
+        imagescr = new List<string>();
+    }
     // Some APIs, like Storage, accept a credential in their Create()
     // method.
     public object AuthExplicit(string projectId, string jsonPath)
@@ -94,8 +136,9 @@
         return null;
     }
 
-    public async Task UploadFileSample()
+    public async Task<List<string>> UploadFileSample( List<IBrowserFile> loadedFiles)
     {
+        errorLBL = "Please Wait...";
         UploadImage up = new UploadImage();
         string rootpath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot");
         try
@@ -113,17 +156,16 @@
                 string tempFile = Path.GetTempFileName();
                 await using FileStream fs = new(path, FileMode.Create);
                 await loadedFiles[i].OpenReadStream(maxFileSize).CopyToAsync(fs);
-                Uploadedimagescr.Add(up.UploadFileSample("shlivesupportimage", fs));
-                errorLBL = "Done!";
+                Uploadedimagescr.Add(up.UploadFileSample("shiquesimage", fs));
+                errorLBL = "Successful!";
             }
         }
         catch (Exception ex)
         {
+            errorLBL = "";
             errorLBL = ex.Message;
-            errorLBL += "    ///////////   "+ex.InnerException + "  " + rootpath;
         }
-
-
+        return Uploadedimagescr;
     }
     public async Task<string> ImageOrVideoToServerReady(IBrowserFile file)
     {

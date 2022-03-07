@@ -113,18 +113,16 @@
                     <iframe src="@srcCodeGen "  title="description" style="width: 100%; height: 500px; display:@displayCodegen"></iframe>
                     <div class="form-group row">
                         <div class="col-12">
-                            <br/>
+                            <br />
                             <button class="btn btn-info" @onclick="AddEquation">Add Equation</button>
                             <h6 style="color:#7146FE">Write Question</h6>
                             <textarea class="form-control col-12" style="height:150px" @bind="Question.mainQuestion"></textarea>
                             <button class="btn btn-info" @onclick="checksimilarity">Check Match Rate</button><label style="color: @mtColor"> @mathRate</label><br />
                             <br />
-                            <div style="width: auto; height: auto; border-color: black; border: 1px ">
-                                <InputFile OnChange="@LoadFiles" /><br /><br />
-                                <button style="display: @displayImage" class="btn btn-danger" @onclick="calceImage">Cancle</button>
-                                <br />
-                                <img style="display: @displayImage" class="makeQuesImage" src="@imageString" @onclick="GetSubInfo" />
+                            <div>
+                                <Test index="0"> </Test>
                             </div>
+
                         </div>
 
                     </div>
@@ -133,22 +131,34 @@
                         <div class="col-8">
                             <h6 style="color:#7146FE">Option1:</h6>
                             <textarea class="form-control" @bind="Question.option1" style="height: 100px; text-align: center; "></textarea>
-
+                            <br />
+                            <div>
+                                <Test index="1"></Test>
+                            </div>
                         </div>
                         <div class="col-8">
                             <h6 style="color:#7146FE">Option2:</h6>
                             <textarea class="form-control" @bind="Question.option2" style="height: 100px; text-align: center;"></textarea>
-
+                            <br />
+                            <div>
+                                <Test index="2"></Test>
+                            </div>
                         </div>
                         <div class="col-8">
                             <h6 style="color:#7146FE">Option3:</h6>
                             <textarea class="form-control" @bind="Question.option3" style=" height: 100px; text-align: center;"></textarea>
-
+                            <br />
+                            <div>
+                                <Test index="3"></Test>
+                            </div>
                         </div>
                         <div class="col-8">
                             <h6 style="color:#7146FE">Option4:</h6>
                             <textarea class="form-control " @bind="Question.option4" style=" height: 100px; text-align: center;"></textarea>
-
+                            <br />
+                            <div>
+                                <Test index="4"></Test>
+                            </div>
                         </div>
                     </div>
 
@@ -273,6 +283,7 @@
     string displayCodegen;
     private Question Question1;
     public Question Question = new Question();
+    int gg;
     string hidemodel { get; set; }
     List<ClassInfo> objList = new List<ClassInfo>();
     List<Subject> objList2 = new List<Subject>();
@@ -340,6 +351,10 @@
         List<dataentryOperatorTask> SortedList = new List<dataentryOperatorTask>();
         SortedList = thisOpTass.OrderBy(x => x.ActiveStatus).ToList();
         thisOpTass = SortedList;
+    }
+    public void setIndex()
+    {
+        StaticPageToPassData.index = 1;
     }
     public void changeToCode1()
     {
@@ -542,12 +557,24 @@
                 HttpClient client = new HttpClient();
                 StringContent content = new StringContent("", System.Text.Encoding.UTF32, "application/json");
                 HttpResponseMessage response = await client.PostAsync(uri, content).ConfigureAwait(true);
-
+                Test up = new Test();
+                List<IBrowserFile> files = new List<IBrowserFile>();
+                if (StaticPageToPassData.selectedFilesqs != null) { files.Add(StaticPageToPassData.selectedFilesqs); }
+                if (StaticPageToPassData.selectedFilesop1 != null) { files.Add(StaticPageToPassData.selectedFilesop1); }
+                if (StaticPageToPassData.selectedFilesop2 != null) { files.Add(StaticPageToPassData.selectedFilesop2); }
+                if (StaticPageToPassData.selectedFilesop3 != null) { files.Add(StaticPageToPassData.selectedFilesop3); }
+                if (StaticPageToPassData.selectedFilesop4 != null) { files.Add(StaticPageToPassData.selectedFilesop4); }
+                var imagesrc = await up.UploadFileSample(files);
+                int gap = 5 - imagesrc.Count;
+                for(int i= 0; i < gap; i++)
+                    {
+                    imagesrc.Add("N/A");
+                    }
                 var res = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/setQuestion".PostUrlEncodedAsync(new
                 {
                     questionID = quesId,
                     classID = Question.classID,
-                    quesImages = imageString,
+                    quesImages = imagesrc[0],
                     subjectID = Question.subjectID,
                     chapterID = Question.chapterID,
                     topicID = 0,
@@ -556,6 +583,10 @@
                     option2 = Question.option2,
                     option3 = Question.option3,
                     option4 = Question.option4,
+                    opOneImg = imagesrc[1],
+                    opTwoImg = imagesrc[2],
+                    opThreeImg = imagesrc[3],
+                    opFourImg = imagesrc[4],
                     rightAnswer = Question.rightAnswer
                 })
                    .ReceiveJson<Response>();

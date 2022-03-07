@@ -1,14 +1,21 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Components.Forms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace ShikkhanobishMainWeb.Models
 {
-    public class StaticPageToPassData
+    public static class StaticPageToPassData
     {
-        List<Chapter> allc { get; set; }
-        List<Subject> allsub { get; set; }
-        List<ClassInfo> allClass { get; set; }
+        public static List<Chapter> allc { get; set; }
+        public static List<Subject> allsub { get; set; }
+        public static List<ClassInfo> allClass { get; set; }
+        public static IBrowserFile selectedFilesqs { get; set; }
+        public static IBrowserFile selectedFilesop1 { get; set; }
+        public static IBrowserFile selectedFilesop2 { get; set; }
+        public static IBrowserFile selectedFilesop3 { get; set; }
+        public static IBrowserFile selectedFilesop4 { get; set; }
+        public static int index { get; set; }
     }
 }

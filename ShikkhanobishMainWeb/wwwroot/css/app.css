@@ -2923,18 +2923,15 @@ h3.timeline-title {
 
 
 .makeQuesImage {
-    width: 250px;
-    height: 250px;
+    width: 150px;
+    height: 150px;
     align-items: center;
     align-content: center;
     align-self: center;
     object-fit: contain;
-    transition: all .3s ease-in-out;
+
 }
-    .makeQuesImage:hover {
-        width: 550px;
-        height: 550px;
-    }
+    
 .dblarrow {
     font-size: 125%;
     top: -0.4ex;
