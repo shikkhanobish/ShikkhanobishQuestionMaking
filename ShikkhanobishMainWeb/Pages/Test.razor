@@ -12,38 +12,7 @@
 @inject ILogger<Test> Logger
 @inject IWebHostEnvironment Environment
 
-<h3>Test</h3>
-
-
-
-
-
-
-
-
-<h3>Upload Files</h3>
-<button @onclick="UploadFileSample">Upload in google</button>
-<p>
-    <label>
-        Max file size:
-        <input type="number" @bind="maxFileSize" />
-    </label>
-</p>
-
-<p>
-    <label>
-        Max allowed files:
-        <input type="number" @bind="maxAllowedFiles" />
-    </label>
-</p>
-
-<p>
-    <label>
-        Upload up to @maxAllowedFiles of up to @maxFileSize bytes:
-        <InputFile OnChange="@LoadFiles" multiple />
-    </label>
-</p>
-
+<h3>Upload Image</h3>
 
 <div>
     <div class="row">
@@ -56,6 +25,7 @@
         }
     </div>
 </div>
+<button @onclick="UploadFileSample">Upload in google</button>
 <div>
     <div class="row">
         @foreach (var item in Uploadedimagescr)
@@ -67,6 +37,7 @@
         }
     </div>
 </div>
+
 @errorLBL
 @code {
     private List<IBrowserFile> loadedFiles = new();
@@ -126,22 +97,30 @@
     public async Task UploadFileSample()
     {
         UploadImage up = new UploadImage();
+        string rootpath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot");
         try
         {
             for (int i = 0; i < loadedFiles.Count; i++)
             {
                 var trustedFileNameForFileStorage = Path.GetRandomFileName();
-                var path = Path.Combine(Environment.ContentRootPath,
-                    Environment.EnvironmentName, "unsafe_uploads", trustedFileNameForFileStorage);
-                string rootpath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot");
+                string result = Path.GetTempPath();
+                string gg = "https://images.shikkhanobish.com/uploadimage/";
+                //var path = Path.Combine("C:/Inetpub/vhosts/shikkhanobish.com/", trustedFileNameForFileStorage);
+                var path = Path.Combine(result, trustedFileNameForFileStorage);
+                //var path = Path.Combine(Environment.ContentRootPath, "uploadimage", trustedFileNameForFileStorage);
+
+
+                string tempFile = Path.GetTempFileName();
                 await using FileStream fs = new(path, FileMode.Create);
                 await loadedFiles[i].OpenReadStream(maxFileSize).CopyToAsync(fs);
                 Uploadedimagescr.Add(up.UploadFileSample("shlivesupportimage", fs));
+                errorLBL = "Done!";
             }
         }
         catch (Exception ex)
         {
             errorLBL = ex.Message;
+            errorLBL += "    ///////////   "+ex.InnerException + "  " + rootpath;
         }
 
 

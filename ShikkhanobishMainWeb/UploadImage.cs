@@ -26,6 +26,8 @@ namespace ShikkhanobishMainWeb
 
         public string UploadFileSample(string bucketName, FileStream fs)
         {
+            string credential_path = @"wwwroot/GoogleKeyFile/enhanced-emblem-234505-8ede9bde9f07.json";
+            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", credential_path);
             AuthExplicit("enhanced-emblem-234505", "wwwroot/GoogleKeyFile/enhanced-emblem-234505-8ede9bde9f07.json");
             string objectName = generateID()  ;
             var storage = StorageClient.Create();
