@@ -31,6 +31,11 @@ namespace ShikkhanobishMainWeb.Models
         public string option3 { get; set; }
         public string option4 { get; set; }
         public int rightAnswer { get; set; }
+        public string qsimgvisi { get; set; }
+        public string op1imgvisi { get; set; }
+        public string op2imgvisi { get; set; }
+        public string op3imgvisi { get; set; }
+        public string op4imgvisi { get; set; }
         public int review { get; set; }
         public string reviewName { get; set; }
         public string reviewColor { get; set; }

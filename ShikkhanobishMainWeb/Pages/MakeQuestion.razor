@@ -189,26 +189,27 @@
                                         <div>
                                             @((MarkupString)previewQS)
                                         </div>
-                                        
+                                        <img class="makeQuesImage" src="@StaticPageToPassData.qsPrv" />
                                     </div>
 
                                     <br />
                                     <div>
-                                        &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; ">@((MarkupString)previewOP1)</label>
+                                        &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; ">@((MarkupString)previewOP1)</label><br/>
+                                        <img class="makeQuesImage" src="@StaticPageToPassData.op1Prv" />
 
                                     </div>
                                     <div>
-                                        &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; ">@((MarkupString)previewOP2)</label>
-
+                                        &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; ">@((MarkupString)previewOP2)</label><br />
+                                        <img class="makeQuesImage" src="@StaticPageToPassData.op2Prv" />
                                     </div>
                                     <div>
-                                        &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; ">@((MarkupString)previewOP3)</label>
-
+                                        &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; ">@((MarkupString)previewOP3)</label><br />
+                                        <img class="makeQuesImage" src="@StaticPageToPassData.op3Prv" />
                                     </div>
                                     <div>
 
-                                        &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; ">@((MarkupString)previewOP4)</label>
-
+                                        &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; ">@((MarkupString)previewOP4)</label><br />
+                                        <img class="makeQuesImage" src="@StaticPageToPassData.op4Prv" />
                                     </div>
                                 </div>
 
@@ -567,9 +568,9 @@
                 var imagesrc = await up.UploadFileSample(files);
                 int gap = 5 - imagesrc.Count;
                 for(int i= 0; i < gap; i++)
-                    {
+                {
                     imagesrc.Add("N/A");
-                    }
+                }
                 var res = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/setQuestion".PostUrlEncodedAsync(new
                 {
                     questionID = quesId,
@@ -630,6 +631,16 @@
                 selectedColorthree = "white";
                 selectedColorfour = "white";
                 mathRate = "";
+                StaticPageToPassData.qsPrv = "";
+                StaticPageToPassData.op1Prv = "";
+                StaticPageToPassData.op2Prv = "";
+                StaticPageToPassData.op3Prv = "";
+                StaticPageToPassData.op4Prv = "";
+                StaticPageToPassData.selectedFilesqs = null;
+                StaticPageToPassData.selectedFilesop1 = null;
+                StaticPageToPassData.selectedFilesop2 = null;
+                StaticPageToPassData.selectedFilesop3 = null;
+                StaticPageToPassData.selectedFilesop4 = null;
             }
 
             else

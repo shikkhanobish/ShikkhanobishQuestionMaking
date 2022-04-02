@@ -61,28 +61,35 @@
             {
                 try
                 {
+
                     loadedFiles.Add(file);
-                    if(index == 0)
+                    var src = await ImageOrVideoToServerReady(file);
+                    if (index == 0)
                     {
                         StaticPageToPassData.selectedFilesqs = file;
+                        StaticPageToPassData.qsPrv = src;
                     }
                     if (index == 1)
                     {
                         StaticPageToPassData.selectedFilesop1 = file;
+                        StaticPageToPassData.op1Prv = src;
                     }
                     if (index == 2)
                     {
                         StaticPageToPassData.selectedFilesop2 = file;
+                        StaticPageToPassData.op2Prv = src;
                     }
                     if (index == 3)
                     {
                         StaticPageToPassData.selectedFilesop3 = file;
+                        StaticPageToPassData.op3Prv = src;
                     }
                     if (index == 4)
                     {
                         StaticPageToPassData.selectedFilesop4 = file;
+                        StaticPageToPassData.op4Prv = src;
                     }
-                    var src = await ImageOrVideoToServerReady(file);
+
                     imagescr.Add(src);
                 }
                 catch (Exception ex)
@@ -103,22 +110,27 @@
         if (index == 0)
         {
             StaticPageToPassData.selectedFilesqs = null;
+            StaticPageToPassData.qsPrv = "";
         }
         if (index == 1)
         {
             StaticPageToPassData.selectedFilesop1 = null;
+            StaticPageToPassData.op1Prv = "";
         }
         if (index == 2)
         {
             StaticPageToPassData.selectedFilesop2 = null;
+            StaticPageToPassData.op2Prv = "";
         }
         if (index == 3)
         {
             StaticPageToPassData.selectedFilesop3 = null;
+            StaticPageToPassData.op3Prv = "";
         }
         if (index == 4)
         {
             StaticPageToPassData.selectedFilesop4 = null;
+            StaticPageToPassData.op4Prv = "";
         }
         imagescr = new List<string>();
     }
@@ -151,8 +163,6 @@
                 //var path = Path.Combine("C:/Inetpub/vhosts/shikkhanobish.com/", trustedFileNameForFileStorage);
                 var path = Path.Combine(result, trustedFileNameForFileStorage);
                 //var path = Path.Combine(Environment.ContentRootPath, "uploadimage", trustedFileNameForFileStorage);
-
-
                 string tempFile = Path.GetTempFileName();
                 await using FileStream fs = new(path, FileMode.Create);
                 await loadedFiles[i].OpenReadStream(maxFileSize).CopyToAsync(fs);

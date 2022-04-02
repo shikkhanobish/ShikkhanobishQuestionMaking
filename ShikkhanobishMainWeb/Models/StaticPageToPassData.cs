@@ -16,6 +16,11 @@ namespace ShikkhanobishMainWeb.Models
         public static IBrowserFile selectedFilesop2 { get; set; }
         public static IBrowserFile selectedFilesop3 { get; set; }
         public static IBrowserFile selectedFilesop4 { get; set; }
+        public static string qsPrv = "";
+        public static string op1Prv = "";
+        public static string op2Prv = "";
+        public static string op3Prv = "";
+        public static string op4Prv = "";
         public static int index { get; set; }
     }
 }
