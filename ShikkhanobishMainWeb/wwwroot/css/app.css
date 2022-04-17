@@ -2921,7 +2921,14 @@ h3.timeline-title {
   min-width: 100% !important;
 } */
 
-
+hr {
+    border: 0;
+    clear: both;
+    display: block;
+    width: 96%;
+    background-color: gray;
+    height: 1px;
+}
 .makeQuesImage {
     width: 150px;
     height: 150px;
@@ -3077,4 +3084,26 @@ h3.timeline-title {
 .radicand {
     padding: 0.25em 0.25em;
     border-top: thin black solid;
+}
+.centerNavTitle {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+.navtextcolor {
+    background: #008ACF;
+    background: -webkit-linear-gradient(to right, #008ACF 16%, #6121CF 100%);
+    background: -moz-linear-gradient(to right, #008ACF 16%, #6121CF 100%);
+    background: linear-gradient(to right, #008ACF 16%, #6121CF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.vertical-line {
+    display: inline-block;
+    border-left: 1px solid #ccc;
+    margin: 0 10px;
+    height: 125px;
 }

@@ -7,8 +7,8 @@
 @inject IJSRuntime JSRuntime
 @inject IWebHostEnvironment Environment
 @inject ILogger<MakeQuestion> Logger
-@*@page "/MakeQuestion/{tID}"*@
-@page "/MakeQuestion"
+@*@page "/Make Creative Question/{tID}"*@
+@page "/Make Creative Question"
 
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +46,7 @@
                     </div>
 
                     <div class="col-md-4 " style="text-align:center">
-                        <span style="font-size: 24px; color: black ">Shikkhanobish</span><h3 style="color:black">Question Making</h3>
+                        <span style="font-size: 24px; color: black ">Shikkhanobish</span><h3 style="color:black">Question Creative  Making</h3>
                     </div>
 
                 </div>
@@ -54,7 +54,7 @@
                 <br />
                 <br />
 
-                
+
 
                 <div>
 
@@ -68,7 +68,7 @@
                                 }
                             </select>
                         </div>
-                        
+
                         <div class="col-md-3 ">
                             <select class="form-control btn btn-purple" id="class" @onchange="ClassChanged">
                                 <option style="" value="">-- Select Class --</option>
@@ -110,17 +110,17 @@
                         <button class="btn btn-primary col-3" @onclick="ShowCodeGen">Show</button>
                         <button class="btn btn-secondary col-3" @onclick="HideCodeGen">Hide</button>
                     </div>
-                    <iframe src="@srcCodeGen "  title="description" style="width: 100%; height: 500px; display:@displayCodegen"></iframe>
+                    <iframe src="@srcCodeGen " title="description" style="width: 100%; height: 500px; display:@displayCodegen"></iframe>
                     <div class="form-group row">
                         <div class="col-12">
                             <br />
                             <button class="btn btn-info" @onclick="AddEquation">Add Equation</button>
                             <h6 style="color:#7146FE">Write Question</h6>
-                            <textarea class="form-control col-12" style="height:150px" @bind="Question.mainQuestion"></textarea>
+                            <textarea class="form-control col-12" style="height: 150px; background-color: #F4F4F4" @bind="ThisQuestion.mainQuestion"></textarea>
                             <button class="btn btn-info" @onclick="checksimilarity">Check Match Rate</button><label style="color: @mtColor"> @mathRate</label><br />
                             <br />
                             <div>
-                                <Test index="0"> </Test>
+                          
                             </div>
 
                         </div>
@@ -128,99 +128,88 @@
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-8">
-                            <h6 style="color:#7146FE">Option1:</h6>
-                            <textarea class="form-control" @bind="Question.option1" style="height: 100px; text-align: center; "></textarea>
-                            <br />
-                            <div>
-                                <Test index="1"></Test>
-                            </div>
-                        </div>
-                        <div class="col-8">
-                            <h6 style="color:#7146FE">Option2:</h6>
-                            <textarea class="form-control" @bind="Question.option2" style="height: 100px; text-align: center;"></textarea>
-                            <br />
-                            <div>
-                                <Test index="2"></Test>
-                            </div>
-                        </div>
-                        <div class="col-8">
-                            <h6 style="color:#7146FE">Option3:</h6>
-                            <textarea class="form-control" @bind="Question.option3" style=" height: 100px; text-align: center;"></textarea>
-                            <br />
-                            <div>
-                                <Test index="3"></Test>
-                            </div>
-                        </div>
-                        <div class="col-8">
-                            <h6 style="color:#7146FE">Option4:</h6>
-                            <textarea class="form-control " @bind="Question.option4" style=" height: 100px; text-align: center;"></textarea>
-                            <br />
-                            <div>
-                                <Test index="4"></Test>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <br />
-                    <hr />
-                    <div class="">
-                        <h6 style="color:#7146FE">Right Answer</h6>
-                        <br />
-                        <button name="rightans" value="A" style=" background-color: @selectedColorone; color: #158A4E" class="btn btn-outline-success" @onclick="sbOne">A</button>&nbsp;
-                        <button name="rightans" value="B" style=" background-color: @selectedColortwo; color: #158A4E " class="btn btn-outline-success" @onclick="sbTwo">B</button>&nbsp;
-                        <button name="rightans" value="C" style=" background-color: @selectedColorthree; color: #158A4E" class="btn btn-outline-success" @onclick="sbThree">C</button>&nbsp;
-                        <button name="rightans" value="D" style=" background-color: @selectedColorfour; color: #158A4E" class="btn btn-outline-success" @onclick="sbFour">D</button>
-                    </div>
-                    <br />
-                    <br />
-                    <div class="card">
-                        <div class="card-body">
-                            <label class="card-title">Question Preview</label>
-                            <div class="card">
-                                <div class="col-12 card-title">
-                                    <br />
-
+                        <div class="col-8 card">
+                            <div class="card-body fa-align-center">
+                                <div class="card-title">
+                                    <h6 style="color:#7146FE">Question 1</h6>
                                 </div>
-                                <div class="card-body">
-                                    <div style="font-size:14px; font-weight:bold; color: black; ">
-                                        <div>
-                                            @((MarkupString)previewQS)
-                                        </div>
-                                        <img class="makeQuesImage" src="@StaticPageToPassData.qsPrv" />
-                                    </div>
-
-                                    <br />
-                                    <div>
-                                        &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; ">@((MarkupString)previewOP1)</label><br/>
-                                        <img class="makeQuesImage" src="@StaticPageToPassData.op1Prv" />
-
-                                    </div>
-                                    <div>
-                                        &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; ">@((MarkupString)previewOP2)</label><br />
-                                        <img class="makeQuesImage" src="@StaticPageToPassData.op2Prv" />
-                                    </div>
-                                    <div>
-                                        &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; ">@((MarkupString)previewOP3)</label><br />
-                                        <img class="makeQuesImage" src="@StaticPageToPassData.op3Prv" />
-                                    </div>
-                                    <div>
-
-                                        &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; ">@((MarkupString)previewOP4)</label><br />
-                                        <img class="makeQuesImage" src="@StaticPageToPassData.op4Prv" />
-                                    </div>
+                                <textarea class="form-control" @bind="ThisQuestion.firstQuestion" style=" text-align: center; background-color: #F4F4F4"></textarea>
+                                <br />
+                                <div>
+                                    
                                 </div>
-
+                                <h6 style="color:green">Answer</h6>
+                                <textarea class="form-control" @bind="ThisQuestion.firstqsAns" style="height: 100px; text-align: center; background-color: #F4F4F4"></textarea>
+                                <br />
+                                <div>
+                                  
+                                </div>
                             </div>
+                           
+                        </div>
+                        <div class="col-8 card">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <h6 style="color:#7146FE">Question 2</h6>
+                                </div>
+                                <textarea class="form-control" @bind="ThisQuestion.secondQuestion" style=" text-align: center; background-color: #F4F4F4"></textarea>
+                                <br />
+                                <div>
+                                    
+                                </div>
+                                <h6 style="color:green">Answer</h6>
+                                <textarea class="form-control" @bind="ThisQuestion.secondqsAns" style="height: 100px; text-align: center; background-color: #F4F4F4"></textarea>
+                                <br />
+                                <div>
+                                  
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-8 card">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <h6 style="color:#7146FE">Question 3</h6>
+                                </div>
+                                <textarea class="form-control" @bind="ThisQuestion.thirdQuestion" style=" text-align: center; background-color: #F4F4F4"></textarea>
+                                <br />
+                                <div>
+                                   
+                                </div>
+                                <h6 style="color:green">Answer</h6>
+                                <textarea class="form-control" @bind="ThisQuestion.thirqsAns" style="height: 200px; text-align: center; background-color: #F4F4F4"></textarea>
+                                <br />
+                                <div>
+                                   
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-8 card">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <h6 style="color:#7146FE">Question 4</h6>
+                                </div>
+                                <textarea class="form-control" @bind="ThisQuestion.forthQuestion" style=" text-align: center; background-color: #F4F4F4"></textarea>
+                                <br />
+                                <div>
+                                    
+                                </div>
+                                <h6 style="color:green">Answer</h6>
+                                <textarea class="form-control" @bind="ThisQuestion.forthqsAns" style="height: 300px; text-align: center; background-color: #F4F4F4"></textarea>
+                                <br />
+                                <div>
+                                    
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-                    <div class="row">
-                        <button type="submit" style=" font-size:16px" class="btn btn-info col-3" @onclick="seepreviewNew">See Preview</button>
-                        <button type="submit" style=" font-size:16px" class="btn btn-danger col-3" @onclick="clearPreview">Clear</button>
-                    </div>
+
+
+
                     <br />
+                    
                     <div class="row">
                         <button type="submit" style=" font-size:16px" class="btn btn-success col-3" @onclick="SubmitQuestion">@btnstring</button>
                     </div>
@@ -282,7 +271,7 @@
     string displayImage;
     string displayCodegen;
     private Question Question1;
-    public Question Question = new Question();
+    public CreativeQuestion ThisQuestion = new CreativeQuestion();
     int gg;
     string hidemodel { get; set; }
     List<ClassInfo> objList = new List<ClassInfo>();
@@ -296,7 +285,7 @@
     string selectedColorthree = "";
     string selectedColorfour = "";
     string mtColor;
-    Question QuestionPR = new Question();
+    CreativeQuestion QuestionPR = new CreativeQuestion();
     public string previewQS { get; set; }
     public string previewOP1 { get; set; }
     public string previewOP2 { get; set; }
@@ -307,8 +296,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        tID = StaticPageToPassData.thisOperatorID;
         //page "/MakeQuestion/{tID}"
+        tID = StaticPageToPassData.thisOperatorID;
         srcCodeGen = "https://latexeditor.lagrida.com/";
         displayImage = "None";
         objList3 = new List<Chapter>();
@@ -320,10 +309,7 @@
         selectedColorthree = "white";
         selectedColorfour = "white";
         QuestionPR.mainQuestion = "N/A";
-        QuestionPR.option1 = "N/A";
-        QuestionPR.option2 = "N/A";
-        QuestionPR.option3 = "N/A";
-        QuestionPR.option4 = "N/A";
+
         //await GetClassInfo();
         await GetSubInfo();
         await GetChapterInfo();
@@ -344,7 +330,7 @@
         }
         foreach (var item in operatorList)
         {
-            if(item.userID == id && item.taskType == 1)
+            if (item.userID == id && item.taskType == 2)
             {
                 thisOpTass.Add(item);
             }
@@ -380,63 +366,13 @@
     }
     public void AddEquation()
     {
-        Question.mainQuestion += "<equation></equation>";
+        ThisQuestion.mainQuestion += "<equation></equation>";
     }
     public bool firstTime = true;
-    public void SeePreview()
-    {
 
-        QuestionPR = new Question();
-        QuestionPR = Question;
-        if(firstTime)
-        {
-            firstTime = false;
-            QuestionPR.mainQuestion = "<div>" + QuestionPR.mainQuestion + "</div>";
-        }
 
-    }
-    public void seepreviewNew()
-    {
-        if (Question.mainQuestion != null)
-        {
-            previewQS = ReadyForReview(Question.mainQuestion);
-        }
 
-        if(Question.option1 != null)
-        {
-            previewOP1 = ReadyForReview(Question.option1);
-        }
 
-        if (Question.option2 != null)
-        {
-            previewOP2 = ReadyForReview(Question.option2);
-        }
-        if (Question.option3 != null)
-        {
-            previewOP3 = ReadyForReview(Question.option3);
-        }
-        if (Question.option4 != null)
-        {
-            previewOP4 = ReadyForReview(Question.option4);
-        }
-
-    }
-    public string ReadyForReview(string mainStr)
-    {
-        string newStartThisQs = mainStr.Replace("<equation>", "<a  font-weight:normal; font-size: 12px; padding: 10px \" > \\({");
-        return newStartThisQs.Replace("</equation>", "}\\)</a>");
-
-    }
-    public async Task clearPreview()
-    {
-        //await JSRuntime.InvokeVoidAsync("removeDiv");
-        previewQS = "";
-        previewOP1 = "";
-        previewOP2 = "";
-        previewOP3 = "";
-        previewOP4 = "";
-
-    }
     public void calceImage()
     {
         displayImage = "None";
@@ -452,48 +388,13 @@
         allChapter = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getChapter".GetJsonAsync<List<Chapter>>();
 
     }
-    public void sbOne()
-    {
-        Question.rightAnswer = 1;
-        selectedColorone = "#BDFFDD";
-        selectedColortwo = "white";
-        selectedColorthree = "white";
-        selectedColorfour = "white";
 
-    }
-    public void sbTwo()
-    {
-        Question.rightAnswer = 2;
-        selectedColorone = "White";
-        selectedColortwo = "#BDFFDD";
-        selectedColorthree = "white";
-        selectedColorfour = "white";
-
-
-    }
-    public void sbThree()
-    {
-        Question.rightAnswer = 3;
-        selectedColorone = "white";
-        selectedColortwo = "white";
-        selectedColorthree = "#BDFFDD";
-        selectedColorfour = "white";
-
-    }
-    public void sbFour()
-    {
-        Question.rightAnswer = 4;
-        selectedColorone = "white";
-        selectedColortwo = "white";
-        selectedColorthree = "white";
-        selectedColorfour = "#BDFFDD";
-    }
     private void ClassChanged(ChangeEventArgs classEvent)
     {
 
         objList2.Clear();
         cid = classEvent.Value.ToString();
-        Question.classID = int.Parse(cid);
+        ThisQuestion.classID = int.Parse(cid);
         for (int i = 0; i < allSubject.Count; i++)
         {
             if (allSubject[i].classID.ToString() == cid)
@@ -507,9 +408,9 @@
     private void TaskSelect(ChangeEventArgs classEvent)
     {
         selectedTask = classEvent.Value.ToString();
-        for(int i = 0; i < thisOpTass.Count; i++)
+        for (int i = 0; i < thisOpTass.Count; i++)
         {
-            if(selectedTask == thisOpTass[i].taskID)
+            if (selectedTask == thisOpTass[i].taskID)
             {
                 selectedtask = thisOpTass[i];
             }
@@ -520,7 +421,7 @@
     {
         objList3.Clear();
         sid = subjectEvent.Value.ToString();
-        Question.subjectID = int.Parse(sid);
+        ThisQuestion.subjectID = int.Parse(sid);
 
         for (int i = 0; i < allChapter.Count; i++)
         {
@@ -535,8 +436,9 @@
     private void ChapterChanged(ChangeEventArgs chapterEvent)
     {
         chid = chapterEvent.Value.ToString();
-        Question.chapterID = int.Parse(chid);
+        ThisQuestion.chapterID = int.Parse(chid);
     }
+
     public async Task SubmitQuestion()
     {
         mathRate = "";
@@ -544,63 +446,83 @@
         int thisTeacherID = Int32.Parse(tID);
         Random rnd = new Random();
 
-        int quesId = rnd.Next(100000, 9999999);
+        string quesId = RandomString(20);
         int hisotyId = rnd.Next(100000, 9999999);
         checksimilarity();
-        if (Question.classID != 0 && Question.subjectID != 0 && Question.chapterID != 0 && Question.mainQuestion != null && Question.mainQuestion != "" && Question.option1 != null && Question.option1 != "" &&
-            Question.option2 != null && Question.option2 != "" && Question.option3 != null && Question.option3 != "" && Question.option4 != null && Question.option4 != "" && Question.rightAnswer != 0)
+        if (ThisQuestion.classID != 0 && ThisQuestion.subjectID != 0 && ThisQuestion.chapterID != 0 && ThisQuestion.mainQuestion != null && ThisQuestion.mainQuestion != "" && ThisQuestion.firstQuestion != null && ThisQuestion.firstQuestion != "" &&
+            ThisQuestion.secondQuestion != null && ThisQuestion.secondQuestion != "" && ThisQuestion.thirdQuestion != null && ThisQuestion.thirdQuestion != "" && ThisQuestion.forthQuestion != null && ThisQuestion.forthQuestion != "" && ThisQuestion.firstqsAns != null && ThisQuestion.firstqsAns != "" &&
+            ThisQuestion.secondqsAns != null && ThisQuestion.secondqsAns != "" && ThisQuestion.thirqsAns != null && ThisQuestion.thirqsAns != "" && ThisQuestion.forthqsAns != null && ThisQuestion.forthqsAns != "" )
         {
             if (thisMathRate < 95)
             {
                 msgColor = "Black";
                 msg = "Submitting question...";
-                string uri = "https://shikkhanobishrealtimeapi.shikkhanobish.com/api/ShikkhanobishSignalR/sumbitQs?&teacherID=" + thisTeacherID + "&qsID=" + quesId + "&errorTxt=" + "";
-                HttpClient client = new HttpClient();
-                StringContent content = new StringContent("", System.Text.Encoding.UTF32, "application/json");
-                HttpResponseMessage response = await client.PostAsync(uri, content).ConfigureAwait(true);
-                Test up = new Test();
-                List<IBrowserFile> files = new List<IBrowserFile>();
-                if (StaticPageToPassData.selectedFilesqs != null) { files.Add(StaticPageToPassData.selectedFilesqs); }
-                if (StaticPageToPassData.selectedFilesop1 != null) { files.Add(StaticPageToPassData.selectedFilesop1); }
-                if (StaticPageToPassData.selectedFilesop2 != null) { files.Add(StaticPageToPassData.selectedFilesop2); }
-                if (StaticPageToPassData.selectedFilesop3 != null) { files.Add(StaticPageToPassData.selectedFilesop3); }
-                if (StaticPageToPassData.selectedFilesop4 != null) { files.Add(StaticPageToPassData.selectedFilesop4); }
-                var imagesrc = await up.UploadFileSample(files);
-                int gap = 5 - imagesrc.Count;
-                for(int i= 0; i < gap; i++)
+                //string uri = "https://shikkhanobishrealtimeapi.shikkhanobish.com/api/ShikkhanobishSignalR/sumbitQs?&teacherID=" + thisTeacherID + "&qsID=" + quesId + "&errorTxt=" + "";
+                //HttpClient client = new HttpClient();
+                //StringContent content = new StringContent("", System.Text.Encoding.UTF32, "application/json");
+                //HttpResponseMessage response = await client.PostAsync(uri, content).ConfigureAwait(true);
+                //Test up = new Test();
+                //List<IBrowserFile> files = new List<IBrowserFile>();
+                //if (StaticPageToPassData.selectedFilesqs != null) { files.Add(StaticPageToPassData.selectedFilesqs); }
+                //if (StaticPageToPassData.selectedFilesop1 != null) { files.Add(StaticPageToPassData.selectedFilesop1); }
+                //if (StaticPageToPassData.selectedFilesop2 != null) { files.Add(StaticPageToPassData.selectedFilesop2); }
+                //if (StaticPageToPassData.selectedFilesop3 != null) { files.Add(StaticPageToPassData.selectedFilesop3); }
+                //if (StaticPageToPassData.selectedFilesop4 != null) { files.Add(StaticPageToPassData.selectedFilesop4); }
+                //var imagesrc = await up.UploadFileSample(files);
+                //int gap = 5 - imagesrc.Count;
+                //for (int i = 0; i < gap; i++)
+                //{
+                //    imagesrc.Add("N/A");
+                //}
+                ThisQuestion.cQuestionID = quesId;
+                ThisQuestion.review = 1;
+                ThisQuestion.firstqsImg = "N/A";
+                ThisQuestion.secodqsImg = "N/A";
+                ThisQuestion.thirdqsImg = "N/A";
+                ThisQuestion.forthqsImg = "N/A";
+                ThisQuestion.firstqsAnsImg = "N/A";
+                ThisQuestion.secondqsAnsImg = "N/A";
+                ThisQuestion.thirqsAnsImg = "N/A";
+                ThisQuestion.forthqsAnsImg = "N/A";
+
+                var res = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/setCreativeQuestion".PostUrlEncodedAsync(new
                 {
-                    imagesrc.Add("N/A");
-                }
-                var res = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/setQuestion".PostUrlEncodedAsync(new
-                {
-                    questionID = quesId,
-                    classID = Question.classID,
-                    quesImages = imagesrc[0],
-                    subjectID = Question.subjectID,
-                    chapterID = Question.chapterID,
-                    topicID = 0,
-                    mainQuestion = Question.mainQuestion,
-                    option1 = Question.option1,
-                    option2 = Question.option2,
-                    option3 = Question.option3,
-                    option4 = Question.option4,
-                    opOneImg = imagesrc[1],
-                    opTwoImg = imagesrc[2],
-                    opThreeImg = imagesrc[3],
-                    opFourImg = imagesrc[4],
-                    rightAnswer = Question.rightAnswer
+                    cQuestionID = ThisQuestion.cQuestionID,
+                    classID = ThisQuestion.classID,
+                    subjectID = ThisQuestion.subjectID,
+                    chapterID = ThisQuestion.chapterID,
+                    topicID = ThisQuestion.topicID,
+                    mainQuestion = ThisQuestion.mainQuestion,
+                    firstQuestion = ThisQuestion.firstQuestion,
+                    secondQuestion = ThisQuestion.secondQuestion,
+                    thirdQuestion = ThisQuestion.thirdQuestion,
+                    forthQuestion = ThisQuestion.forthQuestion,
+                    firstqsAns = ThisQuestion.firstqsAns,
+                    secondqsAns = ThisQuestion.secondqsAns,
+                    thirqsAns = ThisQuestion.thirqsAns,
+                    forthqsAns = ThisQuestion.forthqsAns,
+                    firstqsImg = ThisQuestion.firstqsImg,
+                    secodqsImg = ThisQuestion.secodqsImg,
+                    thirdqsImg = ThisQuestion.thirdqsImg,
+                    forthqsImg = ThisQuestion.forthqsImg,
+                    firstqsAnsImg = ThisQuestion.firstqsAnsImg,
+                    secondqsAnsImg = ThisQuestion.secondqsAnsImg,
+                    thirqsAnsImg = ThisQuestion.thirqsAnsImg,
+                    forthqsAnsImg = ThisQuestion.forthqsAnsImg,
+                    review = ThisQuestion.review
+
                 })
-                   .ReceiveJson<Response>();
+.ReceiveJson<Response>();
 
                 string dateTime = DateTime.Now.ToString("dd'-'MM'-'yyyy' 'HH':'mm':'ss");
 
-                var historyres = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/setTeacherQuestionHistory".PostUrlEncodedAsync(new
+                var historyres = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/setteacherSubmitHistory".PostUrlEncodedAsync(new
                 {
 
-                    tqID = hisotyId,
-                    teacherID = thisTeacherID,
+                    teacherSubmitHistoryID = hisotyId,
+                    operatorID = thisTeacherID,
                     questionID = quesId,
-                    review = dateTime
+                    date = dateTime
                 })
                       .ReceiveJson<Response>();
                 var re = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/increaseSubmitCount".PostUrlEncodedAsync(new
@@ -609,7 +531,7 @@
                     taskID = selectedtask.taskID,
 
                 }).ReceiveJson<Response>();
-                if (selectedtask.TotalSubmitted+1 >= 150)
+                if (selectedtask.TotalSubmitted + 1 >= 150)
                 {
                     var re1 = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/MakeTaskInActive".PostUrlEncodedAsync(new
                     {
@@ -619,13 +541,16 @@
                     }).ReceiveJson<Response>();
                 }
                 msg = "Question Uploaded Successfully";
-                Question.mainQuestion = "";
-                Question.option1 = "";
-                Question.option2 = "";
-                Question.option3 = "";
-                Question.option4 = "";
+                ThisQuestion.mainQuestion = "";
+                ThisQuestion.firstQuestion = "";
+                ThisQuestion.secondQuestion = "";
+                ThisQuestion.thirdQuestion = "";
+                ThisQuestion.forthQuestion = "";
+                ThisQuestion.forthqsAns = "";
+                ThisQuestion.secondqsAns = "";
+                ThisQuestion.thirqsAns = "";
+                ThisQuestion.forthqsAns = "";
                 mathRate = "";
-                Question.rightAnswer = 0;
                 selectedColorone = "white";
                 selectedColortwo = "white";
                 selectedColorthree = "white";
@@ -659,7 +584,13 @@
 
         btnstring = "Submit";
     }
-
+    private static Random random = new Random();
+    public static string RandomString(int length)
+    {
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        return new string(Enumerable.Repeat(chars, length)
+            .Select(s => s[random.Next(s.Length)]).ToArray());
+    }
     public async Task GetTeacherWithID()
     {
         var list = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getAllTeacher".PostJsonAsync(new { }).ReceiveJson<List<Teacher>>();
@@ -677,7 +608,7 @@
         List<double> thiscim = new List<double>();
         for (int i = 0; i < quesList.Count; i++)
         {
-            thiscim.Add(CalculateSimilarity(Question.mainQuestion, quesList[i].mainQuestion));
+            thiscim.Add(CalculateSimilarity(ThisQuestion.mainQuestion, quesList[i].mainQuestion));
         }
         double max = 0;
         int index = 0;

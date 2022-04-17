@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 
-<body style="background-color: #EDEDED">
+<body style="background-color: white">
 
     <!-- Begin page -->
     <!-- Start Page Content here -->
@@ -36,347 +36,176 @@
             <div style="text-align:start">
                 <h3 style="color: black; font-size: 18px; font-weight: bold ">Hello, @tName</h3>
             </div>
-            <div class="col-12 " style="text-align:right">
-
-                <a href="@($"MakeQuestion/{tID}")" class="btn btn-outline-purple">
-                    <span> Make Question </span>
-                </a>
-            </div>
+            
             <br />
-            <div class="form-group row justify-content-center">
+            <div class="row">
+                <div class="mb-4 col-sm-6 col-lg-3 mb-4 ">
+                    <div class="card h-100" style="border-radius: 20px; border-color: transparent">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h4 class="fw-normal" style="color: red">$10,500</h4>
+                                    <p class="subtitle text-sm text-muted mb-0">Earnings</p>
+                                    <h4 class="fw-normal" style="color: red">$10,500</h4>
+                                    <p class="subtitle text-sm text-muted mb-0">Earnings</p>
+                                </div>
 
-                <div class="col-3">
-                    <div class="card-box widget-inline shadow-lg" style="background-color: #EADFFF;">
-                        <div class="text-center p-2">
-                            <h2 class="" style="color: #46189F"> <b>@countTQH</b></h2>
-                            <p class="" style="color:rebeccapurple">
-                                Total Uploaded
+                                <div class="flex-shrink-0 ms-3" style="color: red">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-cloud-upload" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z" />
+                                        <path fill-rule="evenodd" d="M7.646 4.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V14.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3z" />
+                                    </svg>
+                                </div>
 
-                            </p>
+                            </div>
+                        </div>
+                        <div class="card-footer py-3" style="background-color: #f8d7da; border-radius: 20px; border-color: transparent">
+                            <div class="row align-items-center" style="color: red">
+                                <div class="col-12" style="text-align:center">
+                                    <p class="mb-0">Total Upload</p>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
-                    <div class="card-box widget-inline shadow-lg" style="background-color: #D2FFE9;">
-                        <div class="text-center p-2">
-                            <h2 class="" style="color: #10884E"> <b>@tap</b></h2>
-                            <p class="" style="color: #10884E">
-                                Total Approved
+                <div class="mb-4 col-sm-6 col-lg-3 mb-4 ">
+                    <div class="card h-100" style="border-radius: 20px; border-color: transparent">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h4 class="fw-normal" style="color: red">$10,500</h4>
+                                    <p class="subtitle text-sm text-muted mb-0">Earnings</p>
+                                    <h4 class="fw-normal" style="color: red">$10,500</h4>
+                                    <p class="subtitle text-sm text-muted mb-0">Earnings</p>
+                                </div>
 
-                            </p>
+                                <div class="flex-shrink-0 ms-3" style="color: red">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-cloud-upload" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z" />
+                                        <path fill-rule="evenodd" d="M7.646 4.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V14.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3z" />
+                                    </svg>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-footer py-3" style="background-color: #f8d7da; border-radius: 20px; border-color: transparent">
+                            <div class="row align-items-center" style="color: red">
+                                <div class="col-12" style="text-align:center">
+                                    <p class="mb-0">Total Upload</p>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
-                    <div class="card-box widget-inline shadow-lg" style="background-color: #FFCECE;">
-                        <div class="text-center p-2">
-                            <h2 class="" style="color: #931919"> <b>@tde</b></h2>
-                            <p class="" style="color: #931919">
-                                Total Declined
+                <div class="mb-4 col-sm-6 col-lg-3 mb-4 ">
+                    <div class="card h-100" style="border-radius: 20px; border-color: transparent">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h4 class="fw-normal" style="color: red">$10,500</h4>
+                                    <p class="subtitle text-sm text-muted mb-0">Earnings</p>
+                                    <h4 class="fw-normal" style="color: red">$10,500</h4>
+                                    <p class="subtitle text-sm text-muted mb-0">Earnings</p>
+                                </div>
 
-                            </p>
+                                <div class="flex-shrink-0 ms-3" style="color: red">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-cloud-upload" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z" />
+                                        <path fill-rule="evenodd" d="M7.646 4.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V14.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3z" />
+                                    </svg>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-footer py-3" style="background-color: #f8d7da; border-radius: 20px; border-color: transparent">
+                            <div class="row align-items-center" style="color: red">
+                                <div class="col-12" style="text-align:center">
+                                    <p class="mb-0">Total Upload</p>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
-                    <div class="card-box widget-inline shadow-lg" style="background-color: #EEEEEE;">
-                        <div class="text-center p-2">
-                            <h2 class="" style="color: #646464"> <b>@tpe</b></h2>
-                            <p class="" style="color: #646464">
-                                Total Pending
+                <div class="mb-4 col-sm-6 col-lg-3 mb-4 ">
+                    <div class="card h-100 " style="border-radius: 20px; border-color: transparent">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h4 class="fw-normal" style="color: red">$10,500</h4>
+                                    <p class="subtitle text-sm text-muted mb-0">Earnings</p>
+                                    <h4 class="fw-normal" style="color: red">$10,500</h4>
+                                    <p class="subtitle text-sm text-muted mb-0">Earnings</p>
+                                </div>
 
-                            </p>
+                                <div class="flex-shrink-0 ms-3" style="color: red">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-cloud-upload" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z" />
+                                        <path fill-rule="evenodd" d="M7.646 4.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V14.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3z" />
+                                    </svg>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-footer py-3" style="background-color: #f8d7da; border-radius: 20px; border-color: transparent">
+                            <div class="row align-items-center" style="color: red">
+                                <div class="col-12" style="text-align:center">
+                                    <p class="mb-0">Total Upload</p>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--end row -->
+         
+           
 
-        </div>
+            <div class="row" style="background-color: transparent">
 
-        <div class="row" style="background-color: transparent">
-
-            <div class="col-md-12">
-
-
-
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-title">
-
-                            <div class="form-group row">
-                                <label class=" col-4" style="color:blueviolet;font-size:30px;">Task  History</label>
-                                <div class=" col-4"></div>
-                               
-                                <br />
-
+                <div class="col-6">
+                    <div class="col-auto">
+                        <div class="card h-100 shadow-sm" style="border-radius:15px; border-color: transparent">
+                            <div class="card-header py-4" style="background-color: #EBFAFF">
+                                <h3 class="card-heading" style="color: #043C4E">Active MCQ Task</h3>
                             </div>
-                            <div class="progress col-12 align-self-end">
-                                <div class="progress-bar" role="progressbar" style="width: @prgsValue%;" aria-valuenow="@prgsValue" aria-valuemin="0" aria-valuemax="100">@prgsValue%</div>
-                            </div>
-                        </div>
-                      
-
-                        <div>
-                            <div class="table-responsive" style="overflow: scroll; height: 400px;">
-                                <table id="" class="table table-bordered" style="text-align:center; ">
-                                    <thead style="color: black; font-weight: bold;font-size:10px;">
-                                        <tr>
-                                            <th>Task Number</th>
-                                            <th>Assigned Number</th>
-                                            <th>Class Name</th>
-                                            <th>Subject Name</th>
-                                            <th>Chapter Name</th>
-                                            <th>Task Date</th>
-                                            <th>Submitted</th>
-                                            <th>Status</th>
-
-
-                                        </tr>
-                                    </thead>
-                                    <tbody style="font-size: 10px; ">
-                                        @foreach (var item in LiveshowInfo)
-                                        {
-                                            <tr>
-                                                <td style="color: #2E2E2E">@item.index</td>
-                                                <td style="color: #2E2E2E;"><button class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModalCenter" @onclick="@( async () => await ShowMCQModal(item.MCQNumbers, item.chapterName))">See MCQ Numbers</button></td>
-                                                <td style="color: #2E2E2E">@item.ClassName</td>
-                                                <td style="color: #2E2E2E">@item.SubejctName</td>
-                                                <td style="color: #2E2E2E">@item.chapterName</td>
-                                                <td style="color: #2E2E2E">@item.date</td>
-                                                <td style="color: green">@item.TotalSubmitted</td>
-
-                                                <td style="color: @item.statusColor; font-weight: bold">@item.ActiveStatus</td>
-
-
-
-
-                                            </tr>
-
-
-                                        }
-
-                                    </tbody>
-
-
-                                </table>
-                            </div>
-                            <!-- Button trigger modal -->
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLongTitle">MSQ Number <b>ChapterID: @thisShowchapterName</b></h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
+                            <div class="card-body pt-3 row">
+                                <div class="col-auto">
+                                    <div class="row">
+                                        <div class="col-6" style="font-size: 10px">
+                                            <p>Assign Date: 20.02.2022</p>
                                         </div>
-                                        <div class="modal-body">
-                                            @thismcqNumber
+                                        <div class="col-6" style="text-align: right">
+                                            <p>Active</p>
                                         </div>
+                                    </div>
+                                    <div class="icon icon-xl bg-primary-light mx-auto mb-3" style="text-align: center">
+                                        <button class="btn btn-primary">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z" />
+                                            </svg>
+                                            <p style="font-size: 10px">drive.google.com/sadasda/sadsad/sadsdaasdd</p>
+                                        </button>
 
+                                    </div>
+                                    <div class="row position-relative" style="top: 10px;">
+                                        <div class="col-4 text-center">
+                                            <p class="text-muted text-sm">Class</p>
+                                            <div style="font-size: 11px">This is a crazy fak topic man</div>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <p class="text-muted text-sm">Subject</p>
+                                            <div style="font-size: 11px">This is a crazy fak topic man</div>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <p class="text-muted text-sm">Chapter</p>
+                                            <div style="font-size: 11px">This is a crazy fak topic man</div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-
-
-                        <div class="form-group row">
-                            <div class="col-3">
-                                <select class="form-control btn btn-purple" style="" id="class" @onchange="selectFileLink">
-                                    <option class="">Select Task Number</option>
-                                    @foreach (var item in LiveshowInfo)
-                                    {
-                                        <option value="@item.FileLink">@item.index -> <a style="color: @item.statusColor; font-weight: bold"> @item.status</a></option>
-                                    }
-                                </select>
-                            </div>
-                            <div class="col-3">
-                                <a href="@url" target="_blank" style="color: @linkTxtColor"> Open PDF Link</a>
-                                <label>@link</label>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-
-
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-title">
-                            <b>Question History</b>
-                        </div>
-                        <div class="form-group row">
-
-                            <div class="col-3">
-
-                                @foreach (var qs in showQSList1)
-                                {
-                                    <div class="card">
-                                        <div class="col-12 card-title">
-                                            <br />
-                                            <label class="col-12" style=" text-align: center; border-radius: 10px; border: 1px solid @qs.reviewColor; padding: 3px 12px; color:@qs.reviewColor;">@qs.reviewName <a style="font-size: 10px">@qs.publishingDate</a> </label><p />
-                                        </div>
-                                        <div class="card-body">
-                                            <span style="font-size:14px;color:grey; font-weight:bold">@qs.index</span><span>.</span>
-                                            <span style="font-size:14px;font-weight:bold; color:black;">@qs.mainQuestion</span>
-                                            <br />
-                                            <br />
-                                            <img class="makeQuesImage" style="display: @qs.qsimgvisi" src="@qs.quesImages" />
-                                            <div>
-                                                &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op1BackColor;">@qs.option1</label>
-                                                <br />
-                                                <img class="makeQuesImage" style="display: @qs.op1imgvisi" src="@qs.opOneImg" />
-                                            </div>
-                                            <div>
-                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op2BackColor;">@qs.option2</label>
-                                                <br />
-                                                <img class="makeQuesImage" style="display: @qs.op2imgvisi" src="@qs.opTwoImg" />
-                                            </div>
-                                            <div>
-                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op3BackColor;">@qs.option3</label>
-                                                <br />
-                                                <img class="makeQuesImage" style="display: @qs.op3imgvisi" src="@qs.opThreeImg" />
-                                            </div>
-                                            <div>
-
-                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op4BackColor;">@qs.option4</label>
-                                                <br />
-                                                <img class="makeQuesImage" style="display: @qs.op4imgvisi" src="@qs.opFourImg" />
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                }
-                            </div>
-                            <div class="col-3">
-                                @foreach (var qs in showQSList2)
-                                {
-                                    <div class="card">
-                                        <div class="col-12 card-title">
-                                            <br />
-                                            <label class="col-12" style=" text-align: center; border-radius: 10px; border: 1px solid @qs.reviewColor; padding: 3px 12px; color:@qs.reviewColor;">@qs.reviewName <a style="font-size: 10px">@qs.publishingDate</a> </label><p />
-                                        </div>
-                                        <div class="card-body">
-                                            <span style="font-size:14px;color:grey; font-weight:bold">@qs.index</span><span>.</span>
-                                            <span style="font-size:14px;font-weight:bold; color:black;">@qs.mainQuestion</span>
-                                            <br />
-                                            <br />
-                                            <img class="makeQuesImage"  style="display: @qs.qsimgvisi" src="@qs.quesImages" />
-                                            <div>
-                                                &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op1BackColor;">@qs.option1</label>
-                                                <br />
-                                                <img class="makeQuesImage" style="display: @qs.op1imgvisi" src="@qs.opOneImg" />
-                                            </div>
-                                            <div>
-                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op2BackColor;">@qs.option2</label>
-                                                <br />
-                                                <img class="makeQuesImage" style="display: @qs.op2imgvisi" src="@qs.opTwoImg" />
-                                            </div>
-                                            <div>
-                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op3BackColor;">@qs.option3</label>
-                                                <br />
-                                                <img class="makeQuesImage" style="display: @qs.op3imgvisi" src="@qs.opThreeImg" />
-                                            </div>
-                                            <div>
-
-                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op4BackColor;">@qs.option4</label>
-                                                <br />
-                                                <img class="makeQuesImage" style="display: @qs.op4imgvisi" src="@qs.opFourImg" />
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                }
-
-                            </div>
-                            <div class="col-3">
-
-                                @foreach (var qs in showQSList3)
-                                {
-                                    <div class="card">
-                                        <div class="col-12 card-title">
-                                            <br />
-                                            <label class="col-12" style=" text-align: center; border-radius: 10px; border: 1px solid @qs.reviewColor; padding: 3px 12px; color:@qs.reviewColor;">@qs.reviewName <a style="font-size: 10px">@qs.publishingDate</a> </label><p />
-                                        </div>
-                                        <div class="card-body">
-                                            <span style="font-size:14px;color:grey; font-weight:bold">@qs.index</span><span>.</span>
-                                            <span style="font-size:14px;font-weight:bold; color:black;">@qs.mainQuestion</span>
-                                            <br />
-                                            <br />
-                                            <img class="makeQuesImage" style="display: @qs.qsimgvisi" src="@qs.quesImages" />
-                                            <div>
-                                                &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op1BackColor;">@qs.option1</label>
-                                                <br />
-                                                <img class="makeQuesImage" style="display: @qs.op1imgvisi" src="@qs.opOneImg" />
-                                            </div>
-                                            <div>
-                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op2BackColor;">@qs.option2</label>
-                                                <br />
-                                                <img class="makeQuesImage" style="display: @qs.op2imgvisi" src="@qs.opTwoImg" />
-                                            </div>
-                                            <div>
-                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op3BackColor;">@qs.option3</label>
-                                                <br />
-                                                <img class="makeQuesImage" style="display: @qs.op3imgvisi" src="@qs.opThreeImg" />
-                                            </div>
-                                            <div>
-
-                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op4BackColor;">@qs.option4</label>
-                                                <br />
-                                                <img class="makeQuesImage" style="display: @qs.op4imgvisi" src="@qs.opFourImg" />
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                }
-                            </div>
-                            <div class="col-3">
-
-                                @foreach (var qs in showQSList4)
-                                {
-                                    <div class="card">
-                                        <div class="col-12 card-title">
-                                            <br />
-                                            <label class="col-12" style=" text-align: center; border-radius: 10px; border: 1px solid @qs.reviewColor; padding: 3px 12px; color:@qs.reviewColor;">@qs.reviewName <a style="font-size: 10px">@qs.publishingDate</a> </label><p />
-                                        </div>
-                                        <div class="card-body">
-                                            <span style="font-size:14px;color:grey; font-weight:bold">@qs.index</span><span>.</span>
-                                            <span style="font-size:14px;font-weight:bold; color:black;">@qs.mainQuestion</span>
-                                            <br />
-                                            <br />
-                                            <img class="makeQuesImage" style="display: @qs.qsimgvisi" src="@qs.quesImages" />
-                                            <div>
-                                                &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op1BackColor;">@qs.option1</label>
-                                                <br />
-                                                <img class="makeQuesImage" style="display: @qs.op1imgvisi" src="@qs.opOneImg" />
-                                            </div>
-                                            <div>
-                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op2BackColor;">@qs.option2</label>
-                                                <br />
-                                                <img class="makeQuesImage" style="display: @qs.op2imgvisi" src="@qs.opTwoImg" />
-                                            </div>
-                                            <div>
-                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op3BackColor;">@qs.option3</label>
-                                                <br />
-                                                <img class="makeQuesImage" style="display: @qs.op3imgvisi" src="@qs.opThreeImg" />
-                                            </div>
-                                            <div>
-
-                                                &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op4BackColor;">@qs.option4</label>
-                                                <br />
-                                                <img class="makeQuesImage" style="display: @qs.op4imgvisi" src="@qs.opFourImg" />
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                }
                             </div>
                         </div>
                     </div>
@@ -385,11 +214,52 @@
 
 
 
+                <div class="col-6">
+                    <div class="col-auto">
+                        <div class="card h-100 shadow-sm" style="border-radius:15px; border-color: transparent">
+                            <div class="card-header py-4" style="background-color: #EBFAFF">
+                                <h3 class="card-heading" style="color: #043C4E">Active MCQ Task</h3>
+                            </div>
+                            <div class="card-body pt-3 row">
+                                <div class="col-auto">
+                                    <div class="row">
+                                        <div class="col-6" style="font-size: 10px">
+                                            <p>Assign Date: 20.02.2022</p>
+                                        </div>
+                                        <div class="col-6" style="text-align: right">
+                                            <p>Active</p>
+                                        </div>
+                                    </div>
+                                    <div class="icon icon-xl bg-primary-light mx-auto mb-3" style="text-align: center">
+                                        <button class="btn btn-primary">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z" />
+                                            </svg>
+                                            <p style="font-size: 10px">drive.google.com/sadasda/sadsad/sadsdaasdd</p>
+                                        </button>
 
+                                    </div>
+                                    <div class="row position-relative" style="top: 10px;">
+                                        <div class="col-4 text-center">
+                                            <p class="text-muted text-sm">Class</p>
+                                            <div style="font-size: 11px">This is a crazy fak topic man</div>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <p class="text-muted text-sm">Subject</p>
+                                            <div style="font-size: 11px">This is a crazy fak topic man</div>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <p class="text-muted text-sm">Chapter</p>
+                                            <div style="font-size: 11px">This is a crazy fak topic man</div>
+                                        </div>
+                                    </div>
+                                </div>
 
-
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
         <br />
         <br />
         <br />
@@ -409,7 +279,7 @@
     <!-- end content -->
     <!-- END wrapper -->
     <!-- Vendor js -->
-
+        </div>
 </body>
 </html>
 
@@ -431,6 +301,7 @@
     string MakeQSTxt { get; set; }
     string linkTxtColor { get; set; }
     List<TeacherQuesHistory> tqhList = new List<TeacherQuesHistory>();
+    List<CreativeQuestion> thisopCreativeQs = new List<CreativeQuestion>();
     List<Question> questionList = new List<Question>();
     List<Question> showQSList = new List<Question>();
     List<Question> showQSList1 = new List<Question>();
@@ -446,7 +317,8 @@
     int secWeekTotal;
     int thirftWeekTotal;
     int forthWeekTotal;
-
+    List<CreativeQuestion> thisopCreativeqs = new List<CreativeQuestion>();
+    List<CreativeQuestion> allcreativeqs = new List<CreativeQuestion>();
 
     string showprgs { get; set; }
     List<Chapter> allc = new List<Chapter>();
@@ -454,7 +326,11 @@
     List<ClassInfo> allClass = new List<ClassInfo>();
     List<Teacher> teacherListN = new List<Teacher>();
     List<TeacherQuesHistory> thList = new List<TeacherQuesHistory>();
+    List<dataentryOperatorTask> MCQTask  = new List<dataentryOperatorTask>();
+    List<dataentryOperatorTask> CreativeTask = new List<dataentryOperatorTask>();
     List<dataentryOperatorTask> LiveshowInfo = new List<dataentryOperatorTask>();
+    List<teacherSubmitHistory> allSubmitHistory = new List<teacherSubmitHistory>();
+
     List<Question> quesList = new List<Question>();
     string selectedColorone = "";
     string selectedColortwo = "";
@@ -466,6 +342,7 @@
     int reload = 0;
     protected override async Task OnInitializedAsync()
     {
+        StaticPageToPassData.thisOperatorID = tID;
         makeTaskError = "";
         canMakenewTask = true;
         MakeQSTxt = "Make New Task";
@@ -510,17 +387,21 @@
 
     private void selectFileLink(ChangeEventArgs task)
     {
-        if (task.Value.ToString()[0] == 'S')
+        if(task.Value.ToString() != "")
         {
-            linkTxtColor = "Gray";
-            url = "";
+            if (task.Value.ToString()[0] == 'S')
+            {
+                linkTxtColor = "Gray";
+                url = "";
+            }
+            else
+            {
+                linkTxtColor = "Blue";
+                url = task.Value.ToString();
+            }
+            link = task.Value.ToString();
         }
-        else
-        {
-            linkTxtColor = "Blue";
-            url = task.Value.ToString();
-        }
-        link = task.Value.ToString();
+
 
     }
     public async Task getAllInfo()
@@ -532,8 +413,22 @@
         teacherListN = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getAllTeacher".PostJsonAsync(new { }).ReceiveJson<List<Teacher>>();
         thList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getTeacherQuestionHistory".GetJsonAsync<List<TeacherQuesHistory>>();
         quesList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getQuestion".GetJsonAsync<List<Question>>();
+        allcreativeqs = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getCreativeQuestion".GetJsonAsync<List<CreativeQuestion>>();
+        allSubmitHistory = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getTeacherSubmitHistory".GetJsonAsync<List<teacherSubmitHistory>>();
+        for (int i = 0; i < allcreativeqs.Count; i++)
+        {
+            for (int j = 0; j < allSubmitHistory.Count; j++)
+            {
+                if (allcreativeqs[i].cQuestionID == allSubmitHistory[j].questionID)
+                {
+                    thisopCreativeQs.Add(allcreativeqs[i]);
+                }
+            }
+        }
+        thisopCreativeqs = thisopCreativeQs;
         SortTaskList();
     }
+
 
     public void SortTaskList()
     {
@@ -653,12 +548,33 @@
                 }
             }
         }
+        for(int i = 0; i < shownow.Count; i++)
+        {
+            if(shownow[i].taskType == 1)
+            {
+                MCQTask.Add(shownow[i]);
+            }
+            else
+            {
+                CreativeTask.Add(shownow[i]);
+            }
+        }
         List<dataentryOperatorTask> SortedList = new List<dataentryOperatorTask>();
-        SortedList = shownow.OrderBy(x => x.ActiveStatus).ToList();
-        shownow = SortedList;
+        SortedList = MCQTask.OrderBy(x => x.ActiveStatus).ToList();
+        MCQTask = SortedList;
+        SortedList = CreativeTask.OrderBy(x => x.ActiveStatus).ToList();
+        CreativeTask = SortedList;
 
-        LiveshowInfo = shownow;
+        //LiveshowInfo = shownow;
+
+
     }
+
+
+
+
+
+
     public async Task GetTask()
     {
 
@@ -1325,7 +1241,18 @@
 
 
     }
+    public void ShowCreativeQs()
+    {
 
+        foreach(var item in thList)
+        {
+            foreach(var crqs in allcreativeqs)
+            {
+
+            }
+        }
+
+    }
     public async Task GetHistoryCount()
     {
         int count = 0;
