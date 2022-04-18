@@ -1,21 +1,83 @@
 ﻿@inherits LayoutComponentBase
+@inject Blazored.LocalStorage.ILocalStorageService oLocalStore
+@using ShikkhanobishMainWeb.Models
 
+@if (StaticPageToPassData.thisOperatorID == null)
+{
+    <div class="container-fluid justify-content-center" >
+        <div class="row main-content text-center center">
+            <div class="col-md-4 text-center company__info">
+                <span class="company__logo"><img src="/onlyicon.png" /></span>
+                <h4 class="company_title">Shikkhanobish</h4>
+            </div>
+            <div class="col-md-8 col-xs-12 col-sm-12 login_form ">
+                <div class="container-fluid">
+                    <div class="row">
+                        <h2 class="navtextcolor">Login Dashboard</h2>
+                    </div>
+                    <div class="row">
+                        <form control="" class="form-group">
+                            <div class="row">
+                                <input type="text" name="username" id="username" class="form__input" @bind="userID" placeholder="User ID">
+                            </div>
+
+
+                            <div class="row">
+                                <input type="submit" value="Submit" class="btn" @onclick="loginuser">
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+
+}
+else
+{
     <nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent" style="top: 0px; transition: all 0.5s linear 0s;">
         <div class="container-fluid">
-            <div class="navbar-wrapper" style="width: 100%;">            
+            <div class="navbar-wrapper" style="width: 100%;">
                 <a class="navbar-brand centerNavTitle navtextcolor" style="font-weight: bold; padding-top: 30px">Shikkhanobish Data Operator Dashboard</a>
             </div>
         </div>
     </nav>
-<div class="row">
-    <div class="sidebar col-2" style="height: 100vh; overflow-x: hidden; ">
-        <NavMenu />
-    </div>
+    <div class="row">
+        <div class="sidebar col-2" style="height: 100vh; overflow-x: hidden; ">
+            <NavMenu />
+        </div>
 
-    <div class="main col-10 fa-scroll">
-        <div class="content px-4">
-            @Body
+        <div class="main col-10 fa-scroll">
+            <div class="content px-4">
+                @Body
+            </div>
         </div>
     </div>
-</div>
+}
 
+
+@code{
+    string userID { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        checkInfo();
+
+    }
+    protected async Task checkInfo()
+    {
+        StaticPageToPassData.thisOperatorID = await oLocalStore.GetItemAsync<string>("userID");
+        if (StaticPageToPassData.thisOperatorID != null)
+        {
+            StateHasChanged();
+        }
+
+    }
+    public async Task loginuser()
+    {
+        await oLocalStore.SetItemAsStringAsync("userID", userID);
+        StaticPageToPassData.thisOperatorID = await oLocalStore.GetItemAsync<string>("userID");
+        StateHasChanged();
+    }
+}

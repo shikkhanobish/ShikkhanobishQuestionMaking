@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Blazored.LocalStorage;
 using ShikkhanobishMainWeb.Data;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,7 @@ namespace ShikkhanobishMainWeb
         {
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddServerSideBlazor();
+            services.AddBlazoredLocalStorage();
             services.AddSingleton<WeatherForecastService>();
           
         }
