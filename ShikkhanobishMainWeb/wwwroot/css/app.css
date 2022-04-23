@@ -3205,3 +3205,61 @@ form {
     transform: translate(-50%, -50%);
     padding: 10px;
 }
+.Absolute-Center {
+    width: 50%;
+    height: 50%;
+    overflow: auto;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border: solid black;
+}
+.numOFMCQ {
+    background-color: transparent;
+    color: black;
+}
+    .numOFMCQ:hover {
+        background-color: black;
+        color: white;
+        border-radius: 3px
+    }
+    .numOFMCQ:active {
+        background-color: transparent;
+        color: black;
+    }
+
+
+.mainBtn {
+    background-color: transparent;
+    padding-top: 15px;
+    padding-bottom: 7px;
+}
+    .mainBtn:hover {
+        background-color: #EDEDED;
+    }
+    .mainBtn:active {
+        background-color: darkgray;
+    }
+.vl {
+    border-left: 6px solid green;
+    height: 50px;
+    position: absolute;
+    left: 50%;
+    margin-left: -3px;
+    top: 0;
+}
+.vertical-line {
+    width: 0px; /* Use only border style */
+    height: 100%;
+    float: left;
+    padding-top: 30%;
+    padding-bottom: 30%;
+    border: 1px inset; /* This is default border style for <hr> tag */
+}
+@font-face {
+    font-family: 'nameTitle'; /*a name to be used later*/
+    src: url('../fonts/Caveat-VariableFont_wght.ttf')
+}
