@@ -600,15 +600,31 @@
                     taskID = selectedtask.taskID,
 
                 }).ReceiveJson<Response>();
-                if (selectedtask.TotalSubmitted+1 >= 150)
+                var listOfSubmit = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getOperatorEntryCountWithID".PostJsonAsync(new
+                { operatorID = StaticPageToPassData.thisOperatorID }).
+        ReceiveJson<List<OperatorEntryCount>>();
+                int uploadCount = 0, apcount = 0, dlcount = 0, pencountl = 0;
+                for(int i = 0; i < listOfSubmit.Count; i++)
                 {
-                    var re1 = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/MakeTaskInActive".PostUrlEncodedAsync(new
+                    if(listOfSubmit[i].Type == 1)
                     {
-
-                        taskID = selectedtask.taskID,
-
-                    }).ReceiveJson<Response>();
+                        uploadCount = listOfSubmit[i].UploadCount + 1;
+                        apcount = listOfSubmit[i].ApprovedCount;
+                        dlcount = listOfSubmit[i].DeclineCount;
+                        pencountl = listOfSubmit[i].PendingCount+1;
+                    }
                 }
+                var submitres = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/setOperatorEntryCountWithID".PostUrlEncodedAsync(new
+                {
+                    operatorID = StaticPageToPassData.thisOperatorID,
+                    UploadCount = uploadCount,
+                    ApprovedCount = apcount,
+                    DeclineCount = dlcount,
+                    PendingCount = pencountl,
+                    Type = 1
+
+                }).ReceiveJson<Response>();
+
                 msg = "Question Uploaded Successfully";
                 Question.mainQuestion = "";
                 Question.option1 = "";
