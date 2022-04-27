@@ -30,7 +30,8 @@ namespace ShikkhanobishMainWeb.Models
         public int reMain { get; set; }
         public int submitted { get; set; }
         public string status { get; set; }
-        public string statusColor { get; set; }
+        public string showMCQ { get; set; }
+        public string btnClass { get; set; }
         public int taskType { get; set; }
         public string FileLink { get; set; }
         public string Response { get; set; }

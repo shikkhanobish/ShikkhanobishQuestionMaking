@@ -1,5 +1,6 @@
 ﻿@using ShikkhanobishMainWeb.Models
 @using Flurl.Http
+@using ShikkhanobishMainWeb.Pages
 @using System.IO
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Logging
@@ -7,7 +8,6 @@
 @inject IJSRuntime JSRuntime
 @inject IWebHostEnvironment Environment
 @inject ILogger<MakeQuestion> Logger
-@*@page "/MakeQuestion/{tID}"*@
 @page "/MakeQuestion"
 
 <!DOCTYPE html>
@@ -44,126 +44,149 @@
                 <div>
 
                     <div class="form-group row">
-                        <div class="col-3">
-                            <select class="form-control btn btn-purple" id="class" @onchange="TaskSelect">
+
+                        <div style="background-color: #4317C1; border-radius: 10px; text-align: center; color: white">
+                            <b style="font-size: 17px;">Task Info</b> <br /><br />
+                            <select class="form-control" style="color: #4317C1 " id="class" @onchange="TaskSelect">
                                 <option style="" value="">-- Select Task --</option>
                                 @foreach (var item in thisOpTass)
                                 {
                                     <option value="@item.taskID">@item.ActiveStatus :: @item.date</option>
                                 }
                             </select>
+                            <a>@Question.className</a><br />
+                            <a>@Question.subjectName</a><br />
+                            <a>@Question.ChapterName</a><br />
                         </div>
-                        
-                        <div class="col-md-3 ">
-                            <select class="form-control btn btn-purple" id="class" @onchange="ClassChanged">
-                                <option style="" value="">-- Select Class --</option>
-                                @foreach (var item in objList)
-                                {
-                                    <option value="@item.classID">@item.name</option>
-                                }
-                            </select>
 
-                        </div>
-                        <div class="col-md-3 ">
-                            <select class="form-control btn btn-purple" id="subject" @onchange="SubjectChanged">
-                                <option value="">-- Select Subject --</option>
-                                @foreach (var item in objList2)
-                                {
-                                    <option value="@item.subjectID">@item.name</option>
-                                }
-                            </select>
 
-                        </div>
-                        <div class="col-md-3 ">
-                            <select class="form-control btn btn-purple" id="chapter" @onchange="ChapterChanged">
-                                <option value="">-- Select Chapter --</option>
-                                @foreach (var item in objList3)
-                                {
-                                    <option value="@item.chapterID">@item.name</option>
-                                }
-                            </select>
-
-                        </div>
 
                     </div>
                     <br />
-                    <br />
-                    <br />
-                    <div class="row">
-                        <button class="btn btn-primary col-auto m-2" @onclick="changeToCode1">Code Generator 1</button>
-                        <button class="btn btn-primary col-auto m-2" @onclick="changeToCode2">Code Generator 2</button>
-                        <button class="btn btn-outline-dark col-auto m-1" @onclick="ShowCodeGen"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
-</svg></button>
-                        <button class="btn btn-outline-dark col-auto m-1" @onclick="HideCodeGen"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
-    <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z" />
-    <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z" />
-</svg></button>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div style="text-align: center">
+                                    <b style="font-size: 17px;">Equation Generator</b> <br /><br />
+                                </div>
+                                <button class="btn btn-primary col-auto m-2" @onclick="changeToCode1">Code Generator 1</button>
+                                <button class="btn btn-primary col-auto m-2" @onclick="changeToCode2">Code Generator 2</button>
+                                <button class="btn btn-outline-dark col-auto m-1" @onclick="ShowCodeGen">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                    </svg>
+                                </button>
+                                <button class="btn btn-outline-dark col-auto m-1" @onclick="HideCodeGen">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
+                                        <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z" />
+                                        <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <iframe src="@srcCodeGen " title="description" style="width: 100%; height: 500px; display:@displayCodegen"></iframe>
+                        </div>
                     </div>
-                    <iframe src="@srcCodeGen "  title="description" style="width: 100%; height: 500px; display:@displayCodegen"></iframe>
+
+                    <br />
                     <div class="form-group row">
                         <div class="col-12">
-                            <br />
-                            <button class="btn btn-info col-auto" @onclick="AddEquation">Add Equation</button>
-                            <h6 style="color:#7146FE">Write Question</h6>
-                            <textarea class="form-control col-12" style="height:150px" @bind="Question.mainQuestion"></textarea>
-                            <button class="btn btn-info col-auto" @onclick="checksimilarity">Check Match Rate</button><label style="color: @mtColor"> @mathRate</label><br />
-                            <br />
-                            <div>
-                                <Test index="0"> </Test>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div style="text-align: center">
+                                        <b style="font-size: 17px;">Write Question</b> <br /><br />
+                                        <button class="btn btn-outline-dark col-auto m-1" @onclick="AddEquation">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-code-slash" viewBox="0 0 16 16">
+                                                <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z" />
+                                            </svg>
+                                        </button>
+                                        <button class="btn btn-outline-dark col-auto m-1" @onclick="checksimilarity">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-activity" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M6 2a.5.5 0 0 1 .47.33L10 12.036l1.53-4.208A.5.5 0 0 1 12 7.5h3.5a.5.5 0 0 1 0 1h-3.15l-1.88 5.17a.5.5 0 0 1-.94 0L6 3.964 4.47 8.171A.5.5 0 0 1 4 8.5H.5a.5.5 0 0 1 0-1h3.15l1.88-5.17A.5.5 0 0 1 6 2Z" />
+                                            </svg>
+                                            <label style="color: @mtColor"> @mathRate</label>
+                                        </button>
+                                    </div>
+                                    <textarea class="form-control col-12" style="height: 150px; background-color: #F1F1F1" @bind="Question.mainQuestion"></textarea>
+                                    <br />
+                                    <Test index="0"> </Test>
+                                </div>
+
                             </div>
+
 
                         </div>
 
                     </div>
-
+                    <br />
+                    <br />
+                    <br />
                     <div class="form-group row">
-                        <div class="col-8">
-                            <h6 style="color:#7146FE">Option1:</h6>
-                            <textarea class="form-control" @bind="Question.option1" style="height: 100px; text-align: center; "></textarea>
-                            <br />
-                            <div>
-                                <Test index="1"></Test>
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body" style="text-align: center">
+                                    <b style="font-size: 17px;">First Option</b> <br /><br />
+                                    <textarea class="form-control" @bind="Question.option1" style="height: 100px; text-align: center; background-color: #F1F1F1"></textarea>
+                                    <br />
+                                    <div>
+                                        <Test index="1"></Test>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-8">
-                            <h6 style="color:#7146FE">Option2:</h6>
-                            <textarea class="form-control" @bind="Question.option2" style="height: 100px; text-align: center;"></textarea>
-                            <br />
-                            <div>
-                                <Test index="2"></Test>
+                        <br />
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body" style="text-align: center">
+                                    <b style="font-size: 17px;">Second Option</b> <br /><br />
+                                    <textarea class="form-control" @bind="Question.option2" style="height: 100px; text-align: center; background-color: #F1F1F1"></textarea>
+                                    <br />
+                                    <div>
+                                        <Test index="2"></Test>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-8">
-                            <h6 style="color:#7146FE">Option3:</h6>
-                            <textarea class="form-control" @bind="Question.option3" style=" height: 100px; text-align: center;"></textarea>
-                            <br />
-                            <div>
-                                <Test index="3"></Test>
+                        <br />
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body" style="text-align: center">
+                                    <b style="font-size: 17px;">Third Option</b> <br /><br />
+                                    <textarea class="form-control" @bind="Question.option3" style="height: 100px; text-align: center; background-color: #F1F1F1"></textarea>
+                                    <br />
+                                    <div>
+                                        <Test index="3"></Test>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-8">
-                            <h6 style="color:#7146FE">Option4:</h6>
-                            <textarea class="form-control " @bind="Question.option4" style=" height: 100px; text-align: center;"></textarea>
-                            <br />
-                            <div>
-                                <Test index="4"></Test>
+                        <br />
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body" style="text-align: center">
+                                    <b style="font-size: 17px;">Forth Option</b> <br /><br />
+                                    <textarea class="form-control" @bind="Question.option4" style="height: 100px; text-align: center; background-color: #F1F1F1"></textarea>
+                                    <br />
+                                    <div>
+                                        <Test index="4"></Test>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-
 
                     <br />
-                    <hr />
                     <div class="row">
-                        <h6 style="color:#7146FE">Right Answer</h6>
-                        <br />
-                        <button name="rightans" value="A" style=" background-color: @selectedColorone; color: #158A4E" class="btn btn-success col-auto" @onclick="sbOne">A</button>&nbsp;
-                        <button name="rightans" value="B" style=" background-color: @selectedColortwo; color: #158A4E " class="btn btn-success col-auto" @onclick="sbTwo">B</button>&nbsp;
-                        <button name="rightans" value="C" style=" background-color: @selectedColorthree; color: #158A4E" class="btn btn-success col-auto" @onclick="sbThree">C</button>&nbsp;
-                        <button name="rightans" value="D" style=" background-color: @selectedColorfour; color: #158A4E" class="btn btn-success col-auto" @onclick="sbFour">D</button>
+                        <div class="card">
+                            <div class="card-body" style="text-align: center; background-color: green">
+                                <b style="font-size: 17px; color: white">Right Answer</b> <br /><br />
+                                <button name="rightans" value="A" style=" background-color: @selectedColorone; color: #158A4E" class="btn btn-success col-auto" @onclick="sbOne">A</button>&nbsp;
+                                <button name="rightans" value="B" style=" background-color: @selectedColortwo; color: #158A4E " class="btn btn-success col-auto" @onclick="sbTwo">B</button>&nbsp;
+                                <button name="rightans" value="C" style=" background-color: @selectedColorthree; color: #158A4E" class="btn btn-success col-auto" @onclick="sbThree">C</button>&nbsp;
+                                <button name="rightans" value="D" style=" background-color: @selectedColorfour; color: #158A4E" class="btn btn-success col-auto" @onclick="sbFour">D</button>
+                            </div>
+                        </div>
+                        
                     </div>
                     <br />
                     <br />
@@ -185,7 +208,7 @@
 
                                     <br />
                                     <div>
-                                        &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; ">@((MarkupString)previewOP1)</label><br/>
+                                        &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; ">@((MarkupString)previewOP1)</label><br />
                                         <img class="makeQuesImage" src="@StaticPageToPassData.op1Prv" />
 
                                     </div>
@@ -366,7 +389,7 @@
     }
     public async Task GetClassInfo()
     {
-        //objList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getClassInfo".GetJsonAsync<List<ClassInfo>>();
+        objList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getClassInfo".GetJsonAsync<List<ClassInfo>>();
 
     }
     public void AddEquation()
@@ -479,20 +502,21 @@
         selectedColorthree = "white";
         selectedColorfour = "#BDFFDD";
     }
-    private void ClassChanged(ChangeEventArgs classEvent)
+    private void ClassChanged(string clID)
     {
 
         objList2.Clear();
-        cid = classEvent.Value.ToString();
-        Question.classID = int.Parse(cid);
-        for (int i = 0; i < allSubject.Count; i++)
+        ClassInfo thiscls = new ClassInfo();
+        for (int i = 0; i < objList.Count; i++)
         {
-            if (allSubject[i].classID.ToString() == cid)
+            if (objList[i].name == cid)
             {
-                objList2.Add(allSubject[i]);
+                thiscls = objList[i];
 
             }
         }
+        Question.classID = thiscls.classID;
+        Question.className = thiscls.name;
     }
     dataentryOperatorTask selectedtask = new dataentryOperatorTask();
     private void TaskSelect(ChangeEventArgs classEvent)
@@ -505,29 +529,65 @@
                 selectedtask = thisOpTass[i];
             }
         }
+        for (int i = 0; i < allChapter.Count; i++)
+        {
+            if (allChapter[i].chapterID == selectedtask.chapterID)
+            {
+                Question.ChapterName = allChapter[i].name;
+                Question.classID = allChapter[i].classID;
+                Question.chapterID = allChapter[i].chapterID;
+                Question.subjectID = allChapter[i].subjectID;
+                for (int j = 0; j < allSubject.Count; j++)
+                {
+                    if (allSubject[j].subjectID == allChapter[i].subjectID)
+                    {
+                        Question.subjectName = allSubject[i].name;
+                        for (int k = 0; k < objList.Count; k++)
+                        {
+                            if(objList[k].classID == allSubject[j].classID)
+                            {
+                                Question.className = objList[k].name;
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+
     }
 
-    private void SubjectChanged(ChangeEventArgs subjectEvent)
+    private void SubjectChanged(string subname)
     {
-        objList3.Clear();
-        sid = subjectEvent.Value.ToString();
-        Question.subjectID = int.Parse(sid);
+        Subject thissub = new Subject();
+
+        for (int i = 0; i < allSubject.Count; i++)
+        {
+            if (allSubject[i].name == subname)
+            {
+                thissub = allSubject[i];
+            }
+        }
+        Question.subjectID = thissub.subjectID;
+        Question.subjectName = thissub.name;
+    }
+
+    private void ChapterChanged(string chnm)
+    {
+        Chapter thischup = new Chapter();
 
         for (int i = 0; i < allChapter.Count; i++)
         {
-            if (allChapter[i].subjectID.ToString() == sid)
+            if (allChapter[i].name == chnm)
             {
-                objList3.Add(allChapter[i]);
-
+                thischup = allChapter[i];
             }
         }
+        Question.chapterID = thischup.chapterID;
+        Question.ChapterName = thischup.name;
     }
 
-    private void ChapterChanged(ChangeEventArgs chapterEvent)
-    {
-        chid = chapterEvent.Value.ToString();
-        Question.chapterID = int.Parse(chid);
-    }
     public async Task SubmitQuestion()
     {
         mathRate = "";

@@ -38,97 +38,89 @@
         <!-- Start container-fluid -->
         <div class="container-fluid">
             <div>
-                <div class="form-group row">
-                    <div class="col-md-4 ">
-                        <a href="@($"/{tID}")">
-                            <i class="fas fa-backward btn btn-outline-purple" style="color: #7F08E6"></i>
-                        </a>
-                    </div>
-
-                    <div class="col-md-4 " style="text-align:center">
-                        <span style="font-size: 24px; color: black ">Shikkhanobish</span><h3 style="color:black">Question Creative  Making</h3>
-                    </div>
-
-                </div>
-
-                <br />
-                <br />
-
-
 
                 <div>
 
                     <div class="form-group row">
-                        <div class="col-3">
-                            <select class="form-control btn btn-purple" id="class" @onchange="TaskSelect">
+
+                        <div style="background-color: #4317C1; border-radius: 10px; text-align: center; color: white">
+                            <b style="font-size: 17px;">Task Info</b> <br /><br />
+                            <select class="form-control" style="color: #4317C1 " id="class" @onchange="TaskSelect">
                                 <option style="" value="">-- Select Task --</option>
                                 @foreach (var item in thisOpTass)
                                 {
                                     <option value="@item.taskID">@item.ActiveStatus :: @item.date</option>
                                 }
                             </select>
+                            <a>@ThisQuestion.className</a><br />
+                            <a>@ThisQuestion.subjectName</a><br />
+                            <a>@ThisQuestion.ChapterName</a><br />
                         </div>
 
-                        <div class="col-md-3 ">
-                            <select class="form-control btn btn-purple" id="class" @onchange="ClassChanged">
-                                <option style="" value="">-- Select Class --</option>
-                                @foreach (var item in objList)
-                                {
-                                    <option value="@item.classID">@item.name</option>
-                                }
-                            </select>
 
-                        </div>
-                        <div class="col-md-3 ">
-                            <select class="form-control btn btn-purple" id="subject" @onchange="SubjectChanged">
-                                <option value="">-- Select Subject --</option>
-                                @foreach (var item in objList2)
-                                {
-                                    <option value="@item.subjectID">@item.name</option>
-                                }
-                            </select>
-
-                        </div>
-                        <div class="col-md-3 ">
-                            <select class="form-control btn btn-purple" id="chapter" @onchange="ChapterChanged">
-                                <option value="">-- Select Chapter --</option>
-                                @foreach (var item in objList3)
-                                {
-                                    <option value="@item.chapterID">@item.name</option>
-                                }
-                            </select>
-
-                        </div>
 
                     </div>
                     <br />
-                    <br />
-                    <br />
-                    <div class="row">
-                        <button class="btn btn-pink col-3" @onclick="changeToCode1">Code Generator 1</button>
-                        <button class="btn btn-info col-3" @onclick="changeToCode2">Code Generator 2</button>
-                        <button class="btn btn-primary col-3" @onclick="ShowCodeGen">Show</button>
-                        <button class="btn btn-secondary col-3" @onclick="HideCodeGen">Hide</button>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div style="text-align: center">
+                                    <b style="font-size: 17px;">Equation Generator</b> <br /><br />
+                                </div>
+                                <button class="btn btn-primary col-auto m-2" @onclick="changeToCode1">Code Generator 1</button>
+                                <button class="btn btn-primary col-auto m-2" @onclick="changeToCode2">Code Generator 2</button>
+                                <button class="btn btn-outline-dark col-auto m-1" @onclick="ShowCodeGen">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                    </svg>
+                                </button>
+                                <button class="btn btn-outline-dark col-auto m-1" @onclick="HideCodeGen">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
+                                        <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z" />
+                                        <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <iframe src="@srcCodeGen " title="description" style="width: 100%; height: 500px; display:@displayCodegen"></iframe>
+                        </div>
                     </div>
-                    <iframe src="@srcCodeGen " title="description" style="width: 100%; height: 500px; display:@displayCodegen"></iframe>
+                    <br />
+
+
                     <div class="form-group row">
                         <div class="col-12">
-                            <br />
-                            <button class="btn btn-info" @onclick="AddEquation">Add Equation</button>
-                            <h6 style="color:#7146FE">Write Question</h6>
-                            <textarea class="form-control col-12" style="height: 150px; background-color: #F4F4F4" @bind="ThisQuestion.mainQuestion"></textarea>
-                            <button class="btn btn-info" @onclick="checksimilarity">Check Match Rate</button><label style="color: @mtColor"> @mathRate</label><br />
-                            <br />
-                            <div>
-                          
+                            <div class="card">
+                                <div class="card-body">
+                                    <div style="text-align: center">
+                                        <b style="font-size: 17px;">Write Question</b> <br /><br />
+                                        <button class="btn btn-outline-dark col-auto m-1" @onclick="AddEquation">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-code-slash" viewBox="0 0 16 16">
+                                                <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z" />
+                                            </svg>
+                                        </button>
+                                        <button class="btn btn-outline-dark col-auto m-1" @onclick="checksimilarity">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-activity" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M6 2a.5.5 0 0 1 .47.33L10 12.036l1.53-4.208A.5.5 0 0 1 12 7.5h3.5a.5.5 0 0 1 0 1h-3.15l-1.88 5.17a.5.5 0 0 1-.94 0L6 3.964 4.47 8.171A.5.5 0 0 1 4 8.5H.5a.5.5 0 0 1 0-1h3.15l1.88-5.17A.5.5 0 0 1 6 2Z" />
+                                            </svg>
+                                            <label style="color: @mtColor"> @mathRate</label>
+                                        </button>
+                                    </div>
+                                    <textarea class="form-control col-12" style="height: 150px; background-color: #F1F1F1" @bind="ThisQuestion.mainQuestion"></textarea>
+                                    <br />
+
+                                </div>
+
                             </div>
+
 
                         </div>
 
                     </div>
-
+                    <br />
+                    <br />
                     <div class="form-group row">
-                        <div class="col-8 card">
+                        <div class="col-12 card">
                             <div class="card-body fa-align-center">
                                 <div class="card-title">
                                     <h6 style="color:#7146FE">Question 1</h6>
@@ -136,18 +128,18 @@
                                 <textarea class="form-control" @bind="ThisQuestion.firstQuestion" style=" text-align: center; background-color: #F4F4F4"></textarea>
                                 <br />
                                 <div>
-                                    
+
                                 </div>
                                 <h6 style="color:green">Answer</h6>
                                 <textarea class="form-control" @bind="ThisQuestion.firstqsAns" style="height: 100px; text-align: center; background-color: #F4F4F4"></textarea>
                                 <br />
                                 <div>
-                                  
+
                                 </div>
                             </div>
-                           
+
                         </div>
-                        <div class="col-8 card">
+                        <div class="col-12 card">
                             <div class="card-body">
                                 <div class="card-title">
                                     <h6 style="color:#7146FE">Question 2</h6>
@@ -155,18 +147,18 @@
                                 <textarea class="form-control" @bind="ThisQuestion.secondQuestion" style=" text-align: center; background-color: #F4F4F4"></textarea>
                                 <br />
                                 <div>
-                                    
+
                                 </div>
                                 <h6 style="color:green">Answer</h6>
                                 <textarea class="form-control" @bind="ThisQuestion.secondqsAns" style="height: 100px; text-align: center; background-color: #F4F4F4"></textarea>
                                 <br />
                                 <div>
-                                  
+
                                 </div>
                             </div>
 
                         </div>
-                        <div class="col-8 card">
+                        <div class="col-12 card">
                             <div class="card-body">
                                 <div class="card-title">
                                     <h6 style="color:#7146FE">Question 3</h6>
@@ -174,18 +166,18 @@
                                 <textarea class="form-control" @bind="ThisQuestion.thirdQuestion" style=" text-align: center; background-color: #F4F4F4"></textarea>
                                 <br />
                                 <div>
-                                   
+
                                 </div>
                                 <h6 style="color:green">Answer</h6>
                                 <textarea class="form-control" @bind="ThisQuestion.thirqsAns" style="height: 200px; text-align: center; background-color: #F4F4F4"></textarea>
                                 <br />
                                 <div>
-                                   
+
                                 </div>
                             </div>
 
                         </div>
-                        <div class="col-8 card">
+                        <div class="col-12 card">
                             <div class="card-body">
                                 <div class="card-title">
                                     <h6 style="color:#7146FE">Question 4</h6>
@@ -193,13 +185,13 @@
                                 <textarea class="form-control" @bind="ThisQuestion.forthQuestion" style=" text-align: center; background-color: #F4F4F4"></textarea>
                                 <br />
                                 <div>
-                                    
+
                                 </div>
                                 <h6 style="color:green">Answer</h6>
                                 <textarea class="form-control" @bind="ThisQuestion.forthqsAns" style="height: 300px; text-align: center; background-color: #F4F4F4"></textarea>
                                 <br />
                                 <div>
-                                    
+
                                 </div>
                             </div>
 
@@ -209,7 +201,7 @@
 
 
                     <br />
-                    
+
                     <div class="row">
                         <button type="submit" style=" font-size:16px" class="btn btn-success col-3" @onclick="SubmitQuestion">@btnstring</button>
                     </div>

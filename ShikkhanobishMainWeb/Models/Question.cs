@@ -13,6 +13,8 @@ namespace ShikkhanobishMainWeb.Models
         public int index { get; set; }
 
         public string className { get; set; }
+        public string subjectName { get; set; }
+        public string ChapterName { get; set; }
         public int subjectID { get; set; }
         public string publishingDate { get; set; }
         public int chapterID { get; set; }

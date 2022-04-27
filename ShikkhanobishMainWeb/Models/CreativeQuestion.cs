@@ -12,6 +12,9 @@ namespace ShikkhanobishMainWeb.Models
         public int subjectID { get; set; }
         public int chapterID { get; set; }
         public int topicID { get; set; }
+        public string className { get; set; }
+        public string subjectName { get; set; }
+        public string ChapterName { get; set; }
         public string mainQuestion { get; set; }
         public string firstQuestion { get; set; }
         public string secondQuestion { get; set; }

@@ -1,7 +1,248 @@
-﻿@page "/MCQ History"
+﻿@using ShikkhanobishMainWeb.Models
+@using Flurl.Http;
 
-<h3>MCQHistory</h3>
+@page "/MCQ History"
 
+<div class="card">
+    <div class="card-body">
+        <div class="card-title">
+            <b>Question History</b>
+        </div>
+        <div class="form-group row">
+            @foreach (var qs in showQSList)
+            {
+                <div class="card col-3">
+                    <div class="col-12 card-title">
+                        <br />
+                        <label class="col-12" style=" text-align: center; border-radius: 10px; border: 1px solid @qs.reviewColor; padding: 3px 12px; color:@qs.reviewColor;">@qs.reviewName <a style="font-size: 10px">@qs.publishingDate</a> </label><p />
+                    </div>
+                    <div class="card-body">
+                        <span style="font-size:14px;color:grey; font-weight:bold">@qs.index</span><span>.</span>
+                        <span style="font-size:14px;font-weight:bold; color:black;">@qs.mainQuestion</span>
+                        <br />
+                        <br />
+                        <img class="makeQuesImage" style="display: @qs.qsimgvisi" src="@qs.quesImages" />
+                        <div>
+                            &nbsp;&nbsp;<span style="font-size:14px;color:blueviolet; ">A</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op1BackColor;">@qs.option1</label>
+                            <br />
+                            <img class="makeQuesImage" style="display: @qs.op1imgvisi" src="@qs.opOneImg" />
+                        </div>
+                        <div>
+                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">B</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op2BackColor;">@qs.option2</label>
+                            <br />
+                            <img class="makeQuesImage" style="display: @qs.op2imgvisi" src="@qs.opTwoImg" />
+                        </div>
+                        <div>
+                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet; ">C</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op3BackColor;">@qs.option3</label>
+                            <br />
+                            <img class="makeQuesImage" style="display: @qs.op3imgvisi" src="@qs.opThreeImg" />
+                        </div>
+                        <div>
+
+                            &nbsp;&nbsp;<span style="font-size: 14px; color: blueviolet;">D</span><span>.</span>&nbsp;&nbsp;<label style="font-size: 13px; color: @qs.op4BackColor;">@qs.option4</label>
+                            <br />
+                            <img class="makeQuesImage" style="display: @qs.op4imgvisi" src="@qs.opFourImg" />
+                        </div>
+                    </div>
+
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
 @code {
+    List<Question> showQSList = new List<Question>();
+    List<Question> showQSList1 = new List<Question>();
+    List<Question> showQSList2 = new List<Question>();
+    List<Question> showQSList3 = new List<Question>();
+    List<Question> showQSList4 = new List<Question>();
+    List<Chapter> allc = new List<Chapter>();
+    List<Subject> allsub = new List<Subject>();
+    List<ClassInfo> allClass = new List<ClassInfo>();
+    List<dataentryOperatorTask> operatorList = new List<dataentryOperatorTask>();
+    List<TeacherQuesHistory> tqhList = new List<TeacherQuesHistory>();
+    List<Teacher> teacherListN = new List<Teacher>();
+    List<TeacherQuesHistory> thList = new List<TeacherQuesHistory>();
+    List<Question> quesList = new List<Question>();
+    protected override async Task OnInitializedAsync()
+    {
+        await  getAllInfo();
+        await GetTeacherQuestionHistory();
+    }
+    public async Task getAllInfo()
+    {
+        allc = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getChapter".GetJsonAsync<List<Chapter>>();
+        allsub = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getSubject".GetJsonAsync<List<Subject>>();
+        allClass = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getClassInfo".GetJsonAsync<List<ClassInfo>>();
+        operatorList = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getdataentryOperatorTask".PostJsonAsync(new { }).ReceiveJson<List<dataentryOperatorTask>>();
+        teacherListN = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getAllTeacher".PostJsonAsync(new { }).ReceiveJson<List<Teacher>>();
+        thList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getTeacherQuestionHistory".GetJsonAsync<List<TeacherQuesHistory>>();
+        quesList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getQuestion".GetJsonAsync<List<Question>>();
+    }
+    public async Task GetTeacherQuestionHistory()
+    {
+        var thl = thList;
+
+        for (int i = 0; i < thl.Count; i++)
+        {
+            if (thl[i].teacherID.ToString() == StaticPageToPassData.thisOperatorID)
+            {
+                tqhList.Add(thl[i]);
+            }
+        }
+        List<TeacherQuesHistory> SortedList = new List<TeacherQuesHistory>();
+        SortedList = tqhList.OrderBy(x => x.review).ToList();
+        SortedList.Reverse();
+        tqhList.Clear();
+        tqhList = SortedList;
+        List<Question> thisqsList = new List<Question>();
+        int indexCount = 1;
+        for (int i = 0; i < quesList.Count; i++)
+        {
+            for (int j = 0; j < tqhList.Count; j++)
+            {
+                if (tqhList[j].questionID == quesList[i].questionID)
+                {
+                    Question thisQs = new Question();
+                    thisQs = quesList[i];
+                    thisQs.index = indexCount;
+                    thisQs.publishingDate = tqhList[j].review;
+                    thisQs.op1BackColor = "Gray";
+                    thisQs.op2BackColor = "Gray";
+                    thisQs.op3BackColor = "Gray";
+                    thisQs.op4BackColor = "Gray";
+                    thisQs.qsimgvisi = (thisQs.quesImages != "N/A") ? "Block" : "None";
+                    thisQs.op1imgvisi = (thisQs.opOneImg != "N/A") ? "Block" : "None";
+                    thisQs.op2imgvisi = (thisQs.opTwoImg != "N/A") ? "Block" : "None";
+                    thisQs.op3imgvisi = (thisQs.opThreeImg != "N/A") ? "Block" : "None";
+                    thisQs.op4imgvisi = (thisQs.opFourImg != "N/A") ? "Block" : "None";
+                    if (thisQs.rightAnswer == 1)
+                    {
+                        thisQs.op1BackColor = "Green";
+                    }
+                    if (thisQs.rightAnswer == 2)
+                    {
+                        thisQs.op2BackColor = "Green";
+                    }
+                    if (thisQs.rightAnswer == 3)
+                    {
+                        thisQs.op3BackColor = "Green";
+                    }
+                    if (thisQs.rightAnswer == 4)
+                    {
+                        thisQs.op4BackColor = "Green";
+                    }
+                    if (thisQs.review == 0)
+                    {
+                        thisQs.reviewName = "Pending";
+                        thisQs.reviewColor = "Gray";
+                    }
+                    if (thisQs.review == 1)
+                    {
+                        thisQs.reviewName = "Approved";
+                        thisQs.reviewColor = "Green";
+                    }
+                    if (thisQs.review == 2)
+                    {
+                        thisQs.reviewName = "Not Approved";
+                        thisQs.reviewColor = "Red";
+                    }
+                    thisqsList.Add(thisQs);
+                    indexCount++;
+                }
+            }
+        }
+        List<Question> SortedListNew = new List<Question>();
+        SortedListNew = thisqsList.OrderBy(x => x.review).ToList();
+        thisqsList.Clear();
+        thisqsList = SortedListNew;
+        showQSList = thisqsList;
+        StateHasChanged();
+        //int count = 1;
+        //for (int i = 0; i < showQSList.Count; i++)
+        //{
+        //    if (count % 1 == 0 && showQSList[i].review == 0)
+        //    {
+        //        count++;
+        //        showQSList1.Add(showQSList[i]);
+        //        showQSList.RemoveAt(i);
+        //    }
+        //    if (count % 2 == 0 && showQSList[i].review == 0)
+        //    {
+        //        count++;
+        //        showQSList2.Add(showQSList[i]);
+        //        showQSList.RemoveAt(i);
+        //    }
+        //    if (count % 3 == 0 && showQSList[i].review == 0)
+        //    {
+        //        count++;
+        //        showQSList3.Add(showQSList[i]);
+        //        showQSList.RemoveAt(i);
+        //    }
+        //    if (count % 4 == 0 && showQSList[i].review == 0)
+        //    {
+        //        count++;
+        //        showQSList4.Add(showQSList[i]);
+        //        showQSList.RemoveAt(i);
+        //    }
+        //}
+
+        //int div = showQSList.Count / 4;
+        //int part = 1;
+        //if (div != 0)
+        //{
+        //    for (int i = 0; i < showQSList.Count; i++)
+        //    {
+        //        if (i != 0)
+        //        {
+        //            if (i % div == 0)
+        //            {
+        //                part++;
+        //            }
+        //        }
+        //        if (part == 1)
+        //        {
+        //            showQSList1.Add(showQSList[i]);
+        //        }
+        //        if (part == 2)
+        //        {
+        //            showQSList2.Add(showQSList[i]);
+        //        }
+        //        if (part == 3)
+        //        {
+        //            showQSList3.Add(showQSList[i]);
+        //        }
+        //        if (part == 4)
+        //        {
+        //            showQSList4.Add(showQSList[i]);
+        //        }
+        //        if (part == 5)
+        //        {
+        //            showQSList1.Add(showQSList[i]);
+        //        }
+
+
+        //    }
+
+        //    List<Question> SortedList1 = new List<Question>();
+        //    SortedList1 = showQSList1.OrderBy(x => x.review).ToList();
+        //    showQSList1 = SortedList1;
+
+        //    List<Question> SortedList2 = new List<Question>();
+        //    SortedList2 = showQSList2.OrderBy(x => x.review).ToList();
+        //    showQSList2 = SortedList2;
+
+        //    List<Question> SortedList3 = new List<Question>();
+        //    SortedList3 = showQSList3.OrderBy(x => x.review).ToList();
+        //    showQSList3 = SortedList3;
+
+        //    List<Question> SortedList4 = new List<Question>();
+        //    SortedList4 = showQSList4.OrderBy(x => x.review).ToList();
+        //    showQSList4 = SortedList4;
+        //}
+
+
+    }
 
 }

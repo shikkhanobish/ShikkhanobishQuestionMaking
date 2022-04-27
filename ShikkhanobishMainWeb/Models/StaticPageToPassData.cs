@@ -9,6 +9,7 @@ namespace ShikkhanobishMainWeb.Models
     public static class StaticPageToPassData
     {
         public static string thisOperatorID { get; set; }
+        public static string Name { get; set; }
         public static List<Chapter> allc { get; set; }
         public static List<Subject> allsub { get; set; }
         public static List<ClassInfo> allClass { get; set; }
