@@ -318,15 +318,15 @@
                                             <div class="row position-relative" style="top: 5px;">
                                                 <div class="col-4 text-center">
                                                     <p class="text-muted text-sm">Class</p>
-                                                    <div style="font-size: 11px">@op.ClassName</div>
+                                                    <div style="font-size: 11px; color: black">@op.ClassName</div>
                                                 </div>
                                                 <div class="col-4 text-center">
                                                     <p class="text-muted text-sm">Subject</p>
-                                                    <div style="font-size: 11px">@op.SubejctName</div>
+                                                    <div style="font-size: 11px; color: black">@op.SubejctName</div>
                                                 </div>
                                                 <div class="col-4 text-center">
                                                     <p class="text-muted text-sm">Chapter</p>
-                                                    <div style="font-size: 11px">@op.chapterName</div>
+                                                    <div style="font-size: 11px; color: black">@op.chapterName</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -463,7 +463,7 @@
         thisShowchapterName = name;
 
     }
-    
+
 
     private void selectFileLink(ChangeEventArgs task)
     {
@@ -528,6 +528,16 @@
         allc = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getChapter".GetJsonAsync<List<Chapter>>();
         allsub = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getSubject".GetJsonAsync<List<Subject>>();
         allClass = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getClassInfo".GetJsonAsync<List<ClassInfo>>();
+        quesList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getQuestion".GetJsonAsync<List<Question>>();
+        var teacherListN = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getAllTeacher".PostJsonAsync(new { }).ReceiveJson<List<Teacher>>();
+        StaticPageToPassData.allcrQs = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getCreativeQuestion".GetJsonAsync<List<CreativeQuestion>>();
+
+        StaticPageToPassData.allTask = operatorList;
+        StaticPageToPassData.allc = allc;
+        StaticPageToPassData.allClass = allClass;
+        StaticPageToPassData.allMCQQs = quesList;
+        StaticPageToPassData.allsub = allsub;
+        StaticPageToPassData.allTeacher = teacherListN;
 
         for (int i = 0; i < operatorList.Count; i++)
         {
@@ -623,7 +633,7 @@
 
 
 
-    
+
 
 
 

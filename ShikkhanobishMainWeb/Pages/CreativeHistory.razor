@@ -1,7 +1,135 @@
-﻿@page "/Creative History"
+﻿@using ShikkhanobishMainWeb.Models
+@using Flurl.Http;
+@using Microsoft.AspNetCore.Components.Web
 
-<h3>CreativeHistory</h3>
+@page "/Creative History"
+
+<div class="card">
+    <div class="card-body">
+        <div class="card-title">
+            <b>Creative Question History</b>
+        </div>
+        <div class="form-group row">
+            @foreach (var qs in showQSList)
+            {
+                <div class="card col-12">
+                    <div class="col-12 card-title">
+                        <br />
+                        <a style="font-size: 10px">23.04.2022</a>
+                    </div>
+                    <div class="card-body">
+                        <span style="font-size:15px;color:grey; font-weight:bold">1</span><span>.</span>
+                        <span style="font-size:15px;font-weight:bold; color:black;">@qs.mainQuestion</span>
+                        <br />
+                        <br />
+
+                        <div class="card">
+                            <div class="card-body">
+                                <a class="card-title" style="font-weight: bold; text-decoration: none; font-size: 13px">কঃ @qs.firstQuestion</a>
+                                <br />
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-title">
+                                            <a style="color: green;">Answer</a>
+                                        </div>
+                                        <a style="color: gray; font-size: 10px">@qs.firstqsAns</a>
+                                        <br />
+                                        <img src="@qs.firstqsAnsImg" class="makeQuesImage" style="display: @qs.firstqsAnsImgdis" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="card">
+                            <div class="card-body">
+                                <a class="card-title" style="font-weight: bold; text-decoration: none; font-size: 13px">খঃ @qs.secondQuestion</a>
+                                <br />
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-title">
+                                            <a style="color: green;">Answer</a>
+                                        </div>
+                                        <a style="color: gray; font-size: 10px">@qs.secondqsAns</a>
+                                        <br />
+                                        <img src="@qs.secondqsAnsImg" class="makeQuesImage" style="display: @qs.secondqsAnsImgdis" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="card">
+                            <div class="card-body">
+                                <a class="card-title" style="font-weight: bold; text-decoration: none; font-size: 13px">গঃ @qs.thirdQuestion</a>
+                                <br />
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-title">
+                                            <a style="color: green;">Answer</a>
+                                        </div>
+                                        <a style="color: gray; font-size: 10px">@qs.thirqsAns</a>
+                                        <br />
+                                        <img src="@qs.thirdqsImg" class="makeQuesImage" style="display: @qs.thirdqsImgdis" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="card">
+                            <div class="card-body">
+                                <a class="card-title" style="font-weight: bold; text-decoration: none; font-size: 13px">ঘঃ @qs.forthQuestion</a>
+                                <br />
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-title">
+                                            <a style="color: green;">Answer</a>
+                                        </div>
+                                        <a style="color: gray; font-size: 10px">@qs.forthqsAns</a>
+                                        <br />
+                                        <img src="@qs.forthqsImg" class="makeQuesImage" style="display: @qs.forthqsImgdis" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+
+                </div>
+                <br />
+                <br />
+                <br />
+                <br />
+            }
+        </div>
+    </div>
+</div>
 
 @code {
-
+    List<CreativeQuestion> showQSList = new List<CreativeQuestion>();
+    List<Question> showQSList1 = new List<Question>();
+    List<Question> showQSList2 = new List<Question>();
+    List<Question> showQSList3 = new List<Question>();
+    List<Question> showQSList4 = new List<Question>();
+    List<Chapter> allc = new List<Chapter>();
+    List<Subject> allsub = new List<Subject>();
+    List<ClassInfo> allClass = new List<ClassInfo>();
+    List<dataentryOperatorTask> operatorList = new List<dataentryOperatorTask>();
+    List<TeacherQuesHistory> tqhList = new List<TeacherQuesHistory>();
+    List<Teacher> teacherListN = new List<Teacher>();
+    List<TeacherQuesHistory> thList = new List<TeacherQuesHistory>();
+    List<CreativeQuestion> quesList = new List<CreativeQuestion>();
+    protected override async Task OnInitializedAsync()
+    {
+        await getAllInfo();
+    }
+    public async Task getAllInfo()
+    {
+        allc = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getChapter".GetJsonAsync<List<Chapter>>();
+        allsub = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getSubject".GetJsonAsync<List<Subject>>();
+        allClass = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getClassInfo".GetJsonAsync<List<ClassInfo>>();
+        operatorList = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getdataentryOperatorTask".PostJsonAsync(new { }).ReceiveJson<List<dataentryOperatorTask>>();
+        teacherListN = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getAllTeacher".PostJsonAsync(new { }).ReceiveJson<List<Teacher>>();
+        thList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getTeacherQuestionHistory".GetJsonAsync<List<TeacherQuesHistory>>();
+        quesList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getCreativeQuestion".GetJsonAsync<List<CreativeQuestion>>();
+        showQSList = quesList;
+    }
 }

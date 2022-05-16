@@ -6,7 +6,7 @@
 <div class="card">
     <div class="card-body">
         <div class="card-title">
-            <b>Question History</b>
+            <b>MCQ Question History</b>
         </div>
         <div class="form-group row">
             @foreach (var qs in showQSList)
@@ -72,13 +72,13 @@
     }
     public async Task getAllInfo()
     {
-        allc = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getChapter".GetJsonAsync<List<Chapter>>();
-        allsub = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getSubject".GetJsonAsync<List<Subject>>();
-        allClass = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getClassInfo".GetJsonAsync<List<ClassInfo>>();
-        operatorList = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getdataentryOperatorTask".PostJsonAsync(new { }).ReceiveJson<List<dataentryOperatorTask>>();
-        teacherListN = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getAllTeacher".PostJsonAsync(new { }).ReceiveJson<List<Teacher>>();
+        allc = StaticPageToPassData.allc;
+        allsub = StaticPageToPassData.allsub;
+        allClass = StaticPageToPassData.allClass;
+        operatorList = StaticPageToPassData.allTask;
+        teacherListN = StaticPageToPassData.allTeacher;
         thList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getTeacherQuestionHistory".GetJsonAsync<List<TeacherQuesHistory>>();
-        quesList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getQuestion".GetJsonAsync<List<Question>>();
+        quesList = StaticPageToPassData.allMCQQs;
     }
     public async Task GetTeacherQuestionHistory()
     {

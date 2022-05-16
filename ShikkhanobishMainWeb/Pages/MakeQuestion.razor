@@ -339,13 +339,13 @@
         QuestionPR.option3 = "N/A";
         QuestionPR.option4 = "N/A";
         //await GetClassInfo();
-        await GetSubInfo();
-        await GetChapterInfo();
+        allSubject = StaticPageToPassData.allsub;
+        allChapter = StaticPageToPassData.allc;
         await GetTeacherWithID();
-        objList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getClassInfo".GetJsonAsync<List<ClassInfo>>();
-        quesList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getQuestion".GetJsonAsync<List<Question>>();
-        var operatorList = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getdataentryOperatorTask".PostJsonAsync(new { }).ReceiveJson<List<dataentryOperatorTask>>();
-        var teacherListN = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getAllTeacher".PostJsonAsync(new { }).ReceiveJson<List<Teacher>>();
+        objList = StaticPageToPassData.allClass;
+        quesList = StaticPageToPassData.allMCQQs;
+        var operatorList = StaticPageToPassData.allTask;
+        var teacherListN = StaticPageToPassData.allTeacher;
 
         int id = 0;
         foreach (var teacher in teacherListN)
@@ -456,16 +456,7 @@
         displayImage = "None";
         imageString = "";
     }
-    public async Task GetSubInfo()
-    {
-        allSubject = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getSubject".GetJsonAsync<List<Subject>>();
 
-    }
-    public async Task GetChapterInfo()
-    {
-        allChapter = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getChapter".GetJsonAsync<List<Chapter>>();
-
-    }
     public void sbOne()
     {
         Question.rightAnswer = 1;
@@ -541,7 +532,7 @@
                 {
                     if (allSubject[j].subjectID == allChapter[i].subjectID)
                     {
-                        Question.subjectName = allSubject[i].name;
+                        Question.subjectName = allSubject[j].name;
                         for (int k = 0; k < objList.Count; k++)
                         {
                             if(objList[k].classID == allSubject[j].classID)

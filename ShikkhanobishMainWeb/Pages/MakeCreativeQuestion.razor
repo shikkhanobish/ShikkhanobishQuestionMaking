@@ -302,14 +302,13 @@
         selectedColorfour = "white";
         QuestionPR.mainQuestion = "N/A";
 
-        //await GetClassInfo();
-        await GetSubInfo();
-        await GetChapterInfo();
+        allSubject = StaticPageToPassData.allsub;
+        allChapter = StaticPageToPassData.allc;
         await GetTeacherWithID();
-        objList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getClassInfo".GetJsonAsync<List<ClassInfo>>();
-        quesList = await "https://api.shikkhanobish.com/api/ShikkhanobishLogin/getQuestion".GetJsonAsync<List<Question>>();
-        var operatorList = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getdataentryOperatorTask".PostJsonAsync(new { }).ReceiveJson<List<dataentryOperatorTask>>();
-        var teacherListN = await "https://api.shikkhanobish.com/api/ShikkhanobishTeacher/getAllTeacher".PostJsonAsync(new { }).ReceiveJson<List<Teacher>>();
+        objList = StaticPageToPassData.allClass;
+        quesList = StaticPageToPassData.allMCQQs;
+        var operatorList = StaticPageToPassData.allTask;
+        var teacherListN = StaticPageToPassData.allTeacher;
 
         int id = 0;
         foreach (var teacher in teacherListN)
@@ -405,6 +404,31 @@
             if (selectedTask == thisOpTass[i].taskID)
             {
                 selectedtask = thisOpTass[i];
+            }
+        }
+        for (int i = 0; i < allChapter.Count; i++)
+        {
+            if (allChapter[i].chapterID == selectedtask.chapterID)
+            {
+                ThisQuestion.ChapterName = allChapter[i].name;
+                ThisQuestion.classID = allChapter[i].classID;
+                ThisQuestion.chapterID = allChapter[i].chapterID;
+                ThisQuestion.subjectID = allChapter[i].subjectID;
+                for (int j = 0; j < allSubject.Count; j++)
+                {
+                    if (allSubject[j].subjectID == allChapter[i].subjectID)
+                    {
+                        ThisQuestion.subjectName = allSubject[j].name;
+                        for (int k = 0; k < objList.Count; k++)
+                        {
+                            if (objList[k].classID == allSubject[j].classID)
+                            {
+                                ThisQuestion.className = objList[k].name;
+                            }
+                        }
+                    }
+
+                }
             }
         }
     }

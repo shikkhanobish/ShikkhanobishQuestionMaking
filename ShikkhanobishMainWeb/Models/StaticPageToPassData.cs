@@ -13,6 +13,10 @@ namespace ShikkhanobishMainWeb.Models
         public static List<Chapter> allc { get; set; }
         public static List<Subject> allsub { get; set; }
         public static List<ClassInfo> allClass { get; set; }
+        public static List<dataentryOperatorTask> allTask { get; set; }
+        public static List<Teacher> allTeacher { get; set; }
+        public static List<Question> allMCQQs { get; set; }
+        public static List<CreativeQuestion> allcrQs { get; set; }
         public static IBrowserFile selectedFilesqs { get; set; }
         public static IBrowserFile selectedFilesop1 { get; set; }
         public static IBrowserFile selectedFilesop2 { get; set; }

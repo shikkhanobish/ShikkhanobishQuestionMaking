@@ -24,6 +24,10 @@ namespace ShikkhanobishMainWeb.Models
         public string secodqsImg { get; set; }
         public string thirdqsImg { get; set; }
         public string forthqsImg { get; set; }
+        public string firstqsImgdis { get; set; }
+        public string secodqsImgdis { get; set; }
+        public string thirdqsImgdis { get; set; }
+        public string forthqsImgdis { get; set; }
         public string firstqsAns { get; set; }
         public string secondqsAns { get; set; }
         public string thirqsAns { get; set; }
@@ -32,6 +36,10 @@ namespace ShikkhanobishMainWeb.Models
         public string secondqsAnsImg { get; set; }
         public string thirqsAnsImg { get; set; }
         public string forthqsAnsImg { get; set; }
+        public string firstqsAnsImgdis { get; set; }
+        public string secondqsAnsImgdis { get; set; }
+        public string thirqsAnsImgdis { get; set; }
+        public string forthqsAnsImgdis { get; set; }
         public int review { get; set; }
         public string Response { get; set; }
     }
